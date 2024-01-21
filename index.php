@@ -40,7 +40,7 @@
     <li><a href="#">Inicio</a></li> <li><a href="#">Acerca de</a></li> <li><a href="#">Servicios</a></li> 
     <li><a href="#">Contacto</a></li> </ul> </div> -->
         <!-- Contenido principal de tu página -->
-      
+      <!-- Contenido principal de tu página -->
 
         <div class="contenedor-main-flex">
             <div class="contenedor-izquierdo-flex" id="contenedor-formulario">
