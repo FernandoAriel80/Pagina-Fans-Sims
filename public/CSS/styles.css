@@ -1,0 +1,325 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+  font-family: 'Verdana',Arial,Helvetica, sans-serif;
+}
+
+body, html {
+  height: 100%;
+}
+
+/*/////////////////////*/
+
+/* Estilos generales para todos los dispositivos */
+
+body {
+  margin: 1%;
+  background: linear-gradient(to bottom,#001f3f,#003366,#004080,
+ #004080,#004080,#004080,#004080);
+
+}
+
+.contenedor-titulo { 
+ display: flex;
+ position: relative;
+ padding:40px 10px;
+} 
+ 
+ 
+.rectangulo { 
+ width: 100%; 
+ height: 30vmin; 
+ background: linear-gradient(to bottom,#001f3f,#003366,#004080,
+ #004080,#004080);
+ border-radius:100% 50% 10% 50%;
+ border: 10px solid #999;
+ border-top: 20px solid #999;
+ box-shadow: 5px 5px 10px;
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+ .circulo{ 
+ width: 40vmin; 
+ height: 40vmin; 
+ border-radius: 50%; 
+ position: absolute;
+ z-index: 1;
+ border: 3px solid #999;
+ box-shadow: 0px 5px 10px;
+ } 
+
+ .imagen-sims {
+  width: 100%;
+  height: 100%; 
+  background-image: url('../Iconos/sims.png');
+  background-size: cover; 
+  background-position: center;
+}
+ 
+ .miniCirculo {
+ width: 8vmin;
+ height: 8vmin; 
+ background-color: #004080; 
+ border-radius: 50%; 
+ position: absolute; 
+ z-index: 1; 
+ border: 5px solid #999; 
+ bottom: -2vmin;
+ left: 50%; 
+ transform: translateX(-50%); 
+ box-shadow: 0px 2px 10px;
+ 
+} 
+
+.imagen-linas{
+  width: 70%;
+  height: 70%; 
+  background-image: url('../Iconos/Lineas.png');
+  background-size: cover; 
+  background-position: center;
+  margin:auto;
+  margin-top:15%;
+
+}
+
+/* ///////////////  */
+.contenedor-main-flex {
+  display: flex;
+  padding: 10px;
+  margin:2px;
+  border-radius: 10px;
+}
+
+.contenedor-diarios-flex {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin:2px;
+  background-color: #0066cc;
+  border-radius: 10px;
+}
+
+.diario { 
+  background-color:#0077cc;
+  border-radius: 10px;
+  padding: 2px;
+  border: 1px solid #999;
+}
+
+.diario-datos{
+display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+gap: 5px;
+}
+
+h4{
+ padding:1px;
+ margin:1px;
+}
+
+/*///////////////////*/
+
+.contenedor-izquierdo-flex {
+  display: none;
+  position: absolute;
+  width: 70%;
+  flex-direction: column;
+  padding: 10px;
+  margin:2px;
+  border-radius: 10px;
+  background: linear-gradient(to bottom,#003366,#004080,#004080,
+  #1863B8,#1863B8,#1863B8,#1863B8);
+}  
+
+.contenedor-cosas{
+  display: flex;
+  flex-direction: column;
+  margin:30px 2px;
+}
+.contenedor-cosas-arriba{
+  padding: 5px;
+  height: 40px;
+  border-radius: 10px 10px 0px 0px;
+  background: linear-gradient(to top,#001f3f,#003366,#004080,
+#004080,#004080,#004080,#004080);
+}
+
+.contenedor-cosas-imagen{
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  background-image: url('../Iconos/login.png');
+  background-size: contain; 
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.contenedor-cosas-abajo{
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  height: 100%;
+  background-color: #045BB3;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.formulario {
+  width: 80%; /* Ajusta el ancho del formulario según tus necesidades */
+  max-width: 400px; /* Establece un ancho máximo para mejor legibilidad */
+  padding: 5px;
+  background-color: #045BB3;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra opcional para resaltar el formulario */
+}
+
+/* Ajusta estilos según tus necesidades */
+
+input {
+  width: 100%;
+  padding: 2px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: linear-gradient(to top,#001f3f,#003366,#004080,
+#004080,#004080,#004080,#004080);
+ 
+}
+.boton-enviar {
+margin: auto;
+background-image: url('../Iconos/entraLogin.png');
+background-size: contain; 
+background-position: right;
+background-repeat: no-repeat;
+padding: 10px; 
+border: none;
+}
+/* ///////////////////////////////////////////////////////////////////////////////////////// */
+
+/* Estilos para dispositivos de escritorio */
+@media only screen and (min-width: 769px) {
+  body{
+    margin: 5% 7%;
+  }
+  .contenedor-izquierdo-flex{
+    display: flex;
+    position: relative;
+    width: 20%;
+  }
+  .contenedor-diarios-flex {
+    width: 80%;
+  }
+  
+
+input[type="submit"] {
+    cursor: pointer;
+    width: 40px;
+}
+
+input[type="submit"]:hover {
+  background-color:#0077cc;
+  margin: auto;
+  background-image: url('../Iconos/entraLogin.png');
+  background-size: contain; 
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.miniCirculo {
+  display: none;
+}
+  /* Agrega más estilos específicos para pantallas de escritorio */
+}
+
+/* Estilos para tablets y dispositivos con pantalla más pequeña */
+@media only screen and (max-width: 768px) {
+
+   .miniCirculo:active {
+    background-color:#0077cc;
+   }
+
+   @keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#contenedor-formulario{
+    animation: fadeIn 1s ease-in-out; 
+}
+
+  /* Agrega más estilos específicos para tablets */
+}
+
+/* Estilos para teléfonos móviles y dispositivos con pantalla muy pequeña */
+@media only screen and (max-width: 480px) {
+
+  .circulo{ 
+    width: 45vmin; 
+    height: 45vmin; 
+    border-radius: 50%; 
+    position: absolute;
+    z-index: 1;
+    border: 3px solid #999;
+    box-shadow: 0px 5px 10px;
+    }
+    
+  .imagen-sims {
+    width: 100%;
+    height: 100%; 
+    background-image: url('../Iconos/sims.png');
+    background-size: cover; 
+    background-position: center;
+  }
+
+  .miniCirculo {
+    width: 10vmin;
+    height: 10vmin; 
+    background-color: #004080; 
+    border-radius: 50%; 
+    position: absolute; 
+    z-index: 1; 
+    border: 5px solid #999; 
+    bottom: -5vmin;
+    left: 50%; 
+    transform: translateX(-50%); 
+    box-shadow: 0px 2px 10px;
+    cursor: pointer;
+   }
+   .miniCirculo:active {
+    background-color:#0077cc;
+   }
+
+   @keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#contenedor-formulario{
+    animation: fadeIn 0.1s ease-in-out; 
+}
+
+input[type="submit"]:active {
+  background-color:#0077cc;
+  margin: auto;
+  background-image: url('../Iconos/entraLogin.png');
+  background-size: contain; 
+  background-position: right;
+  background-repeat: no-repeat;
+}
+   /* CONTENEDOR */
+
+  /* Agrega más estilos específicos para teléfonos móviles */
+}
