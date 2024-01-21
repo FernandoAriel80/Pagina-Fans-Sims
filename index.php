@@ -49,7 +49,8 @@
                         <div class="contenedor-cosas-imagen"></div>
                     </div>
                     <div class="contenedor-cosas-abajo">
-                        <form class="formulario" onsubmit="return validarFormulario()">
+                        <form class="formulario" onsubmit="return validarFormulario() ">
+                            <!-- Tus campos de formulario aquí -->
                             <!-- Tus campos de formulario aquí -->
                             <input type="text" id="nombre" name="nombre" placeholder="nombre">
                             <input type="email" id="email" name="email" placeholder="email">
