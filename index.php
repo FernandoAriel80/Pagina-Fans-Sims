@@ -20,9 +20,8 @@
         <div class="contenedor-titulo">
             <div class="circulo">
                 <div class="imagen-sims"></div>
-                <div class="miniCirculo" onclick="mostrarFormulario()">
-                    <div class="imagen-linas">
-                    </div>
+                <div class="mini-circulo">
+                    <button id="miniCirculo" class="boton-con-imagen"></button>
                 </div>
             </div>
             <div class="rectangulo">
@@ -36,12 +35,6 @@
 
     <main>
 
-        <!-- <button id="toggle-button">☰ Menú</button> <div class="menu"> <ul class="menu-list"> 
-    <li><a href="#">Inicio</a></li> <li><a href="#">Acerca de</a></li> <li><a href="#">Servicios</a></li> 
-    <li><a href="#">Contacto</a></li> </ul> </div> -->
-        <!-- Contenido principal de tu página -->
-      
-
         <div class="contenedor-main-flex">
             <div class="contenedor-izquierdo-flex" id="contenedor-formulario">
                 <div class="contenedor-cosas">
@@ -49,12 +42,13 @@
                         <div class="contenedor-cosas-imagen"></div>
                     </div>
                     <div class="contenedor-cosas-abajo">
-                        <form class="formulario" onsubmit="return validarFormulario() ">
-                            <!-- Tus campos de formulario aquí -->
-                            <!-- Tus campos de formulario aquí -->
-                            <input type="text" id="nombre" name="nombre" placeholder="nombre">
-                            <input type="email" id="email" name="email" placeholder="email">
+                        <form method="post" class="formulario" action=" ">
+                            <!-- Campos de formulario aquí -->
+                            <input type="text" id="nombre" name="nombre" placeholder="Nombre">
+                            <input type="password" id="clave" name="clave" placeholder="Contraseña">
+
                             <input type="submit" value="" class="boton-enviar">
+                            <div id="mensajeError" class="mensaje-error" value="" style="display: none;"></div>
                         </form>
                     </div>
                 </div>
@@ -115,7 +109,8 @@
     </footer>
 
     <!-- Agrega enlaces a tus scripts de JavaScript aquí si es necesario -->
-    <script src="public/JS/app.js"></script>
+    <script src="public/JS/script.js"></script>
+    <script src="public/JS/validations/validaciones.js"></script>
 </body>
 
 </html>
