@@ -61,7 +61,7 @@ body {
   background-position: center;
 }
  
- .miniCirculo {
+ .mini-circulo {
  width: 8vmin;
  height: 8vmin; 
  background-color: #004080; 
@@ -76,15 +76,15 @@ body {
  
 } 
 
-.imagen-linas{
-  width: 70%;
-  height: 70%; 
+.boton-con-imagen {
+  width: 100%; /* Ajustado al 100% del contenedor .miniCirculo */
+  height: 100%; /* Ajustado al 100% del contenedor .miniCirculo */
   background-image: url('../Iconos/Lineas.png');
-  background-size: cover; 
+  background-size: cover;
   background-position: center;
-  margin:auto;
-  margin-top:15%;
-
+  border: none; /* Eliminar el borde del botón si es necesario */
+  background-color: rgba(0, 64, 128, 0.5);
+  border-radius: 50%; 
 }
 
 /* ///////////////  */
@@ -126,7 +126,7 @@ h4{
 /*///////////////////*/
 
 .contenedor-izquierdo-flex {
-  display: none;
+  display: flex;
   position: absolute;
   width: 70%;
   flex-direction: column;
@@ -191,6 +191,12 @@ input {
 #004080,#004080,#004080,#004080);
  
 }
+
+input[type="submit"] {
+  cursor: pointer; 
+  width: 40px;
+}
+
 .boton-enviar {
 margin: auto;
 background-image: url('../Iconos/entraLogin.png');
@@ -200,6 +206,24 @@ background-repeat: no-repeat;
 padding: 10px; 
 border: none;
 }
+.mensaje-error{
+  display: none;
+  position: relative;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+ }
+ to {
+      opacity: 1;
+ }
+ }
+ 
+ #mensajeError{
+     animation: fadeIn 0.1s ease-in-out; 
+ }
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
 
 /* Estilos para dispositivos de escritorio */
@@ -215,12 +239,6 @@ border: none;
   .contenedor-diarios-flex {
     width: 80%;
   }
-  
-
-input[type="submit"] {
-    cursor: pointer;
-    width: 40px;
-}
 
 input[type="submit"]:hover {
   background-color:#0077cc;
@@ -231,7 +249,7 @@ input[type="submit"]:hover {
   background-repeat: no-repeat;
 }
 
-.miniCirculo {
+.mini-circulo {
   display: none;
 }
   /* Agrega más estilos específicos para pantallas de escritorio */
@@ -240,17 +258,19 @@ input[type="submit"]:hover {
 /* Estilos para tablets y dispositivos con pantalla más pequeña */
 @media only screen and (max-width: 768px) {
 
-   .miniCirculo:active {
-    background-color:#0077cc;
-   }
-
-   @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.contenedor-izquierdo-flex {
+  display: none;
+}
+.mini-circulo:active {
+ background-color:#0077cc;
+}
+@keyframes fadeIn {
+ from {
+     opacity: 0;
+}
+to {
+     opacity: 1;
+}
 }
 
 #contenedor-formulario{
@@ -263,6 +283,9 @@ input[type="submit"]:hover {
 /* Estilos para teléfonos móviles y dispositivos con pantalla muy pequeña */
 @media only screen and (max-width: 480px) {
 
+  .contenedor-izquierdo-flex {
+    display: none;
+  }
   .circulo{ 
     width: 45vmin; 
     height: 45vmin; 
@@ -281,7 +304,7 @@ input[type="submit"]:hover {
     background-position: center;
   }
 
-  .miniCirculo {
+  .mini-circulo {
     width: 10vmin;
     height: 10vmin; 
     background-color: #004080; 
