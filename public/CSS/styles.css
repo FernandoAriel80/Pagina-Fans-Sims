@@ -210,6 +210,8 @@ border: none;
   display: none;
   position: relative;
   color: white;
+  padding: 3px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 @keyframes fadeIn {
