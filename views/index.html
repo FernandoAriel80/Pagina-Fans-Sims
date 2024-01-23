@@ -1,40 +1,64 @@
+<?php include($indexControlador); ?>
 
-<p>Aqui encontraras tus diarios. Donde podras poner tus imagenes y las locuras que hacen tus Sims. <br>
-    Esta es la lista de todos los diarios disponibles del momento.<br>
-    No seas timido y pon el tuyo!.</p>
-<h4>DIARIOS MAS POPULARES</h4>
-<div class="elemento">
-    <div class="diario">
-        <h4>Mi primer diario</h4>
-        <div class="diario-datos">
-            <div>Fecha creacion: 23-06-1995</div>
-            <div>Fecha actualizacion: 3-07-1995</div>
-            <div>Puntaje: 4.5</div>
-            <div>Autor: KaoPlox </div>
+<div class="contenedor-main-flex">
+    <div class="contenedor-izquierdo-flex" id="contenedor-formulario">
+        <div class="contenedor-cosas">
+            <div class="contenedor-cosas-arriba">
+                <div class="contenedor-cosas-imagen"></div>
+            </div>
+            <div class="contenedor-cosas-abajo">
+                <form method="" class="formulario" action=" ">
+                    <!-- Campos de formulario aquí -->
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre">
+                    <input type="password" id="clave" name="clave" placeholder="Contraseña">
+                    <input type="submit" value="" class="boton-enviar">
+                    <div id="mensajeError" class="mensaje-error" value="" style="display: none;"></div>
+                </form>
+            </div>
+        </div>
+        <div class="contenedor-cosas">
+            <div class="contenedor-cosas-arriba"></div>
+            <div class="contenedor-cosas-abajo"></div>
         </div>
     </div>
-</div>
-<!-- separador -->
-<h4>DIARIOS RECIENTES</h4>
-<div class="elemento">
-    <div class="diario">
-        <h4>Mi segundo diario</h4>
-        <div class="diario-datos">
-            <div>Fecha creacion: 23-06-1996</div>
-            <div>Fecha actualizacion: 3-07-1996</div>
-            <div>Puntaje: 5.0</div>
-            <div>Autor: KaoPlox </div>
-        </div>
-    </div>
-    <div class="diario">
-        <h4>diario perdo</h4>
-        <div class="diario-datos">
-            <div>Fecha creacion: 25-06-2000</div>
-            <div>Fecha actualizacion: 13-07-2001</div>
-            <div>Puntaje: 2.5</div>
-            <div>Autor: PerRuiz </div>  
-        </div>
-    </div>
-</div>
-            
 
+    <div class="contenedor-diarios-flex">
+        <p>Aqui encontraras tus diarios. Donde podras poner tus imagenes y las locuras que hacen tus Sims. <br>
+            Esta es la lista de todos los diarios disponibles del momento.<br>
+            No seas timido y pon el tuyo!.</p>
+        <h4>DIARIOS MAS POPULARES</h4>
+        <div class="elemento">
+            <div class="diario">
+                <h4>Mi primer diario</h4>
+                <div class="diario-datos">
+                    <div>Fecha creacion: 23-06-1995</div>
+                    <div>Fecha actualizacion: 3-07-1995</div>
+                    <div>Puntaje: 4.5</div>
+                    <div>Autor: KaoPlox </div>
+                </div>
+            </div>
+        </div>
+        <!-- separador -->
+        <h4>DIARIOS RECIENTES</h4>
+        <div class="elemento">
+            <div class="diario">
+                <h4>Mi segundo diario</h4>
+                <div class="diario-datos">
+                    <div>Fecha creacion: 23-06-1996</div>
+                    <div>Fecha actualizacion: 3-07-1996</div>
+                    <div>Puntaje: 5.0</div>
+                    <div>Autor: KaoPlox </div>
+                </div>
+            </div>
+            <div class="diario">
+                <h4>diario perdo</h4>
+                <div class="diario-datos">
+                    <div>Fecha creacion: 25-06-2000</div>
+                    <div>Fecha actualizacion: 13-07-2001</div>
+                    <div>Puntaje: 2.5</div>
+                    <div>Autor: PerRuiz </div> 
+                    <?=imprime();?> 
+                </div>
+            </div>
+        </div>       
+    </div>

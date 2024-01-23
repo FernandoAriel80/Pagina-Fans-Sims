@@ -8,11 +8,15 @@ $urlPartes = explode($carpetaPrincipal.'/',$url);
 array_shift($urlPartes);
 
 $cuerpo = new Router("views/index.html",[
-    //array asociados de datos
+    "indexControlador" => 'controllers/indexControlador.php'
 ]);
 
+// buffer 
 $view = new Router("views/app.html",[
-    "titulo" => "hola perdo",
+    "titulo" => 'Pagina Fans Sims',
+    "css" => '<link rel="stylesheet" href= "public/CSS/styles.css">',
+    "script" => '<script src="public/JS/script.js"></script>
+                <script src="public/JS/validations/validaciones.js"></script>',
     "child" => $cuerpo
 ]);
 echo $view;

@@ -9,6 +9,9 @@ function validarFormularioLogin(){
     if (nombre.trim() === '') {
         alertaMensaje(ventanaError,"red","ingrese algun nombre");
         return false;// Detiene el envío del formulario
+    }else if(nombre.length < 3 || nombre.length > 50){
+        alertaMensaje(ventanaError,"red","El nombre debe tener entre 3 y 50 caracteres.");
+        return false;
     }
 
     let tieneMayus = /[A-Z]/.test(clave);
@@ -17,8 +20,8 @@ function validarFormularioLogin(){
     let tieneCaracEspecial = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(clave);
   
 
-    if (clave.length < 8) {
-        alertaMensaje(ventanaError,"red","La contraseña debe tener al menos 8 caracteres.");
+    if (clave.length < 8 || clave.length > 20) {
+        alertaMensaje(ventanaError,"red","La contraseña debe tener al menos  entre 8  y 20 caracteres.");
         return false;
     }else if(!tieneMayus){
         alertaMensaje(ventanaError,"red","La contraseña debe incluir mayúsculas.");
@@ -71,5 +74,16 @@ function alertaMensaje(ventana,color,mensaje) {
 //     return false;
 // }else if(!hasSpecialChars){
 //     alertaMensaje(ventanaError,"red","La contraseña debe incluir caracteres especiales.");
+//     return false;
+// }
+
+// if (email.trim() === '') {
+//     alert('Por favor, ingresa un correo electrónico.');
+//     return false;
+// }
+
+// // Validar campo de imagen
+// if (imagen.trim() === '') {
+//     alert('Por favor, selecciona una imagen.');
 //     return false;
 // }

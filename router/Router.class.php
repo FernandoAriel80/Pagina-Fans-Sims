@@ -4,9 +4,9 @@
 
 class Router
 {
-    private $contenido;
+    private string $contenido;
 
-    public function __construct($ruta, $dato = []){
+    public function __construct(string $ruta, $dato = []){
         extract($dato);
         ob_start();
         include($ruta);
