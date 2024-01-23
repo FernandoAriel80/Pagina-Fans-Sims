@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--enlace archivo CSS -->
+
+    <link rel="stylesheet" href="/public/CSS/styles.css">
+    <title><?=$titulo ?></title>
+
+    <!-- Agrega enlaces a tus hojas de estilo CSS aquí si es necesario -->
+</head>
+
+<body>
+
+    <header>
+
+        <div class="contenedor-titulo">
+            <div class="circulo">
+                <div class="imagen-sims"></div>
+                <div class="mini-circulo">
+                    <button id="miniCirculo" class="boton-con-imagen"></button>
+                </div>
+            </div>
+            <div class="rectangulo">
+                <div class="contenedor-icono">
+                    <!-- contenido de buscador -->
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <main>
+
+        <div class="contenedor-main-flex">
+            <div class="contenedor-izquierdo-flex" id="contenedor-formulario">
+                <div class="contenedor-cosas">
+                    <div class="contenedor-cosas-arriba">
+                        <div class="contenedor-cosas-imagen"></div>
+                    </div>
+                    <div class="contenedor-cosas-abajo">
+                        <form method="" class="formulario" action=" ">
+                            <!-- Campos de formulario aquí -->
+                            <input type="text" id="nombre" name="nombre" placeholder="Nombre">
+                            <input type="password" id="clave" name="clave" placeholder="Contraseña">
+                            <input type="submit" value="" class="boton-enviar">
+                            <div id="mensajeError" class="mensaje-error" value="" style="display: none;"></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="contenedor-cosas">
+                    <div class="contenedor-cosas-arriba"></div>
+                    <div class="contenedor-cosas-abajo"></div>
+                </div>
+            </div>
+
+            <div class="contenedor-diarios-flex">
+
+            <!-- contenido del buffer -->
+                <?=$child ?>
+            
+            </div>
+        </main>
+    <footer>
+        <!-- Pie de página, puede contener información de contacto, enlaces adicionales, etc. -->
+        <p>&copy; 2023 Nombre de tu Sitio. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Agrega enlaces a tus scripts de JavaScript aquí si es necesario -->
+    <script src="/public/JS/script.js"></script>
+    <script src="/public/JS/validations/validaciones.js"></script>
+</body>
+
+</html>
