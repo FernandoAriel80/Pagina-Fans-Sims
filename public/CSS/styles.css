@@ -95,7 +95,7 @@ body {
   border-radius: 10px;
 }
 
-.contenedor-diarios-flex {
+.contenedor-flex {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -139,8 +139,9 @@ h4{
 
 .contenedor-cosas{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin:30px 2px;
+  flex-direction: column;
 }
 .contenedor-cosas-arriba{
   padding: 5px;
@@ -168,15 +169,24 @@ h4{
   height: 100%;
   background-color: #045BB3;
   border-radius: 0px 0px 10px 10px;
+  flex-direction: column;
+}
+.contenedor-cosas-abajo-nav {
+  width: 100%;
+  display: flex;
+  justify-content: right; 
+  align-items: center;
+  border-radius: 0px 0px 10px 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
-.formulario {
-  width: 80%; /* Ajusta el ancho del formulario según tus necesidades */
-  max-width: 400px; /* Establece un ancho máximo para mejor legibilidad */
-  padding: 5px;
+.formulario-login,.formulario-nav-registro {
+  /* width: 100%; /* Ajusta el ancho del formulario según tus necesidades */
+ /* max-width: 400px; Establece un ancho máximo para mejor legibilidad */
+  padding: 1px;
   background-color: #045BB3;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra opcional para resaltar el formulario */
+ /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); Sombra opcional para resaltar el formulario */
 }
 
 /* Ajusta estilos según tus necesidades */
@@ -184,7 +194,7 @@ h4{
 input {
   width: 100%;
   padding: 2px;
-  margin-bottom: 10px;
+  margin: 2px;
   box-sizing: border-box;
   border-radius: 10px;
   background: linear-gradient(to top,#001f3f,#003366,#004080,
@@ -197,15 +207,38 @@ input[type="submit"] {
   width: 40px;
 }
 
-.boton-enviar {
-margin: auto;
-background-image: url('../Iconos/entraLogin.png');
-background-size: contain; 
-background-position: right;
-background-repeat: no-repeat;
-padding: 10px; 
-border: none;
+.boton-login,.boton-registrar{
+  margin: auto;
+  background-image: url('../Iconos/entraLogin.png');
+  background-size: contain; 
+  background-position: right;
+  background-repeat: no-repeat;
+  padding: 10px; 
+  border: none;
 }
+.boton-nav-registrar{
+  margin: auto;
+  background-image: url('../Iconos/registro.png');
+  background-size: contain; 
+  background-position: right;
+  background-repeat: no-repeat;
+  padding: 5px; /* Ajusta el tamaño del padding según sea necesario */
+  border: none;
+  width: 40px; /* Ajusta el ancho según sea necesario */
+  height: 40px;
+}
+.boton-nav-perfil{
+  margin: auto;
+  background-image: url('../Iconos/perfil.png');
+  background-size: contain; 
+  background-position: right;
+  background-repeat: no-repeat;
+  padding: 5px; /* Ajusta el tamaño del padding según sea necesario */
+  border: none;
+  width: 40px; /* Ajusta el ancho según sea necesario */
+  height: 40px;
+}
+
 .mensaje-error{
   display: none;
   position: relative;
@@ -238,18 +271,18 @@ border: none;
     position: relative;
     width: 20%;
   }
-  .contenedor-diarios-flex {
+  .contenedor-flex {
     width: 80%;
   }
 
 input[type="submit"]:hover {
   background-color:#0077cc;
   margin: auto;
-  background-image: url('../Iconos/entraLogin.png');
   background-size: contain; 
   background-position: right;
   background-repeat: no-repeat;
 }
+
 
 .mini-circulo {
   display: none;
@@ -340,7 +373,6 @@ to {
 input[type="submit"]:active {
   background-color:#0077cc;
   margin: auto;
-  background-image: url('../Iconos/entraLogin.png');
   background-size: contain; 
   background-position: right;
   background-repeat: no-repeat;

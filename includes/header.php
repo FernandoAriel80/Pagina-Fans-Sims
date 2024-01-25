@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--enlace archivo CSS -->
-    <?=$css ?>
-    <title><?=$titulo ?></title>
+    <link rel="stylesheet" href="public/CSS/styles.css">
+    <title>Pagina Fans Sims</title>
     <!-- Agrega enlaces a tus hojas de estilo CSS aquí si es necesario -->
 </head>
+
 <body>
     <header>
         <div class="contenedor-titulo">
@@ -24,15 +26,3 @@
             </div>
         </div>
     </header>
-    <main>
-       <!-- contenido del buffer -->
-    <?=$child ?>        
-    </main>
-    <footer>
-        <!-- Pie de página, puede contener información de contacto, enlaces adicionales, etc. -->
-        <p>&copy; 2023 Nombre de tu Sitio. Todos los derechos reservados.</p>
-    </footer>
-    <!-- Agrega enlaces a tus scripts de JavaScript aquí si es necesario -->
-    <?=$script ?>
-</body>
-</html>

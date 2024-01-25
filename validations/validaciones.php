@@ -1,12 +1,24 @@
 <?php
 
-function nombreValida(string $nombre):bool
+function usuarioNombre(string $nombre):bool
 {
     if (empty($nombre)) {
         return false;
     }else if(strlen($nombre) < 3 || strlen($nombre) > 50){
         return false;
     }else if(!ctype_alnum($nombre)){
+        return false; // Manejar error de nombre no alfanumérico ej:!, @, #, $, %, &, etc.,
+    }else{
+        return true;
+    }
+}
+function usuarioValida(string $usuario):bool
+{
+    if (empty($usuario)) {
+        return false;
+    }else if(strlen($usuario) < 3 || strlen($usuario) > 50){
+        return false;
+    }else if(!ctype_alnum($usuario)){
         return false; // Manejar error de usuario no alfanumérico ej:!, @, #, $, %, &, etc.,
     }else{
         return true;

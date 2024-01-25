@@ -2,21 +2,46 @@
 
 // router.php
 
+
 class Router
 {
     private string $contenido;
 
-    public function __construct(string $ruta, $dato = []){
+    public function __construct(string $ruta, $dato = [])
+    {
         extract($dato);
         ob_start();
-        include($ruta);
+
+        if (file_exists($ruta)) {
+            include($ruta);
+        } else {
+            echo "Error: La ruta $ruta no existe.";
+        }
+
         $this->contenido = ob_get_clean();
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->contenido;
     }
 }
+
+// class Router
+// {
+//     private string $contenido;
+
+//     public function __construct(string $ruta, $dato = []){
+//         extract($dato);
+//         ob_start();
+//         include($ruta);
+//         $this->contenido = ob_get_clean();
+//     }
+
+//     public function __toString(){
+//         return $this->contenido;
+//     }
+// }
 
 
 
