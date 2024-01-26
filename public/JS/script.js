@@ -1,16 +1,28 @@
 
 document.addEventListener("DOMContentLoaded",function(){
-  let formulario = document.querySelector(".formulario");
-  formulario.addEventListener("submit", function (event) {
+  let formularioLogin = document.querySelector(".formulario-login");
+  formularioLogin.addEventListener("submit", function (event) {
       // Realizar validaciones aquí
       if (!validarFormularioLogin()) {
           event.preventDefault(); // Detener el envío del formulario si no es válido
       }else{
-        alert("mando formulario");
+        alert("mando formulario login");
       }
   });
 });
 
+
+document.addEventListener("DOMContentLoaded",function(){
+  let formularioLogin = document.querySelector(".formulario-registro");
+  formularioLogin.addEventListener("submit", function (event) {
+      // Realizar validaciones aquí
+      if (!validarFormularioRegistro()) {
+          event.preventDefault(); // Detener el envío del formulario si no es válido
+      }else{
+        alert("mando formulario registro");
+      }
+  });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   var miBoton = document.getElementById("miniCirculo");

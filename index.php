@@ -1,22 +1,15 @@
-<?php
-// Incluir el archivo que contiene la clase Router
-require_once 'router/Router.class.php';
-// Crear una instancia del Router
-$carpetaPrincipal = "/paginaSims";
-$url = $_SERVER['REQUEST_URI'];
-$urlPartes = explode($carpetaPrincipal.'/',$url);
-array_shift($urlPartes);
+<?php include 'includes/header.php'; ?>
 
-$cuerpo = new Router("views/index.html",[
-    "indexControlador" => 'controllers/indexControlador.php'
-]);
+<main>
+    <div class="contenedor-main-flex">
+        <?php include 'includes//Left.php'; ?>
+        
+        <div class="contenedor-flex">
 
-// buffer 
-$view = new Router("views/app.html",[
-    "titulo" => 'Pagina Fans Sims',
-    "css" => '<link rel="stylesheet" href= "public/CSS/styles.css">',
-    "script" => '<script src="public/JS/script.js"></script>
-                <script src="public/JS/validations/validaciones.js"></script>',
-    "child" => $cuerpo
-]);
-echo $view;
+            <p>Dale un vistazo <a href="diario.php">freeCodeCamp</a>.</p>
+
+        </div>
+</main>
+
+<?php include 'includes/footer.php'; ?>
+
