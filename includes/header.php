@@ -7,6 +7,7 @@
     <!--enlace archivo CSS -->
     <link rel="stylesheet" href="public/CSS/styles.css">
     <title>Pagina Fans Sims</title>
+    <link rel="icon" href="public/Iconos/logo.png" type="image/png">
     <!-- Agrega enlaces a tus hojas de estilo CSS aquí si es necesario -->
 </head>
 
@@ -20,8 +21,14 @@
                 </div>
             </div>
             <div class="rectangulo">
-                <div class="contenedor-icono">
-                    <!-- contenido de buscador -->
+                <div class="contenedor-rectangulo-izquierdo"></div>
+                <div class="contenedor-rectangulo-derecho">
+                    <div class="contenedor-icono">
+                        <a class="contenedor-icono-inicio" href="/paginaSims/"></a>
+                    </div>
+                    <div class="contenedor-icono">
+                        <a class="contenedor-icono-diario" href="/paginaSims/diario.php"></a>
+                    </div>
                 </div>
             </div>
         </div>
