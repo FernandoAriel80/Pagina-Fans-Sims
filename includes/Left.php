@@ -6,7 +6,7 @@
         <!--////////////////////////////////////////////////////////////////////////////// -->
         <!--formularios aquí (login, registrar)-->
         <div class="contenedor-cosas-abajo">
-            <form method="" class="formulario-login" action="post">
+            <form name="formularioLogin" method="" class="formulario-login" action="post">
                 <!-- Campos de formulario aquí -->
                 <input type="text" id="usuarioL" name="usuarioL" placeholder="Usuario">
                 <input type="password" id="contraseñaL" name="contraseñaL" placeholder="Contraseña">
@@ -27,7 +27,7 @@
             <div class="contenedor-cosas-imagen-registro"></div>
         </div>
         <div class="contenedor-cosas-abajo">
-            <form class="formulario-registro" action=" " method="post">
+            <form name="formularioRegistro" class="formulario-registro" action=" " method="post">
                 <!-- Campos de formulario aquí -->
                 <input type="text" id="nombreR" name="nombreR" placeholder="Nombre">
                 <input type="email" id="emailR" name="emailR" placeholder="Email">

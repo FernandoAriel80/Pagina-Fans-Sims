@@ -19,7 +19,17 @@ final class Usuario extends Orm{
         parent::__construct("Usuario",$connecion);
     }
 
-    public function datosUsuario(
+    public function getId(): int { return $this->id; }
+    public function getUsuario(): string { return $this->usuario; }
+    public function getNombre(): string { return $this->nombre; }
+    public function getClaveIncript(): string { return $this->clave; }
+    public function getSal(): string { return $this->sal; }
+    public function getCorreo(): string { return $this->correo; }
+    public function getRol(): string { return $this->rol; }
+    public function getToken(): string { return $this->token; }
+
+
+    public function datosUsuarioDB(
         int $id,
         string $usuario,
         string $token,
@@ -47,12 +57,8 @@ final class Usuario extends Orm{
         $this->rol = $rol;
     }
 
-    // public function getId(): int {
-    //     return $this->id;
-    // }
 
-
-    public function datosRegistro(string $usuario,string $nombre,string $correo,string $clave):void
+    public function datosRegistro(string $nombre,string $correo,string $usuario,string $clave):void
     {
         $this->usuario = $usuario;
         $this->nombre = $nombre;
@@ -95,6 +101,5 @@ final class Usuario extends Orm{
             echo "Error al obtener registro getByUsu: " . $e->getMessage();
         } 
     }
-
 
 }

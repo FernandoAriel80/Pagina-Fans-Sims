@@ -76,9 +76,10 @@ class Orm{
              foreach ($dato as $key => $value) {
                 $stm->bindValue(":{$key}", $value);
              }  
-             $stm->execute();
+             return $stm->execute();
         }catch (PDOException $e) {
             echo "Error al insertar registro: " . $e->getMessage();
+            return false;
         }
      
     }

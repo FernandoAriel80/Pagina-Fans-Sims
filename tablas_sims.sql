@@ -1,11 +1,11 @@
 CREATE TABLE Usuario(
 	idUsuario INT AUTO_INCREMENT,
 	usuario VARCHAR(30) NOT NULL UNIQUE,
-	token VARCHAR(255) NOT NULL UNIQUE,
+	token VARCHAR(255) NULL UNIQUE,
 	nombre VARCHAR(30) NOT NULL UNIQUE,
     foto LONGBLOB NULL,
     descripcion VARCHAR(600) NULL,
-    fechaCreacion DATE NOT NULL,
+    fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     activo TINYINT(1) DEFAULT '0',
     correo VARCHAR(150) NOT NULL UNIQUE,
     clave VARCHAR(255) NOT NULL,
@@ -18,8 +18,8 @@ CREATE TABLE Diario(
 	idDiario INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
     nombreDiario VARCHAR(30) NOT NULL,
-    fechaCreacion DATE NOT NULL,
-    fechaActualizacion DATE NULL,
+    fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaActualizacion TIMESTAMP NULL,
     descripccion TEXT NULL,
     puntoPrimedio FLOAT(2,1) NULL,
     favoritoTotal INT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE Capitulo(
     titulo VARCHAR(30) NULL,
     imagen LONGBLOB NULL,
     parrafo VARCHAR(600) NULL,
-    fechaCreacion DATETIME,
+    fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idCapitulo),
     FOREIGN KEY(idDiario) REFERENCES diario(idDiario)
 );
@@ -58,8 +58,8 @@ CREATE TABLE Reporte(
 	idReporte INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
     descripcion VARCHAR(600) NOT NULL,
-    fechaReporte DATETIME NOT NULL,
-	logarReporte VARCHAR(30) NOT NULL,
+    fechaReporte TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	lugarReporte VARCHAR(30) NOT NULL,
     PRIMARY KEY(idReporte),
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );
@@ -79,7 +79,7 @@ CREATE TABLE Tema(
     titulo VARCHAR(30) NOT NULL,
     descripcion VARCHAR(600) NULL,
     totalMensajes INT NULL,
-    fechaPublicacion DATETIME NOT NULL,
+    fechaPublicacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idTema),
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );
@@ -89,7 +89,7 @@ CREATE TABLE Mensaje(
 	idMensaje INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
     descripcion VARCHAR(600) NULL,
-    fechaPublicacion DATETIME NOT NULL,
+    fechaPublicacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idMensaje),
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );

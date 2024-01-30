@@ -1,6 +1,6 @@
 <?php
 
-function usuarioNombre(string $nombre):bool
+function nombreValida(string $nombre):bool
 {
     if (empty($nombre)) {
         return false;
