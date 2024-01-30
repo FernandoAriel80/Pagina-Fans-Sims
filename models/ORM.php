@@ -11,56 +11,83 @@ class Orm{
     }
 
     public function getAll(){
-        $query = "SELECT * FROM {$this->tabla}";
-        $stm = $this->connection->prepare($query);
-        $stm->execute();
-        return $stm->fetchAll();
+        try{
+            $query = "SELECT * FROM {$this->tabla}";
+            $stm = $this->connection->prepare($query);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch (PDOException $e) {
+            echo "Error al obtener todos los registros: " . $e->getMessage();
+        }
+       
     }
     public function getById($id){
-        $idTabla = "id{$this->tabla}";
+        try{
+            $idTabla = "id{$this->tabla}";
         $query = "SELECT * FROM {$this->tabla} WHERE {$idTabla} =:id";
         $stm = $this->connection->prepare($query);
         $stm->bindValue(":id", $id);
         $stm->execute();
         return $stm->fetch();
+        }catch (PDOException $e) {
+            echo "Error al obtener el registro: " . $e->getMessage();
+        }
     }
     public function getAllJoin($tabla1, $tabla2) {
-        $idTabla = "id{$tabla1}";
-        $query = "SELECT * FROM $tabla1 INNER JOIN $tabla2 ON {$tabla1}.{$idTabla} = {$tabla2}.{$idTabla}";
-        $stm = $this->connection->prepare($query);
-        $stm->execute();
-        return $stm->fetchAll();
+        try{
+            $idTabla = "id{$tabla1}";
+            $query = "SELECT * FROM $tabla1 INNER JOIN $tabla2 ON {$tabla1}.{$idTabla} = {$tabla2}.{$idTabla}";
+            $stm = $this->connection->prepare($query);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch (PDOException $e) {
+            echo "Error al obtener todos los registros join: " . $e->getMessage();
+        }
     }
     public function getByIdJoin($tabla1, $tabla2, $id) {
-        $idTabla = "id{$tabla1}";
-        $query = "SELECT * FROM $tabla1 INNER JOIN $tabla2 ON {$tabla1}.{$idTabla} = {$tabla2}.{$idTabla} WHERE {$idTabla} =:id";
-        $stm = $this->connection->prepare($query);
-        $stm->bindValue(":id", $id);
-        $stm->execute();
-        return $stm->fetchAll();
+        try{
+            $idTabla = "id{$tabla1}";
+            $query = "SELECT * FROM $tabla1 INNER JOIN $tabla2 ON {$tabla1}.{$idTabla} = {$tabla2}.{$idTabla} WHERE {$idTabla} =:id";
+            $stm = $this->connection->prepare($query);
+            $stm->bindValue(":id", $id);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch (PDOException $e) {
+            echo "Error al obtener registro join: " . $e->getMessage();
+        }
     }
 
     public function insert($dato){
-        $query = "INSERT INTO {$this->tabla}(";
-        foreach ($dato as $key => $value) {
-            $query .= "{$key},";
-         }
-         $query = trim($query,",");
-         $query .= ") VALUES (";
-         
-         foreach ($dato as $key => $value) {
-            $query .= ":{$key}";
-         }
-         $query = trim($query,",");
-         $query .= ")";
-         
-         $stm = $this->connection->prepare($query);
-         foreach ($dato as $key => $value) {
-            $stm->bindValue(":{$key}", $value);
-         }  
-         $stm->execute();
+        try{
+            $query = "INSERT INTO {$this->tabla}(";
+            foreach ($dato as $key => $value) {
+                $query .= "{$key},";
+             }
+             $query = trim($query,",");
+             $query .= ") VALUES (";
+             
+             foreach ($dato as $key => $value) {
+                $query .= ":{$key}";
+             }
+             $query = trim($query,",");
+             $query .= ")";
+             
+             $stm = $this->connection->prepare($query);
+             foreach ($dato as $key => $value) {
+                $stm->bindValue(":{$key}", $value);
+             }  
+             $stm->execute();
+        }catch (PDOException $e) {
+            echo "Error al insertar registro: " . $e->getMessage();
+        }
+     
     }
     // public function getByField($id){
+    //    try{
+    //       
+    //    }catch (PDOException $e) {
+    //        echo "Error al obtener todos los registros: " . $e->getMessage();
+    //    }
     //     $query = "SELECT * FROM {$this->tabla} WHERE id".$this->tabla." =:id";
     //     $stm = $this->connection->prepare($query);
     //     $stm->bindValue(":id", $id);
@@ -74,18 +101,23 @@ class Orm{
 // INNER JOIN productos p ON p.idProducto = up.idProducto;
 
     public function upDateById($id,$dato){
-        $query = "UPDATE {$this->tabla} SET ";
-        foreach ($dato as $key => $value) {
-           $query .= "{$key} = :{$key},";
+        try{
+            $query = "UPDATE {$this->tabla} SET ";
+            foreach ($dato as $key => $value) {
+               $query .= "{$key} = :{$key},";
+            }
+            $query = trim($query,",");
+            $query .=" WHERE id".$this->tabla." = :id";
+            
+            $stm = $this->connection->prepare($query);
+            foreach ($dato as $key => $value) {
+                $stm->bindValue(":{$key}", $value);
+            }
+            $stm->bindValue(":id", $id);
+            $stm->execute();
+        }catch (PDOException $e) {
+            echo "Error al actualizar registro: " . $e->getMessage();
         }
-        $query = trim($query,",");
-        $query .=" WHERE id".$this->tabla." = :id";
-        
-        $stm = $this->connection->prepare($query);
-        foreach ($dato as $key => $value) {
-            $stm->bindValue(":{$key}", $value);
-        }
-        $stm->bindValue(":id", $id);
-        $stm->execute();
     }
+
 }

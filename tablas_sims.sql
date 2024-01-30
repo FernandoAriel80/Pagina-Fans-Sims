@@ -6,11 +6,11 @@ CREATE TABLE Usuario(
     foto LONGBLOB NULL,
     descripcion VARCHAR(600) NULL,
     fechaCreacion DATE NOT NULL,
-    activo TINYINT(1) DEFAULT 2,
+    activo TINYINT(1) DEFAULT '0',
     correo VARCHAR(150) NOT NULL UNIQUE,
     clave VARCHAR(255) NOT NULL,
     sal VARCHAR(255) NOT NULL,
-    rol VARCHAR(10) NOT NULL,
+    rol VARCHAR(10) NOT NULL DEFAULT 'Usuario',
 	PRIMARY KEY(idUsuario)
 );
 
@@ -20,10 +20,10 @@ CREATE TABLE Diario(
     nombreDiario VARCHAR(30) NOT NULL,
     fechaCreacion DATE NOT NULL,
     fechaActualizacion DATE NULL,
-    descripccion VARCHAR(600) NULL,
+    descripccion TEXT NULL,
     puntoPrimedio FLOAT(2,1) NULL,
     favoritoTotal INT NULL,
-    visible TINYINT(1) DEFAULT 1,
+    visible TINYINT(1) DEFAULT '1',
     PRIMARY KEY(idDiario),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
