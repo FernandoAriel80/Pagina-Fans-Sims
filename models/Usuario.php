@@ -1,47 +1,47 @@
 <?php
 require_once __DIR__.'/Orm.php';
 final class Usuario extends Orm{
-    private int $id;
-    private string $usuario;
-    private string $token;
-    private string $nombre;
-    private string $foto;
-    private string $descripcion;
-    private string $fechaCreacion;
-    private bool $activo;
-    private string $correo;
-    private string $clave;
-    private string $sal;
-    private string $rol;
+    private  $id;
+    private  $usuario;
+    private  $token;
+    private  $nombre;
+    private  $foto;
+    private  $descripcion;
+    private  $fechaCreacion;
+    private  $activo;
+    private  $correo;
+    private  $clave;
+    private  $sal;
+    private  $rol;
 
 
     public function __construct(PDO $connecion){
         parent::__construct("Usuario",$connecion);
     }
 
-    public function getId(): int { return $this->id; }
-    public function getUsuario(): string { return $this->usuario; }
-    public function getNombre(): string { return $this->nombre; }
-    public function getClaveIncript(): string { return $this->clave; }
-    public function getSal(): string { return $this->sal; }
-    public function getCorreo(): string { return $this->correo; }
-    public function getRol(): string { return $this->rol; }
-    public function getToken(): string { return $this->token; }
+    public function getId(){ return $this->id; }
+    public function getUsuario(){ return $this->usuario; }
+    public function getNombre(){ return $this->nombre; }
+    public function getClaveIncript(){ return $this->clave; }
+    public function getSal(){ return $this->sal; }
+    public function getCorreo(){ return $this->correo; }
+    public function getRol(){ return $this->rol; }
+    public function getToken(){ return $this->token; }
 
 
     public function datosUsuarioDB(
-        int $id,
-        string $usuario,
-        string $token,
-        string $nombre,
-        string $foto,
-        string $descripcion,
-        string $fechaCreacion,
-        bool $activo,
-        string $correo,
-        string $clave,
-        string $sal,
-        string $rol
+         $id,
+         $usuario,
+         $token,
+         $nombre,
+         $foto,
+         $descripcion,
+         $fechaCreacion,
+         $activo,
+         $correo,
+         $clave,
+         $sal,
+         $rol
     ) {
         $this->id = $id;
         $this->usuario = $usuario;
@@ -79,12 +79,12 @@ final class Usuario extends Orm{
 
     public function getByUsuAndEmail(string $usuario,string $correo){
         try{
-            $query = "SELECT * FROM {$this->tabla} WHERE usuario =:usuario OR correo =:correo";
+            $query = "SELECT * FROM {$this->tabla} WHERE nomUsuario =:usuario OR correo =:correo";
             $stm = $this->connection->prepare($query);
             $stm->bindValue(":usuario", $usuario);
             $stm->bindValue(":correo", $correo);
             $stm->execute();
-            return $stm->fetch();
+            return $stm->fetchAll();
         }catch (PDOException $e) {
             echo "Error al obtener registro getByUsuAndEmail: " . $e->getMessage();
         } 
@@ -92,7 +92,7 @@ final class Usuario extends Orm{
 
     public function getByUsu(string $usuario){
         try{
-            $query = "SELECT * FROM {$this->tabla} WHERE usuario =:usuario";
+            $query = "SELECT * FROM {$this->tabla} WHERE nomUsuario =:usuario";
             $stm = $this->connection->prepare($query);
             $stm->bindValue(":usuario", $usuario);
             $stm->execute();

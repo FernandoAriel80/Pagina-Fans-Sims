@@ -58,31 +58,53 @@ class Orm{
     }
 
     public function insert($dato){
-        try{
-            $query = "INSERT INTO {$this->tabla}(";
+        try {
+            // Construir la consulta SQL
+            $keys = implode(', ', array_keys($dato));
+            $values = ':' . implode(', :', array_keys($dato));
+            $query = "INSERT INTO {$this->tabla} ({$keys}) VALUES ({$values})";
+            
+            // Preparar la consulta
+            $stm = $this->connection->prepare($query);
+            
+            // Vincular los parámetros y ejecutar la consulta
             foreach ($dato as $key => $value) {
-                $query .= "{$key},";
-             }
-             $query = trim($query,",");
-             $query .= ") VALUES (";
-             
-             foreach ($dato as $key => $value) {
-                $query .= ":{$key}";
-             }
-             $query = trim($query,",");
-             $query .= ")";
-             
-             $stm = $this->connection->prepare($query);
-             foreach ($dato as $key => $value) {
                 $stm->bindValue(":{$key}", $value);
-             }  
-             return $stm->execute();
-        }catch (PDOException $e) {
+            }  
+    
+            // Ejecutar la consulta
+            return $stm->execute();
+        } catch (PDOException $e) {
             echo "Error al insertar registro: " . $e->getMessage();
             return false;
         }
-     
     }
+    
+    // public function insert($dato){
+    //     try{
+    //         $query = "INSERT INTO {$this->tabla}(";
+    //         foreach ($dato as $key => $value) {
+    //             $query .= "{$key},";
+    //          }
+    //          $query = trim($query,",");
+    //          $query .= ") VALUES (";
+             
+    //          foreach ($dato as $key => $value) {
+    //             $query .= ":{$key}";
+    //          }
+    //          $query = trim($query,",");
+    //          $query .= ")";
+             
+    //          $stm = $this->connection->prepare($query);
+    //          foreach ($dato as $key => $value) {
+    //             $stm->bindValue(":{$key}", $value);
+    //          }  
+    //          return $stm->execute();
+    //     }catch (PDOException $e) {
+    //         echo "Error al insertar registro: " . $e->getMessage();
+    //         return false;
+    //     }
+    // }
     // public function getByField($id){
     //    try{
     //       

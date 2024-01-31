@@ -1,7 +1,7 @@
 <?php
 
 function sesionActiva(){
-    if (isset($_SESSION["idUsuario"]) && isset($_SESSION["idUsuario"])) {
+    if (isset($_SESSION["idUsuario"]) && isset($_SESSION["usuario"])) {
         return true;
     }else {
         return false;
@@ -14,6 +14,9 @@ function iniciarSesion(int $id,string $usuario) {
 }
 
 function cerrarSesion() {
+    // Eliminar todas las variables de sesión
+    session_unset();
+    // Destruir la sesión
     session_destroy();
     // Destruir la cookie
     setcookie('recuerdaUsuario', '', time() - 3600, '/', '', true, true);
