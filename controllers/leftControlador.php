@@ -10,7 +10,8 @@ $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
 $vistaLeft = '';
 $mensaje='';
-if (!sesionActiva() && isset($_COOKIE['recuerdaUsuario'])) {
+
+if (!sesionActiva() && !isset($_COOKIE['recuerdaUsuario'])) {
    $vistaLeft = muestraLogin();
 //    header('Location: index.php');
 //    exit();
@@ -20,19 +21,32 @@ if (!sesionActiva() && isset($_COOKIE['recuerdaUsuario'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    ////////////////////////// BOTON REGISTRAR ////////////////////
     if (isset($_POST["botonNavRegistrar"])) {
         $vistaLeft= muestraRegistro();
     }
+    ////////////////////////// BOTON LOGOUT ////////////////////
     if (isset($_POST["botonNavOut"])) {
         cerrarSesion();
         // Redirigir al usuario a la página de inicio de sesión
         $vistaLeft = muestraLogin();
     }
-
+    ////////////////////////// LOGIN ////////////////////
+    if (isset($_POST["formularioLogin"])) {
+        $usuarioModelo = new Usuario($coneccion);
+        if (isset($_POST["usuarioR"]) && isset($_POST["usuarioR"])){
+            $usuario = sinEspaciosLados($_POST["nombreL"]);
+            $clave = sinEspaciosLados($_POST["contraseñaL"]);
+            if(validaLogin($usuario,$clave)){
+                if(validaLoginExistente($usuarioModelo,$usuario,$clave)){
+                    
+                }
+            }
+        }
+    }
+    ///////////////////////// REGISTRO ////////////////////
    if(isset($_POST["formularioRegistro"])){
-    //echo  $_SESSION["idUsuario"];
-    //echo  $_SESSION["usuario"];
-    //cerrarSesion();
+
         $usuarioModelo = new Usuario($coneccion);
         if (isset($_POST["nombreR"])&&isset($_POST["emailR"])&&
         isset($_POST["usuarioR"])&&isset($_POST["contraseñaR"])&&isset($_POST["confirmarContraseñaR"])) {
@@ -42,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $clave = sinEspaciosLados($_POST["contraseñaR"]);
             $claveConfirmar = sinEspaciosLados($_POST["confirmarContraseñaR"]);
             if (validaRegistro($nombre,$correo,$usuario,$clave,$claveConfirmar)){ 
-            $resultadoExistente=validaUsuarioExistente($usuarioModelo,$usuario,$correo);
+            $resultadoExistente=validaRegistroExistente($usuarioModelo,$usuario,$correo);
                 if (!$resultadoExistente) {
                     $usuarioModelo->datosRegistro($nombre,$correo,$usuario,$clave);
                     $resultado = registrarUsuario($usuarioModelo);
@@ -50,8 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         traerDatosUsuario($usuarioModelo);
                         //cerrarSesion();
                         iniciarSesion($usuarioModelo->getId(),$usuarioModelo->getUsuario());
-                        echo  $_SESSION["idUsuario"];
-                        echo  $_SESSION["usuario"];
                         $mensaje = muestraMensaje("¡se registro correctamente!");
                         $vistaLeft= muestraLogin();
                         # code... se creo correctamente
@@ -86,7 +98,7 @@ function muestraLogin(){
                     <form method="" class="formulario-login" action="post">
                         <input type="text" id="usuarioL" name="usuarioL" placeholder="Usuario" required>
                         <input type="password" id="contraseñaL" name="contraseñaL" placeholder="Contraseña" required>
-                        <input type="submit" value="" class="boton-login" name="botonLogin" name="formularioLogin">
+                        <input type="submit" value="" class="boton-login" name="formularioLogin">
                         <div id="mensajeErrorLogin" class="mensaje-error" value="" style="display: none;"></div>
                     </form>
                 </div>
@@ -98,26 +110,6 @@ function muestraLogin(){
             </div>';
 return $vista;
 }
-// function muestraRegistro(){
-//     $vista='<div class="contenedor-cosas">
-//                 <div class="contenedor-cosas-arriba">
-//                     <div class="contenedor-cosas-imagen-registro"></div>
-//                 </div>
-//                 <div class="contenedor-cosas-abajo">
-//                     <form class="formulario-registro" action=" " method="post">
-//                         <input type="text" id="nombreR" name="nombreR" placeholder="Nombre" required>
-//                         <input type="email" id="emailR" name="emailR" placeholder="Email" required>
-//                         <input type="text" id="usuarioR" name="usuarioR" placeholder="Usuario" required>
-//                         <input type="password" id="contraseñaR" name="contraseñaR" placeholder="Contraseña" required>
-//                         <input type="password" id="confirmarContraseñaR" name="confirmarContraseñaR"
-//                             placeholder="ConfirmarContraseña" required>
-//                         <input type="submit" value="" class="boton-registrar" name="formularioRegistro">
-//                         <div id="mensajeErrorRegistro" class="mensaje-error" value="" style="display: none;"></div>
-//                     </form>
-//                 </div>
-//             </div>';
-// return $vista;
-// }
 function muestraRegistro(){
     $vista='<div class="contenedor-cosas">
                 <div class="contenedor-cosas-arriba">
@@ -125,12 +117,12 @@ function muestraRegistro(){
                 </div>
                 <div class="contenedor-cosas-abajo">
                     <form class="formulario-registro" action=" " method="post">
-                        <input type="text" id="nombreR" name="nombreR" placeholder="Nombre" >
-                        <input type="email" id="emailR" name="emailR" placeholder="Email" >
-                        <input type="text" id="usuarioR" name="usuarioR" placeholder="Usuario" >
-                        <input type="password" id="contraseñaR" name="contraseñaR" placeholder="Contraseña" >
+                        <input type="text" id="nombreR" name="nombreR" placeholder="Nombre" required>
+                        <input type="email" id="emailR" name="emailR" placeholder="Email" required>
+                        <input type="text" id="usuarioR" name="usuarioR" placeholder="Usuario" required>
+                        <input type="password" id="contraseñaR" name="contraseñaR" placeholder="Contraseña" required>
                         <input type="password" id="confirmarContraseñaR" name="confirmarContraseñaR"
-                            placeholder="ConfirmarContraseña" >
+                            placeholder="ConfirmarContraseña" required>
                         <input type="submit" value="" class="boton-registrar" name="formularioRegistro">
                         <div id="mensajeErrorRegistro" class="mensaje-error" value="" style="display: none;"></div>
                     </form>
@@ -162,7 +154,15 @@ function validaRegistro(string $nombre,string $correo,string $usuario,string $cl
     } 
 }
 
-function validaUsuarioExistente(Usuario $modelo, string $usuario, string $correo){  
+function validaLogin(string $usuario,string $clave){
+    if (usuarioValida($usuario) && claveValida($clave)) {
+        return true;
+    } else {
+        return false;
+    } 
+}
+
+function validaRegistroExistente(Usuario $modelo,string $usuario,string $correo){  
     $dato = $modelo->getByUsuAndEmail($usuario,$correo);
     if (!empty($dato)) {
         foreach ($dato as $key) {
@@ -175,6 +175,20 @@ function validaUsuarioExistente(Usuario $modelo, string $usuario, string $correo
             }
         }
     } 
+}
+function validaLoginExistente(Usuario $modelo,string $usuario,string $clave){
+    if (isset($_SESSION["usuario"]) && isset($_SESSION["idUsuario"])){
+        $dato = $modelo->getById($_SESSION["idUsuario"]);
+        if ($usuario == $_SESSION["usuario"] && $dato["nomUsuario"] == $usuario){
+            if(password_verify($clave . $dato["clave"], $dato["clave"])){
+                return true;
+            }else{
+                return false; 
+            }
+        }else{
+            return false; 
+        } 
+    }
 }
 
 function registrarUsuario(Usuario $modelo){
