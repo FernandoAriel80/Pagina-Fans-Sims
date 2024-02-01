@@ -9,7 +9,8 @@ session_start();
 $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
 $vistaLeft = '';
-if (!sesionActiva()) {
+$mensaje='';
+if (!sesionActiva() && isset($_COOKIE['recuerdaUsuario'])) {
    $vistaLeft = muestraLogin();
 //    header('Location: index.php');
 //    exit();
@@ -29,6 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
    if(isset($_POST["formularioRegistro"])){
+    //echo  $_SESSION["idUsuario"];
+    //echo  $_SESSION["usuario"];
+    //cerrarSesion();
         $usuarioModelo = new Usuario($coneccion);
         if (isset($_POST["nombreR"])&&isset($_POST["emailR"])&&
         isset($_POST["usuarioR"])&&isset($_POST["contraseñaR"])&&isset($_POST["confirmarContraseñaR"])) {
@@ -37,8 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $usuario = sinEspaciosLados($_POST["usuarioR"]);
             $clave = sinEspaciosLados($_POST["contraseñaR"]);
             $claveConfirmar = sinEspaciosLados($_POST["confirmarContraseñaR"]);
-            if (validaRegistro($nombre,$correo,$usuario,$clave,$claveConfirmar)) {
-                if (!validaUsuarioExistente($usuarioModelo,$usuario,$correo)) {
+            if (validaRegistro($nombre,$correo,$usuario,$clave,$claveConfirmar)){ 
+            $resultadoExistente=validaUsuarioExistente($usuarioModelo,$usuario,$correo);
+                if (!$resultadoExistente) {
                     $usuarioModelo->datosRegistro($nombre,$correo,$usuario,$clave);
                     $resultado = registrarUsuario($usuarioModelo);
                     if ($resultado) {
@@ -47,20 +52,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         iniciarSesion($usuarioModelo->getId(),$usuarioModelo->getUsuario());
                         echo  $_SESSION["idUsuario"];
                         echo  $_SESSION["usuario"];
-                        echo "registro completo";
+                        $mensaje = muestraMensaje("¡se registro correctamente!");
                         $vistaLeft= muestraLogin();
                         # code... se creo correctamente
-                    } else {
-                        # code... fallo al crear usuario
-                        $vistaLeft= muestraRegistro();
-                    }     
+                    }else{
+                    $mensaje = muestraMensaje("¡Ha ocurrido un error al registrar!");
+                    $vistaLeft= muestraRegistro(); 
+                    }   
+                }else{
+                $mensaje = muestraMensaje($resultadoExistente[1]);
+                $vistaLeft= muestraRegistro();
                 }
-            }   
+            }else{   
+            $mensaje = muestraMensaje("datos invalidos");
+            $vistaLeft= muestraRegistro();
+            }
         }   
         $dataBase->desconectar(); 
     }
 }
-
+function muestraMensaje($message){
+    $vista='<div class="contenedor-cosas">
+                <h4>'.$message.'</h4>
+            </div>';
+    return $vista;
+}
 function muestraLogin(){
     $vista='<div class="contenedor-cosas">
                 <div class="contenedor-cosas-arriba">
@@ -149,15 +165,13 @@ function validaRegistro(string $nombre,string $correo,string $usuario,string $cl
 function validaUsuarioExistente(Usuario $modelo, string $usuario, string $correo){  
     $dato = $modelo->getByUsuAndEmail($usuario,$correo);
     if (!empty($dato)) {
-        foreach ($dato as $key =>$value) {
+        foreach ($dato as $key) {
             if($key['nomUsuario'] == $usuario){
-                // echo ''; ejecute usuario existente un scrip js
-                if($key['correo'] == $correo){
-                    // echo ''; ejecute correo existente un scrip js
-                    return true;
-                }
-            }else {
-                return false;
+                return [true,'usuario: "'.$usuario.'" existente'];
+            }else if($key['correo'] == $correo){
+                return [true,'correo: "'.$correo.'" existente'];
+            }else{
+                return false; 
             }
         }
     } 
@@ -168,11 +182,11 @@ function registrarUsuario(Usuario $modelo){
         'nomUsuario' => $modelo->getUsuario(),
         'nombre' => $modelo->getNombre(),
         'correo' => $modelo->getCorreo(),
-        'clave' => $modelo->getClaveIncript(),
+        'clave' => $modelo->getClaveEncript(),
         'sal' => $modelo->getSal()
     ];
     $resultado = $modelo->insert($dato);
-    if ($resultado) {
+    if (!empty($resultado)) {
         return true;
     } else {
         return false;
