@@ -5,8 +5,6 @@ document.addEventListener("DOMContentLoaded",function(){
       // Realizar validaciones aquí
       if (!validarFormularioLogin()) {
           event.preventDefault(); // Detener el envío del formulario si no es válido
-      }else{
-        alert("mando formulario login");
       }
   });
 });
@@ -18,8 +16,6 @@ document.addEventListener("DOMContentLoaded",function(){
       // Realizar validaciones aquí
       if (!validarFormularioRegistro()) {
           event.preventDefault(); // Detener el envío del formulario si no es válido
-      }else{
-        alert("mando formulario registro");
       }
   });
 });

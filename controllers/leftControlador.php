@@ -11,7 +11,7 @@ $coneccion = $dataBase->conectar();
 $vistaLeft = '';
 $mensaje='';
 
-if (!sesionActiva() && !isset($_COOKIE['recuerdaUsuario'])) {
+if (!sesionActiva()) {
    $vistaLeft = muestraLogin();
 //    header('Location: index.php');
 //    exit();
@@ -33,21 +33,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     ////////////////////////// LOGIN ////////////////////
     if (isset($_POST["formularioLogin"])) {
-        $usuarioModelo = new Usuario($coneccion);
-        if (isset($_POST["usuarioR"]) && isset($_POST["usuarioR"])){
-            $usuario = sinEspaciosLados($_POST["nombreL"]);
+        $usuarioModeloLogin = new Usuario($coneccion);
+        if (isset($_POST["usuarioL"]) && isset($_POST["contraseñaL"])){
+            $usuario = sinEspaciosLados($_POST["usuarioL"]);
             $clave = sinEspaciosLados($_POST["contraseñaL"]);
-            if(validaLogin($usuario,$clave)){
-                if(validaLoginExistente($usuarioModelo,$usuario,$clave)){
-                    
+            if(validaLogin($usuario,$clave)){   
+                $datoValidar = $usuarioModeloLogin->getByUsu($usuario);   
+                if(validaLoginExistente($usuario,$clave,$datoValidar)){
+                    $token = crearCookie();
+                    iniciarSesion($datoValidar['idUsuario'],$datoValidar['nomUsuario'],$token);
+                    if(guardaToken($usuarioModeloLogin,$datoValidar['idUsuario'],$token)){
+                        $datoGuardar = $usuarioModeloLogin->getById($datoValidar['idUsuario']);
+                        traerDatosUsuario($usuarioModeloLogin,$datoGuardar);
+                        $mensaje = muestraMensaje("¡Ha iniciado sesion correctamente!");
+                        $vistaLeft = muestraLogeado(); 
+                    }else{
+                        $mensaje = muestraMensaje("¡Ha ocurrido un error al iniciar sesion!");
+                        $vistaLeft = muestraLogin();
+                    }
+                }else{
+                    $mensaje = muestraMensaje("¡Ha ocurrido un error, datos no coinciden!");
+                    $vistaLeft = muestraLogin();
                 }
             }
         }
+        $dataBase->desconectar(); 
     }
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ///////////////////////// REGISTRO ////////////////////
    if(isset($_POST["formularioRegistro"])){
-
-        $usuarioModelo = new Usuario($coneccion);
+        $usuarioModeloRegistro = new Usuario($coneccion);
         if (isset($_POST["nombreR"])&&isset($_POST["emailR"])&&
         isset($_POST["usuarioR"])&&isset($_POST["contraseñaR"])&&isset($_POST["confirmarContraseñaR"])) {
             $nombre = sinEspaciosLados($_POST["nombreR"]);
@@ -56,28 +72,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $clave = sinEspaciosLados($_POST["contraseñaR"]);
             $claveConfirmar = sinEspaciosLados($_POST["confirmarContraseñaR"]);
             if (validaRegistro($nombre,$correo,$usuario,$clave,$claveConfirmar)){ 
-            $resultadoExistente=validaRegistroExistente($usuarioModelo,$usuario,$correo);
+                $resultadoExistente =validaRegistroExistente($usuarioModeloRegistro,$usuario,$correo);
                 if (!$resultadoExistente) {
-                    $usuarioModelo->datosRegistro($nombre,$correo,$usuario,$clave);
-                    $resultado = registrarUsuario($usuarioModelo);
+                    $usuarioModeloRegistro->datosRegistro($nombre,$correo,$usuario,$clave);
+                    $resultado = registrarUsuario($usuarioModeloRegistro);
                     if ($resultado) {
-                        traerDatosUsuario($usuarioModelo);
-                        //cerrarSesion();
-                        iniciarSesion($usuarioModelo->getId(),$usuarioModelo->getUsuario());
-                        $mensaje = muestraMensaje("¡se registro correctamente!");
-                        $vistaLeft= muestraLogin();
+                        $datoGuardar= $usuarioModeloRegistro->getByUsu($usuarioModeloRegistro->getUsuario());
+                        traerDatosUsuario($usuarioModeloRegistro,$datoGuardar);
+                        $mensaje = muestraMensaje("¡Se registro correctamente!");
+                        $vistaLeft = muestraLogin();
                         # code... se creo correctamente
                     }else{
-                    $mensaje = muestraMensaje("¡Ha ocurrido un error al registrar!");
-                    $vistaLeft= muestraRegistro(); 
+                        $mensaje = muestraMensaje("¡Ha ocurrido un error al registrar!");
+                        $vistaLeft= muestraRegistro(); 
                     }   
                 }else{
-                $mensaje = muestraMensaje($resultadoExistente[1]);
-                $vistaLeft= muestraRegistro();
+                    $mensaje = muestraMensaje($resultadoExistente[1]);
+                    $vistaLeft= muestraRegistro();
                 }
             }else{   
-            $mensaje = muestraMensaje("datos invalidos");
-            $vistaLeft= muestraRegistro();
+                $mensaje = muestraMensaje("¡Datos invalidos!");
+                $vistaLeft= muestraRegistro();
             }
         }   
         $dataBase->desconectar(); 
@@ -95,7 +110,7 @@ function muestraLogin(){
                     <div class="contenedor-cosas-imagen-login"></div>
                 </div>
                 <div class="contenedor-cosas-abajo">
-                    <form method="" class="formulario-login" action="post">
+                    <form class="formulario-login" action=" " method="post">
                         <input type="text" id="usuarioL" name="usuarioL" placeholder="Usuario" required>
                         <input type="password" id="contraseñaL" name="contraseñaL" placeholder="Contraseña" required>
                         <input type="submit" value="" class="boton-login" name="formularioLogin">
@@ -136,7 +151,7 @@ function muestraLogeado(){
                     <div class="contenedor-cosas-imagen-bienvenida"></div>
                 </div>
                 <div class="contenedor-cosas-abajo">
-                    <h2>Bienvenido,'.$_SESSION['usuario'].'</h2>
+                    <div class = "Bienvenida-login"><h2>Bienvenido,'.$_SESSION['usuario'].'</h2></div>  
                     <form class="formulario-nav-out" action=" " method="post">
                         <input type="submit" value="" class="boton-registrar" name="botonNavOut">
                     </form>
@@ -167,28 +182,46 @@ function validaRegistroExistente(Usuario $modelo,string $usuario,string $correo)
     if (!empty($dato)) {
         foreach ($dato as $key) {
             if($key['nomUsuario'] == $usuario){
-                return [true,'usuario: "'.$usuario.'" existente'];
+                return [true,'¡usuario existente!'];
             }else if($key['correo'] == $correo){
-                return [true,'correo: "'.$correo.'" existente'];
+                return [true,'¡correo existente!'];
             }else{
                 return false; 
             }
         }
-    } 
-}
-function validaLoginExistente(Usuario $modelo,string $usuario,string $clave){
-    if (isset($_SESSION["usuario"]) && isset($_SESSION["idUsuario"])){
-        $dato = $modelo->getById($_SESSION["idUsuario"]);
-        if ($usuario == $_SESSION["usuario"] && $dato["nomUsuario"] == $usuario){
-            if(password_verify($clave . $dato["clave"], $dato["clave"])){
-                return true;
-            }else{
-                return false; 
-            }
-        }else{
-            return false; 
-        } 
     }
+}
+function validaLoginExistente(string $usuario,string $clave,$dato){
+    if (!empty($dato)) {
+        $usuDB = $dato["nomUsuario"];
+        $salDB = $dato["sal"];
+        $clavDB = $dato["clave"];
+        if ( $usuario == $usuDB && password_verify($clave.$salDB,$clavDB)){  
+            return true;
+        }else{
+           return false; 
+        }
+    }
+    
+    // if ( $dato["nomUsuario"] == $usuario){
+    //     if(password_verify($clave.$dato["sal"], $dato["clave"])){
+    //         return true;
+    //     }else{
+    //         return false; 
+    //     }
+    // }else{
+    //     return false; 
+    // }
+    
+    // if (!empty($dato)){
+    //     if ( !$dato["nomUsuario"] == $usuario){
+    //         return [false,'¡usuario: "'.$usuario.'" no encontrado!'];
+    //     }else if(!password_verify($clave . $dato["sal"], $dato["clave"])){
+    //         return [false,'¡La clave no coinciden!'];
+    //     }else{
+    //         return true; 
+    //     }
+    // }
 }
 
 function registrarUsuario(Usuario $modelo){
@@ -207,8 +240,18 @@ function registrarUsuario(Usuario $modelo){
     }  
 }
 
-function traerDatosUsuario(Usuario $modelo){
-    $dato= $modelo->getByUsu($modelo->getUsuario());
+function guardaToken(Usuario $modelo,$id, string $token){
+    $dato=[
+        'token' => $token,
+    ];
+    $resultado = $modelo->upDateById($id,$dato);
+    if (!empty($resultado)) {
+        return true;
+    } else {
+        return false;
+    }  
+}
+function traerDatosUsuario(Usuario $modelo,$dato){
     if (!empty($dato)) {
         $modelo->datosUsuarioDB(
             $dato['idUsuario'],

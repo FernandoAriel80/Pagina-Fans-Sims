@@ -186,6 +186,15 @@ h4{
   border-radius: 0px 0px 10px 10px;
   flex-direction: column; 
 }
+/* .Bienvenida-login h2{
+  padding: 20px, 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+} */
 /* .contenedor-cosas-abajo-nav {
   width: 100%;
   display: flex;
@@ -336,13 +345,13 @@ input[type="submit"] {
     height: auto;
     font-size: 12px;
   }
-  input[type="submit"]:hover {
+  /* input[type="submit"]:hover {
     background-color:#0077cc;
     margin: auto;
     background-size: contain; 
     background-position: right;
     background-repeat: no-repeat;
-  }
+  } */
   .contenedor-cosas{
     display: flex; 
     margin:15px 2px;
@@ -443,13 +452,13 @@ to {
     animation: fadeIn 0.1s ease-in-out; 
 }
 
-input[type="submit"]:active {
+/* input[type="submit"]:active {
   background-color:#0077cc;
   margin: auto;
   background-size: contain; 
   background-position: right;
   background-repeat: no-repeat;
-}
+} */
    /* CONTENEDOR */
 
   /* Agrega más estilos específicos para teléfonos móviles */

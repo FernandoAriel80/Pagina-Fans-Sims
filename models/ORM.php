@@ -17,7 +17,7 @@ class Orm{
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-            //echo "Error al obtener todos los registros: " . $e->getMessage();
+            echo "Error al obtener todos los registros: " . $e->getMessage();
             error_log("Error al obtener todos los registros: " . $e->getMessage());
         }
        
@@ -31,7 +31,7 @@ class Orm{
         $stm->execute();
         return $stm->fetch();
         }catch (PDOException $e) {
-            //echo "Error al obtener el registro: " . $e->getMessage();
+            echo "Error al obtener el registro: " . $e->getMessage();
             error_log("Error al obtener el registro: " . $e->getMessage());
         }
     }
@@ -43,7 +43,7 @@ class Orm{
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-            //echo "Error al obtener todos los registros join: " . $e->getMessage();
+            echo "Error al obtener todos los registros join: " . $e->getMessage();
             error_log("Error al obtener todos los registros join: " . $e->getMessage());
         }
     }
@@ -56,7 +56,7 @@ class Orm{
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-            //echo "Error al obtener registro join: " . $e->getMessage();
+            echo "Error al obtener registro join: " . $e->getMessage();
             error_log("Error al obtener registro join: " . $e->getMessage());
         }
     }
@@ -79,7 +79,7 @@ class Orm{
             // Ejecutar la consulta
             return $stm->execute();
         } catch (PDOException $e) {
-            //echo "Error al insertar registro: " . $e->getMessage();
+            echo "Error al insertar registro: " . $e->getMessage();
             error_log("Error al insertar registro: " . $e->getMessage());
             return false;
         }
@@ -142,10 +142,11 @@ class Orm{
                 $stm->bindValue(":{$key}", $value);
             }
             $stm->bindValue(":id", $id);
-            $stm->execute();
+            return $stm->execute();
         }catch (PDOException $e) {
-            //echo "Error al actualizar registro: " . $e->getMessage();
+            echo "Error al actualizar registro: " . $e->getMessage();
             error_log("Error al actualizar registro: " . $e->getMessage());
+            return false;
         }
     }
 
