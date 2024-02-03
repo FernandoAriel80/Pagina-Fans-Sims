@@ -1,7 +1,7 @@
 <?php
 
 function sesionActiva(){
-    if (isset($_SESSION["idUsuario"]) && isset($_SESSION["usuario"]) && isset($_COOKIE['recuerdaUsuario'])) {
+    if (isset($_SESSION["idUsuario"]) && isset($_SESSION["usuario"]) && isset($_COOKIE['recuerdaTokenUsuario'])) {
         return true;
     }else {
         return false;
@@ -20,7 +20,7 @@ function cerrarSesion() {
     // Destruir la sesión
     session_destroy();
     // Destruir la cookie
-    setcookie('recuerdaUsuario', '', time() - 3600, '/', '', true, true);
+    setcookie('recuerdaTokenUsuario', '', time() - 3600, '/', '', true, true);
 }
 
 function crearCookie() {

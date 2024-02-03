@@ -13,8 +13,6 @@ $mensaje='';
 
 if (!sesionActiva()) {
    $vistaLeft = muestraLogin();
-//    header('Location: index.php');
-//    exit();
 }else{
     $vistaLeft = muestraLogeado();
 }
