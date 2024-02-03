@@ -18,6 +18,7 @@ class Orm{
             return $stm->fetchAll();
         }catch (PDOException $e) {
             echo "Error al obtener todos los registros: " . $e->getMessage();
+            error_log("Error al obtener todos los registros: " . $e->getMessage());
         }
        
     }
@@ -31,6 +32,7 @@ class Orm{
         return $stm->fetch();
         }catch (PDOException $e) {
             echo "Error al obtener el registro: " . $e->getMessage();
+            error_log("Error al obtener el registro: " . $e->getMessage());
         }
     }
     public function getAllJoin($tabla1, $tabla2) {
@@ -42,6 +44,7 @@ class Orm{
             return $stm->fetchAll();
         }catch (PDOException $e) {
             echo "Error al obtener todos los registros join: " . $e->getMessage();
+            error_log("Error al obtener todos los registros join: " . $e->getMessage());
         }
     }
     public function getByIdJoin($tabla1, $tabla2, $id) {
@@ -54,6 +57,7 @@ class Orm{
             return $stm->fetchAll();
         }catch (PDOException $e) {
             echo "Error al obtener registro join: " . $e->getMessage();
+            error_log("Error al obtener registro join: " . $e->getMessage());
         }
     }
 
@@ -76,6 +80,7 @@ class Orm{
             return $stm->execute();
         } catch (PDOException $e) {
             echo "Error al insertar registro: " . $e->getMessage();
+            error_log("Error al insertar registro: " . $e->getMessage());
             return false;
         }
     }
@@ -137,9 +142,11 @@ class Orm{
                 $stm->bindValue(":{$key}", $value);
             }
             $stm->bindValue(":id", $id);
-            $stm->execute();
+            return $stm->execute();
         }catch (PDOException $e) {
             echo "Error al actualizar registro: " . $e->getMessage();
+            error_log("Error al actualizar registro: " . $e->getMessage());
+            return false;
         }
     }
 

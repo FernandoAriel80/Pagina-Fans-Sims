@@ -19,6 +19,7 @@ class DataBase {
             $this->connection->exec("SET CHARACTER SET UTF8");
         } catch(PDOException $e) {
             echo 'Error de conexión: ' . $e->getMessage();
+            error_log('Error de conexión: ' . $e->getMessage());
         }
     }
 

@@ -1,8 +1,9 @@
+
 <?php include 'includes/header.php'; ?>
 
 <main>
     <div class="contenedor-main-flex">
-        <?php include 'includes//Left.php'; ?>
+        <?php include 'includes/Left.php'; ?>
 
         <div class="contenedor-flex">
             <div class="contenedor-index-imagen">

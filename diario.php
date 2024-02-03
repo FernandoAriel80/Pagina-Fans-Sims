@@ -1,4 +1,5 @@
 <?php include 'includes/header.php'; ?>
+
 <main>
     <div class="contenedor-main-flex">
         <?php include 'includes//Left.php'; ?>

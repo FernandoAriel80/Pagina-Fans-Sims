@@ -22,7 +22,7 @@ final class Usuario extends Orm{
     public function getId(){ return $this->id; }
     public function getUsuario(){ return $this->usuario; }
     public function getNombre(){ return $this->nombre; }
-    public function getClaveIncript(){ return $this->clave; }
+    public function getClaveEncript(){ return $this->clave; }
     public function getSal(){ return $this->sal; }
     public function getCorreo(){ return $this->correo; }
     public function getRol(){ return $this->rol; }
@@ -66,11 +66,11 @@ final class Usuario extends Orm{
         $this->sal = password_hash(random_bytes(16), PASSWORD_DEFAULT);
         $this->clave = password_hash($clave . $this->sal, PASSWORD_DEFAULT);
     }
-    public function datosLogin(string $usuario,string $clave):void
-    {
-        $this->usuario = $usuario;
-        $this->clave = $clave;
-    }
+    // public function datosLogin(string $usuario,string $clave):void
+    // {
+    //     $this->usuario = $usuario;
+    //     $this->clave = $clave;
+    // }
     
        // Getter mágico
     //public function __get($name) {
@@ -86,7 +86,8 @@ final class Usuario extends Orm{
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-            echo "Error al obtener registro getByUsuAndEmail: " . $e->getMessage();
+             echo "Error al obtener registro getByUsuAndEmail: " . $e->getMessage();
+            error_log("Error al obtener registro getByUsuAndEmail: " . $e->getMessage()) ;
         } 
     }
 
@@ -99,6 +100,7 @@ final class Usuario extends Orm{
             return $stm->fetch();
         }catch (PDOException $e) {
             echo "Error al obtener registro getByUsu: " . $e->getMessage();
+            error_log("Error al obtener registro getByUsu: " . $e->getMessage());
         } 
     }
 
