@@ -1,0 +1,69 @@
+.diario{
+    width: 100%;
+}
+.cada-diario { 
+    padding: 2px;
+ 
+    width: 100%;
+} 
+.diario-datos,
+.diario-autor,
+.diario-fav {
+    margin: 2px;
+    background-color:#0077cc;
+    padding: 10px;
+}
+.diario-datos .diario-datos-abajo {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 5px;
+}
+   
+.diario-autor{ 
+    grid-row: 2;
+    display: grid;
+    place-items: center;
+}
+.diario-derecho{
+    display: flex;
+}
+.diario-autor, .diario-fav{
+    width: 100%;
+}
+
+h4{
+    padding:1px;
+    margin:1px;
+}
+
+a {
+    text-decoration: none; 
+}
+
+.diario-fav-icono{
+    width: 50px;
+    height: 50px; 
+    background-image: url('../Imagenes/diario.png');
+  }
+/* Estilos para dispositivos de escritorio */
+@media only screen and (min-width: 769px) {
+    .cada-diario { 
+        display: flex;
+    } 
+    
+    .diario-datos{
+        width: 100%; 
+    }
+    .diario-autor{
+        width: 150px;
+        grid-row: 2;
+        display: grid;
+        place-items: center;
+    }
+    .diario-fav{
+        width: 60px;
+    }
+    .diario-derecho{
+        display: flex;
+    }
+    /* Agrega más estilos específicos para pantallas de escritorio */
+  }

@@ -200,26 +200,6 @@ function validaLoginExistente(string $usuario,string $clave,$dato){
            return false; 
         }
     }
-    
-    // if ( $dato["nomUsuario"] == $usuario){
-    //     if(password_verify($clave.$dato["sal"], $dato["clave"])){
-    //         return true;
-    //     }else{
-    //         return false; 
-    //     }
-    // }else{
-    //     return false; 
-    // }
-    
-    // if (!empty($dato)){
-    //     if ( !$dato["nomUsuario"] == $usuario){
-    //         return [false,'¡usuario: "'.$usuario.'" no encontrado!'];
-    //     }else if(!password_verify($clave . $dato["sal"], $dato["clave"])){
-    //         return [false,'¡La clave no coinciden!'];
-    //     }else{
-    //         return true; 
-    //     }
-    // }
 }
 
 function registrarUsuario(Usuario $modelo){

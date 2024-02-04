@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--enlace archivo CSS -->
-    <link rel="stylesheet" href="public/CSS/styles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/styles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/diarioStyles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/indexStyles.css">
     <title>Pagina Fans Sims</title>
     <link rel="icon" href="public/Iconos/logo.png" type="image/png">
     <!-- Agrega enlaces a tus hojas de estilo CSS aquí si es necesario -->
