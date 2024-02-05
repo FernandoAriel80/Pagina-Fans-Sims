@@ -1,11 +1,12 @@
 <?php include 'includes/header.php'; ?>
 <?php 
-// require_once 'validations/validaSesiones.php';
-// if (!sesionActiva()) {
-
-//     header("Location: index.php");
-//  }
+require_once 'validations/validaSesiones.php';
+if (!sesionActiva()) {
+    header("Location: index.php");
+    exit();
+ }
 ?> 
+
 <main>
     <div class="contenedor-main-flex">
         <?php include 'includes/Left.php'; ?>

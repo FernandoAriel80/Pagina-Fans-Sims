@@ -1,6 +1,7 @@
 <?php
-
+  session_start();
 function sesionActiva(){
+  
     if (isset($_SESSION["idUsuario"]) && isset($_SESSION["usuario"]) && isset($_COOKIE['recuerdaTokenUsuario'])) {
         return true;
     }else {

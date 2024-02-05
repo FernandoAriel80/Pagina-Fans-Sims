@@ -95,4 +95,15 @@ CREATE TABLE Mensaje(
 );
 
 
+INSERT INTO categoria(descripcion)VALUES
+    ('Acción'),
+    ('Aventura'),
+    ('Amor'),
+    ('Terror'),
+    ('Misterio'),
+    ('Fantasia'),
+    ('Drama'),
+    ('Boys Love'),
+    ('Girls Love')
+
 

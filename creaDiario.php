@@ -1,12 +1,11 @@
 <?php include 'includes/header.php'; ?>
 
 <?php 
-// require_once 'validations/validaSesiones.php';
-// if (!sesionActiva()) {
-//     echo "<script>alert('necesitas iniciar secion para acceder a esta pestaña');</script>";
-//     header("Location: index.php");
-//     exit();
-//  }
+require_once 'validations/validaSesiones.php';
+if (!sesionActiva()) {
+    header("Location: index.php");
+    exit();
+ }
 ?>
 <main>
     <div class="contenedor-main-flex">
@@ -25,9 +24,10 @@
                     <input type="text" name="tituloD" placeholder="Titulo del diario">
                     <textarea name="contenidoD" rows="5" cols="40"
                         placeholder="escribe detalles de tu diario"></textarea>
-                    <div class="selector-categoria">
+                    <div class="contenedor-categoria">
                     <!-- agrega selector desde el controlador -->
-
+                        <?php include 'controllers/creaDiarioControlador.php';?>
+                        <?php echo $vistaCategoria?>
                     </div>
                     <div class="subYcheck">
                         <input title="Quieres que tu diario sea publico?" type="checkbox" id="check-diario"

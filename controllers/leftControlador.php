@@ -5,7 +5,6 @@ require_once 'config/DataBase.php';
 require_once 'validations/validaciones.php';
 require_once 'validations/validaSesiones.php';
 
-session_start();
 $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
 $vistaLeft = '';
