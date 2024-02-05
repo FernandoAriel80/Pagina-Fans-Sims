@@ -1,12 +1,18 @@
 <?php include 'includes/header.php'; ?>
+<?php 
+// require_once 'validations/validaSesiones.php';
+// if (!sesionActiva()) {
 
+//     header("Location: index.php");
+//  }
+?> 
 <main>
     <div class="contenedor-main-flex">
         <?php include 'includes/Left.php'; ?>
-
         <div class="contenedor-flex">
+            <!-- CONTENEDOR -->
             <div class="diario">
-                <h4>DIARIOS:</h4>
+                <h4>PERFIL:</h4>
                 <div class="elemento-diario">
 
                     <p>Aqui encontraras tus diarios. Donde podras poner tus imagenes y las locuras que hacen tus Sims.
@@ -18,7 +24,7 @@
                 </div>
                 <h4>DIARIOS MAS POPULARES</h4>
                 <div class="elemento-diario">
-                    <!-- <a href="/paginaSims/myDiario.php"> -->
+                    <!-- cada diario  -->
                     <div class="cada-diario">
                         <div class="diario-datos">
                             <a href="">
@@ -35,7 +41,7 @@
                         <div class="diario-derecho">
                             <div class="diario-autor">
                                 <!-- autor -->
-                                <div> <a href="">KaoPlox</a></div>
+                                <div> <a href="perfil.php">KaoPlox</a></div>
                             </div>
                             <div class="diario-fav">
                                 <form class="formulario-diario-fav" action=" " method="post">
@@ -44,6 +50,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- cada diario end  -->
                 </div>
             </div>
             <!-- separador -->
@@ -68,8 +75,8 @@
                     </div>
                 </div>
             </div>
+            <!-- END CONTENEDOR -->
         </div>
-
     </div>
 </main>
 

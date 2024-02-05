@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--enlace archivo CSS -->
     <link rel="stylesheet" type="text/css" href="public/CSS/styles.css">
-    <link rel="stylesheet" type="text/css" href="public/CSS/diarioStyles.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/indexStyles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/todosDiariosStyles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/creaDiarioStyles.css">
     <title>Pagina Fans Sims</title>
     <link rel="icon" href="public/Iconos/logo.png" type="image/png">
     <!-- Agrega enlaces a tus hojas de estilo CSS aquí si es necesario -->
@@ -29,7 +30,7 @@
                         <a class="contenedor-icono-inicio" href="/paginaSims/"></a>
                     </div>
                     <div class="contenedor-icono">
-                        <a class="contenedor-icono-diario" href="/paginaSims/diario.php"></a>
+                        <a class="contenedor-icono-diario" href="/paginaSims/todosDiarios.php"></a>
                     </div>
                 </div>
             </div>

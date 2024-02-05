@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $datoValidar = $usuarioModeloLogin->getByUsu($usuario);   
                 if(validaLoginExistente($usuario,$clave,$datoValidar)){
                     $token = crearCookie();
-                    iniciarSesion($datoValidar['idUsuario'],$datoValidar['nomUsuario'],$token);
+                    iniciarSesion($datoValidar['idUsuario'],$datoValidar['nomUsuario'],$datoValidar['nombre'],$token);
                     if(guardaToken($usuarioModeloLogin,$datoValidar['idUsuario'],$token)){
                         $datoGuardar = $usuarioModeloLogin->getById($datoValidar['idUsuario']);
                         traerDatosUsuario($usuarioModeloLogin,$datoGuardar);
@@ -53,6 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mensaje = muestraMensaje("¡Ha ocurrido un error, datos no coinciden!");
                     $vistaLeft = muestraLogin();
                 }
+            }else{
+                $mensaje = muestraMensaje("¡Ha ocurrido un error!");
+                $vistaLeft = muestraLogin();
             }
         }
         $dataBase->desconectar(); 
@@ -70,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $clave = sinEspaciosLados($_POST["contraseñaR"]);
             $claveConfirmar = sinEspaciosLados($_POST["confirmarContraseñaR"]);
             if (validaRegistro($nombre,$correo,$usuario,$clave,$claveConfirmar)){ 
-                $resultadoExistente =validaRegistroExistente($usuarioModeloRegistro,$usuario,$correo);
+                $resultadoExistente =validaRegistroExistente($usuarioModeloRegistro,$usuario,$nombre,$correo);
                 if (!$resultadoExistente) {
                     $usuarioModeloRegistro->datosRegistro($nombre,$correo,$usuario,$clave);
                     $resultado = registrarUsuario($usuarioModeloRegistro);
@@ -149,7 +152,7 @@ function muestraLogeado(){
                     <div class="contenedor-cosas-imagen-bienvenida"></div>
                 </div>
                 <div class="contenedor-cosas-abajo">
-                    <div class = "Bienvenida-login"><h2>Bienvenido,'.$_SESSION['usuario'].'</h2></div>  
+                    <div class = "Bienvenida-login">Bienvenido,'.$_SESSION['nombre'].'</div>  
                     <form class="formulario-nav-out" action=" " method="post">
                         <input type="submit" value="" class="boton-registrar" name="botonNavOut">
                     </form>
@@ -175,7 +178,7 @@ function validaLogin(string $usuario,string $clave){
     } 
 }
 
-function validaRegistroExistente(Usuario $modelo,string $usuario,string $correo){  
+function validaRegistroExistente(Usuario $modelo,string $usuario,string $nombre,string $correo){  
     $dato = $modelo->getByUsuAndEmail($usuario,$correo);
     if (!empty($dato)) {
         foreach ($dato as $key) {
@@ -183,6 +186,8 @@ function validaRegistroExistente(Usuario $modelo,string $usuario,string $correo)
                 return [true,'¡usuario existente!'];
             }else if($key['correo'] == $correo){
                 return [true,'¡correo existente!'];
+            }else if($key['nombre'] == $nombre){
+                return [true,'¡nombre existente!'];
             }else{
                 return false; 
             }

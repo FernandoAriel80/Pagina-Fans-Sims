@@ -8,9 +8,10 @@ function sesionActiva(){
     }
 }
 
-function iniciarSesion(int $id,string $usuario,string $token) {
+function iniciarSesion(int $id,string $usuario,string $nombre,string $token) {
     $_SESSION["idUsuario"] = $id;
     $_SESSION["usuario"] = $usuario;
+    $_SESSION["nombre"] = $nombre;
     $_SESSION["token"] = $token;
 }
 

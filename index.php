@@ -4,8 +4,8 @@
 <main>
     <div class="contenedor-main-flex">
         <?php include 'includes/Left.php'; ?>
-
         <div class="contenedor-flex">
+            <!-- CONTENEDOR -->
             <div class="contenedor-index-imagen">
                 <img src="ruta/a/tu/imagen.png" alt="Mensaje de bienvenida">
             </div>
@@ -16,7 +16,10 @@
                     Deserunt voluptate corrupti asperiores aut, vero id nobis. Delectus,
                      impedit maiores.</p>
             </div>
+
+            <!-- END CONTENEDOR -->
         </div>
+    </div>
 </main>
 
 <?php include 'includes/footer.php'; ?>

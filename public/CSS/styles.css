@@ -297,7 +297,10 @@ input[type="submit"] {
   height: 50px; 
   background-image: url('../Imagenes/diario.png');
 }
-
+.Bienvenida-login {
+  text-align: center;
+  font-size: 30px;
+}
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
 
 /* Estilos para dispositivos de escritorio */

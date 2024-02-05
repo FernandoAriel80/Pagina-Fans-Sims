@@ -2,15 +2,35 @@
 
 function nombreValida(string $nombre):bool
 {
-    if (empty($nombre)) {
+     // Verifica si el nombre está vacío
+     if (empty($nombre)) {
         return false;
-    }else if(strlen($nombre) < 3 || strlen($nombre) > 50){
+    } 
+    // Elimina los espacios en blanco
+    $nombreSinEspacio = str_replace(' ', '', $nombre);
+
+    // Verifica si el nombre tiene una longitud adecuada
+    if (strlen($nombreSinEspacio) < 3 || strlen($nombreSinEspacio) > 50) {
         return false;
-    }else if(!ctype_alnum($nombre)){
-        return false; // Manejar error de nombre no alfanumérico ej:!, @, #, $, %, &, etc.,
+    }else if (strpos($nombreSinEspacio, '=') !== false) {
+        return false; // Verifica si el nombre contiene el signo "="
+    }else if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $nombreSinEspacio)) {
+        return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
+    }else if ($nombre !== $nombreSinEspacio) {
+        return false;
     }else{
         return true;
-    }
+    } 
+
+    // if (empty($nombre)) {
+    //     return false;
+    // }else if(strlen($nombre) < 3 || strlen($nombre) > 50){
+    //     return false;
+    // }else if(!ctype_alnum($nombre)){
+    //     return false; // Manejar error de nombre no alfanumérico ej:!, @, #, $, %, &, etc.,
+    // }else{
+    //     return true;
+    // }
 }
 function usuarioValida(string $usuario):bool
 {
