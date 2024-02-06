@@ -15,19 +15,26 @@ if (!sesionActiva()) {
 
             <div class="contenedor-crea-diario">
                 <h2>CREA TU DIARIO</h2>
-                <p>Crea tu diario contando de que se van a tratar tus historias o aventuras,
-                    para despues poder crear los capitulos de tu diario donde podras poner tus
-                    imagenes y las locuras que hacen tus Sims.. :D</p>
-
-                     <!-- agrega formulario -->
-                <form class="formulario-crea-diario" action=" " method="post">
+                <p>Crea tu diario contando de que se van a tratar tus historias o aventuras y las locuras que hacen tus
+                    Sims.. :D</p>
+                <!-- agrega formulario diario -->
+                <form class="formulario-crea-diario" action=" " enctype="multipart/form-data" method="post">
                     <input type="text" name="tituloD" placeholder="Titulo del diario">
-                    <textarea name="contenidoD" rows="5" cols="40"
-                        placeholder="escribe detalles de tu diario"></textarea>
+                    <input type="text" name="descripcionD" placeholder="Pequeña descripcion de que se trata tu diario ">
                     <div class="contenedor-categoria">
-                    <!-- agrega selector desde el controlador -->
+                        <h4>ELIJE LOS GENEROS DE TU DIARIO</h4>
+                        <!-- agrega selector desde el controlador -->
                         <?php include 'controllers/creaDiarioControlador.php';?>
                         <?php echo $vistaCategoria?>
+                    </div>
+                    <!-- end formulario diario-->
+                    <!-- agrega formulario entrada -->
+                    <h2>CREA TU PRIMERA ENTRADA</h2>
+                    <input type="text" name="tituloE" placeholder="Titulo de entrada">
+                    <textarea name="contenidoE" rows="5" cols="40"
+                        placeholder="escribe detalles de tu entrada"></textarea>
+                    <div class="contenedor-imagen">
+                        <input type="file" name="imagenE">
                     </div>
                     <div class="subYcheck">
                         <input title="Quieres que tu diario sea publico?" type="checkbox" id="check-diario"
@@ -35,10 +42,11 @@ if (!sesionActiva()) {
                         <input type="submit" id="boton-crea-diario" value="Crear Diario" name="botonCrearDiario">
                     </div>
                 </form>
+                <!-- end formulario entrada-->
 
-                <!-- end formulario -->
+
             </div>
-            <!-- <input type="file" name="imagen" > enctype="multipart/form-data"-->
+            <!-- <input type="file" name="imagen" > -->
             <!-- END CONTENEDOR -->
         </div>
     </div>

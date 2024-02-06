@@ -147,9 +147,6 @@ return $vista;
 }
 function muestraLogeado(){
        $vista='<div class="contenedor-cosas">
-                <div class="contenedor-cosas-arriba">
-                    <div class="contenedor-cosas-imagen-bienvenida"></div>
-                </div>
                 <div class="contenedor-cosas-abajo">
                     <div class = "Bienvenida-login">Bienvenido,'.$_SESSION['nombre'].'</div>  
                     <form class="formulario-nav-out" action=" " method="post">

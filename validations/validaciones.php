@@ -21,16 +21,6 @@ function nombreValida(string $nombre):bool
     }else{
         return true;
     } 
-
-    // if (empty($nombre)) {
-    //     return false;
-    // }else if(strlen($nombre) < 3 || strlen($nombre) > 50){
-    //     return false;
-    // }else if(!ctype_alnum($nombre)){
-    //     return false; // Manejar error de nombre no alfanumérico ej:!, @, #, $, %, &, etc.,
-    // }else{
-    //     return true;
-    // }
 }
 function usuarioValida(string $usuario):bool
 {
@@ -104,6 +94,21 @@ function imagenValida($imagen):bool
     }else {
         return false;
     }  
+}
+
+function categoriaValida($categoria){
+    if(isset($categoria) && !empty($categoria)) {
+       return true;
+    } else {
+       return false;
+    }
+}
+function checkValida($check){
+    if ($check == 'on') {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 ///////////////// otros /////////////////
 function sinEspaciosLados(string $cadena):string
