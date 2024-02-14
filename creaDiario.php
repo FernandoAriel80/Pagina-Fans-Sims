@@ -17,14 +17,16 @@ if (!sesionActiva()) {
                 <h2>CREA TU DIARIO</h2>
                 <p>Crea tu diario contando de que se van a tratar tus historias o aventuras y las locuras que hacen tus
                     Sims.. :D</p>
+                    <?php include 'controllers/creaDiarioControlador.php';?>
                 <!-- agrega formulario diario -->
-                <form class="formulario-crea-diario" action=" " enctype="multipart/form-data" method="post">
+                <form class="formulario-crea-diario" action=" " enctype="multipart/form-data" method="POST">
                     <input type="text" name="tituloD" placeholder="Titulo del diario">
                     <input type="text" name="descripcionD" placeholder="Pequeña descripcion de que se trata tu diario ">
                     <div class="contenedor-categoria">
                         <h4>ELIJE LOS GENEROS DE TU DIARIO</h4>
                         <!-- agrega selector desde el controlador -->
-                        <?php include 'controllers/creaDiarioControlador.php';?>
+                        
+                        
                         <?php echo $vistaCategoria?>
                     </div>
                     <!-- end formulario diario-->
@@ -38,12 +40,12 @@ if (!sesionActiva()) {
                     </div>
                     <div class="subYcheck">
                         <input title="Quieres que tu diario sea publico?" type="checkbox" id="check-diario"
-                            name="checkD" value=" " checked>
+                            name="checkD" checked>
                         <input type="submit" id="boton-crea-diario" value="Crear Diario" name="botonCrearDiario">
                     </div>
                 </form>
                 <!-- end formulario entrada-->
-
+                <?php echo $mensaje; ?>
 
             </div>
             <!-- <input type="file" name="imagen" > -->

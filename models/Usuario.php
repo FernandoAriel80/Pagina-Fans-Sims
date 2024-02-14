@@ -86,7 +86,7 @@ final class Usuario extends Orm{
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-             echo "Error al obtener registro getByUsuAndEmail: " . $e->getMessage();
+            echo "Error al obtener registro getByUsuAndEmail: " . $e->getMessage();
             error_log("Error al obtener registro getByUsuAndEmail: " . $e->getMessage()) ;
         } 
     }

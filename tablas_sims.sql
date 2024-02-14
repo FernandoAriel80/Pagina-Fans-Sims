@@ -17,10 +17,10 @@ CREATE TABLE Usuario(
 CREATE TABLE Diario(
 	idDiario INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
-    nombreDiario VARCHAR(30) NOT NULL,
+    titulo VARCHAR(30) NOT NULL,
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaActualizacion TIMESTAMP NULL,
-    descripccion TEXT NULL,
+    descripcion TEXT NULL,
     puntoPrimedio FLOAT(2,1) NULL,
     favoritoTotal INT NULL,
     visible TINYINT(1) DEFAULT '1',

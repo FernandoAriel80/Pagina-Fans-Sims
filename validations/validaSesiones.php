@@ -28,7 +28,6 @@ function cerrarSesion() {
 function crearCookie() {
     $token = bin2hex(random_bytes(32)); // Generar un token aleatorio
     setcookie('recuerdaTokenUsuario', $token, time() + (86400 * 30), '/', '', true, true); // Caduca en 30 días, seguro y accesible solo por HTTPS
-
     return $token;
 }
 

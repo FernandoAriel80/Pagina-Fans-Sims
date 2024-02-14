@@ -71,30 +71,49 @@ function numeroValida($numero):bool
         return true;
     }
 }
-
-function imagenValida($imagen):bool
-{
-    // Verificar si se proporcionó información sobre la imagen
-    if (!empty($imagen) && isset($imagen['error']) && $imagen['error'] === UPLOAD_ERR_OK) {
-        // Validar el tipo de archivo (imagen)
-        $tipo_permitido = ['image/jpeg', 'image/jpg','image/png'];
-        $tipo_archivo = $imagen['type'];
-        if (in_array($tipo_archivo, $tipo_permitido)) {
-            // Validar tamaño máximo del archivo (ejemplo: 2MB)
-            $tamano_maximo = 2 * 1024 * 1024; // 2 MB
-            $tamano_archivo = $imagen['size'];
-            if ($tamano_archivo < $tamano_maximo) {
-                return true;
-            }else {
-                return false;
-            }
-        }else {
-            return false;
-        }
-    }else {
+function imagenValida($imagen): bool {
+    if (!isset($imagen['error']) || $imagen['error'] !== UPLOAD_ERR_OK) {
         return false;
-    }  
+    }
+
+    $tipo_permitido = ['image/jpeg', 'image/jpg', 'image/png'];
+    $tipo_archivo = $imagen['type'];
+    if (!in_array($tipo_archivo, $tipo_permitido)) {
+        return false;
+    }
+
+    $tamano_maximo = 2 * 1024 * 1024; // 2 MB
+    $tamano_archivo = $imagen['size'];
+    if ($tamano_archivo > $tamano_maximo) {
+        return false;
+    }
+
+    return true;
 }
+
+// function imagenValida($imagen):bool
+// {
+//     // Verificar si se proporcionó información sobre la imagen
+//     if (isset($imagen['error']) && $imagen['error'] === UPLOAD_ERR_OK) {
+//         // Validar el tipo de archivo (imagen)
+//         $tipo_permitido = ['image/jpeg', 'image/jpg','image/png'];
+//         $tipo_archivo = $imagen['type'];
+//         if (in_array($tipo_archivo, $tipo_permitido)) {//"Error: Solo se permiten imágenes JPEG, PNG o GIF."
+//             // Validar tamaño máximo del archivo (ejemplo: 2MB)
+//             $tamano_maximo = 2 * 1024 * 1024; // 2 MB
+//             $tamano_archivo = $imagen['size'];
+//             if ($tamano_archivo < $tamano_maximo) {
+//                 return true;
+//             }else {
+//                 return false;
+//             }
+//         }else {
+//             return false;
+//         }
+//     }else {
+//         return false;
+//     }  
+// }
 
 function categoriaValida($categoria){
     if(isset($categoria) && !empty($categoria)) {
