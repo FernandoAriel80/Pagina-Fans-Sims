@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(validaLogin($usuario,$clave)){   
                 $datoValidar = $usuarioModeloLogin->getByUsu($usuario);   
                 if(validaLoginExistente($usuario,$clave,$datoValidar)){
-                    $token = crearCookie();
+                    $token = crearCookie($datoValidar['nombre'],$datoValidar['idUsuario']);
                     iniciarSesion($datoValidar['idUsuario'],$datoValidar['nomUsuario'],$datoValidar['nombre'],$token);
                     if(guardaToken($usuarioModeloLogin,$datoValidar['idUsuario'],$token)){
                         $datoGuardar = $usuarioModeloLogin->getById($datoValidar['idUsuario']);
@@ -148,7 +148,7 @@ return $vista;
 function muestraLogeado(){
        $vista='<div class="contenedor-cosas">
                 <div class="contenedor-cosas-abajo">
-                    <div class = "Bienvenida-login">Bienvenido,'.$_SESSION['idUsuario'].'  '.$_SESSION['nombre'].'</div>  
+                    <div class = "Bienvenida-login">Bienvenido,'.$_COOKIE['idUsuario'].'  '.$_COOKIE['nombre'].'</div>  
                     <form class="formulario-nav-out" action=" " method="post">
                         <input type="submit" value="" class="boton-registrar" name="botonNavOut">
                     </form>

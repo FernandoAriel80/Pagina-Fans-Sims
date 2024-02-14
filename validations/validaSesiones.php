@@ -2,7 +2,7 @@
   session_start();
 function sesionActiva(){
   
-    if (isset($_SESSION["idUsuario"]) && isset($_SESSION["usuario"]) && isset($_COOKIE['recuerdaTokenUsuario'])) {
+    if (/*isset($_SESSION["idUsuario"]) && isset($_SESSION["usuario"]) && */isset($_COOKIE['recuerdaTokenUsuario'])&&isset($_COOKIE['nombre'])) {
         return true;
     }else {
         return false;
@@ -23,11 +23,15 @@ function cerrarSesion() {
     session_destroy();
     // Destruir la cookie
     setcookie('recuerdaTokenUsuario', '', time() - 3600, '/', '', true, true);
+    setcookie('nombre', '', time() - 3600, '/', '', true, true);
+    setcookie('idUsuario', '', time() - 3600, '/', '', true, true);
 }
 
-function crearCookie() {
+function crearCookie($nombre,$id) {
     $token = bin2hex(random_bytes(32)); // Generar un token aleatorio
     setcookie('recuerdaTokenUsuario', $token, time() + (86400 * 30), '/', '', true, true); // Caduca en 30 días, seguro y accesible solo por HTTPS
+    setcookie('nombre', $nombre, time() + (86400 * 30), '/', '', true, true);
+    setcookie('idUsuario', $id, time() + (86400 * 30), '/', '', true, true);
     return $token;
 }
 
