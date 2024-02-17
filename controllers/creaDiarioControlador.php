@@ -19,32 +19,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $diarioModelo = new Diario($coneccion);
         $categoriaDiarioModelo = new CategoriaDiario($coneccion);
         $capituloModelo = new Capitulo($coneccion);
-        if (isset($_POST["tituloD"])&&isset($_POST["descripcionD"])&&isset($_POST["checkD"])
-        &&isset($_POST["tituloE"])&&isset($_POST["contenidoE"])&&isset($_FILES['imagenE'])
-        &&isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
+        if (isset($_POST["tituloD"])/*&&isset($_POST["descripcionD"])*/&&isset($_POST["checkD"])
+        &&isset($_POST["tituloE"])/*&&isset($_POST["contenidoE"])*/) {
             // solo datos diario
-            $mensaje=muestraMensajea($_POST["tituloD"]);
             $tituloDiario = sinEspaciosLados($_POST["tituloD"]);
             $descripcion = sinEspaciosLados($_POST["descripcionD"]);
             $checkDiario = checkValida($_POST["checkD"]); /// de "on" : "off" a 1 : 0
             // solo datos categoriaDiario
-            $categoria = $_POST["categoriaD"];
+            //$categoria = $_POST["categoriaD"];
             // solo datos capitulo
             $tituloEntrada = sinEspaciosLados($_POST["tituloE"]);
-            $contenidoE = limpiarTexto($_POST["contenidoE"]);
+            $contenidoE = sinEspaciosLados(limpiarTexto($_POST["contenidoE"]));
             //$imagen = codificaImagen($_POST["imagenE"]);
             // $imagen = $_FILES["imagenE"];
-            $mensaje=muestraMensajea($tituloDiario);
-            if(validaCreaDiario($tituloDiario,$descripcion,$tituloEntrada,$_FILES["imagenE"])){
-                $imagen = codificaImagen($_FILES["imagenE"]);
-                $mensaje=muestraMensajea("validaCreaDiario");
+            if(validaCreaDiario($tituloDiario,$tituloEntrada,$contenidoE)){
+                if(isset($_FILES["imagenE"])){
+                    if(imagenValida($_FILES["imagenE"])){
+                        $imagen = codificaImagen($_FILES["imagenE"]);
+                    }
+                }   
                 //$diarioModelo->datosDiario($tituloDiario,$descripcion,$checkDiario);
                 //categoriaSelecionada($categoriaDiarioModelo,$id,$categoria);
-       
-                if($diarioModelo->creaDiario($_SESSION['idUsuario'],$tituloDiario,$descripcion,$checkDiario)){
-                    $diarioModelo->guardaDatosCreaDiarioDB($_SESSION['idUsuario'],$tituloDiario);
-                    $capituloModelo->creaCapitulo($diarioModelo->getId(),$tituloEntrada,$imagen,$contenidoE);
-                    $mensaje=muestraMensajea($diarioModelo->getId());
+
+                // el idUsuario lo tengo que recuperar de otra manera, porque en cookies es inseguro y con session se pierde al cerrar el navegador
+                $idDiario=$diarioModelo->creaDiario($_SESSION['idUsuario'],$tituloDiario,$descripcion,$checkDiario);
+                if($idDiario !== null){
+                    //$diarioModelo->guardaDatosCreaDiarioDB($_SESSION['idUsuario'],$tituloDiario);
+                    $idCapitulo=$capituloModelo->creaCapitulo($idDiario,$tituloEntrada,$imagen,$contenidoE);
+                    if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
+                        $categoriaElegida = $_POST["categoriaD"];
+                        categoriaSelecionada($categoriaDiarioModelo,$idCapitulo,$categoriaElegida);
+                    }
                    header("Location: perfil.php");
                 }
             }else{
@@ -55,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mensaje=muestraMensajea("problema ingresar datos");
         }
     }
+    $dataBase->desconectar();
 }
 function muestraMensajea($message){
     $vista='<div class="contenedor-cosas">
@@ -76,8 +82,8 @@ function muestraCategorias(Categoria $Modelo){
     }
 }
 
-function validaCreaDiario(string $tituloDiario,string $descripcion,string $tituloEntrada,$imagen){
-    if (/*nombreValida($tituloDiario)&&nombreValida($descripcion)&&nombreValida($tituloEntrada)&&*/imagenValida($imagen)) {
+function validaCreaDiario(string $tituloDiario,string $tituloEntrada,string $descripcion){
+    if (tituloValido($tituloDiario)&&tituloValido($tituloEntrada)&&tituloValido($descripcion)) {
         return true;
     } else {
         return false;
@@ -85,8 +91,11 @@ function validaCreaDiario(string $tituloDiario,string $descripcion,string $titul
 }
 
 function categoriaSelecionada(CategoriaDiario $modelo,$id,$categorias){
-    foreach ($categorias as $dato) {
-        echo "Dato seleccionado: " . $dato . "<br>";
-        // Aquí puedes realizar cualquier procesamiento adicional con los datos seleccionados
+    foreach ($categorias as $idCategoria) {
+        $dato=[
+            'idDiario' => $id,
+            'idCategoria' => $idCategoria
+        ];
+        $modelo->insert($dato);
     }
 }

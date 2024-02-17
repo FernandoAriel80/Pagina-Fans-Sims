@@ -75,13 +75,13 @@ class Orm{
             foreach ($dato as $key => $value) {
                 $stm->bindValue(":{$key}", $value);
             }  
-    
-            // Ejecutar la consulta
-            return $stm->execute();
+             // Ejecutar la consulta
+            $stm->execute();
+            // retorna ultimo id insertado 
+            return $this->connection->lastInsertId();
         } catch (PDOException $e) {
             echo "Error al insertar registro: " . $e->getMessage();
             error_log("Error al insertar registro: " . $e->getMessage());
-            return false;
         }
     }
     

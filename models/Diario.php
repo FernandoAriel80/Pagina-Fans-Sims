@@ -76,8 +76,8 @@ final class Diario extends Orm{
             'descripcion' => $descripcion,
             'visible' => $visible
         ];
-        $resultado = $this->insert($dato);
-        return !empty($resultado);
+        
+        return $this->insert($dato);
     }
 
 

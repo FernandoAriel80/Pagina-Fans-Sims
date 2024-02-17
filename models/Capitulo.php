@@ -61,8 +61,7 @@ final class Capitulo extends Orm{
             'imagen' => $imagen,
             'parrafo' => $parrafo
         ];
-        $resultado = $this->insert($dato);
-        return !empty($resultado);
+        return $this->insert($dato);
     }
 
 

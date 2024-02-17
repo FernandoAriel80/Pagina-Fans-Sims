@@ -102,6 +102,17 @@ function validarFormularioRegistro(){
     }
 };
 
+
+
+function validarFormularioCreaDiario(){
+    let nombre = document.getElementById('nombreR').value;
+    let email = document.getElementById('emailR').value;
+    let usuario = document.getElementById('usuarioR').value;
+    let clave = document.getElementById('contraseñaR').value;
+    let confirmacionClave = document.getElementById('confirmarContraseñaR').value;
+    let ventanaError = document.getElementById('mensajeErrorRegistro');  
+}
+//////////////////////////////////
 function alertaMensaje(ventana,color,mensaje) {
     if (ventana.style.display=="none") {
         ventana.style.display = 'flex';

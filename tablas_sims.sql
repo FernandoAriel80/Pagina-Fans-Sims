@@ -11,6 +11,7 @@ CREATE TABLE Usuario(
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     activo TINYINT(1) DEFAULT '0',
     rol VARCHAR(10) NOT NULL DEFAULT 'Usuario',
+    eliminado TINYINT(1) DEFAULT '0',
 	PRIMARY KEY(idUsuario)
 );
 

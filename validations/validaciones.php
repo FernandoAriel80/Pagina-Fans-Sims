@@ -1,9 +1,22 @@
 <?php
 
+function tituloValido(string $titulo){
+
+    // Verifica si el nombre tiene una longitud adecuada
+    if (strlen($titulo) < 3) {
+        return false;
+    }else if (strpos($titulo, '=') !== false) {
+        return false; // Verifica si el nombre contiene el signo "="
+    }else if (preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $titulo)) {
+        return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
+    }else{
+        return true;
+    } 
+}
 function nombreValida(string $nombre):bool
 {
      // Verifica si el nombre está vacío
-     if (empty($nombre)) {
+    if (empty($nombre)) {
         return false;
     } 
     // Elimina los espacios en blanco
