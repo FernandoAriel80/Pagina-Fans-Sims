@@ -22,7 +22,7 @@ CREATE TABLE Diario(
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaActualizacion TIMESTAMP NULL,
     descripcion TEXT NULL,
-    puntoPrimedio FLOAT(2,1) NULL,
+    puntoPromedio FLOAT(2,1) NULL,
     favoritoTotal INT NULL,
     visible TINYINT(1) DEFAULT '1',
     PRIMARY KEY(idDiario),

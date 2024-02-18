@@ -1,3 +1,4 @@
+<?php require_once 'validations/validaSesiones.php';?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -28,6 +29,9 @@
                 <div class="contenedor-rectangulo-derecho">
                     <div class="contenedor-icono">
                         <a class="contenedor-icono-inicio" href="/paginaSims/"></a>
+                    </div>
+                    <div class="contenedor-icono">
+                        <a class="contenedor-icono-perfil" href="/paginaSims/perfil.php"></a>
                     </div>
                     <div class="contenedor-icono">
                         <a class="contenedor-icono-diario" href="/paginaSims/todosDiarios.php"></a>

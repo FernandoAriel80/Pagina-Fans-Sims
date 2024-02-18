@@ -127,12 +127,16 @@ function validarFormularioCreaDiario(){
         return false;
     }
 
-    if (!tituloValido(descripcionDiario)) {
+    if (descripcionDiario.trim() === '') {
+        return true;
+    } else if (!tituloValido(descripcionDiario)) {
         alertaMensaje(ventanaError,"red","La descripcion del diario solo permite los siguientes caracteres: letras, números, espacios y los siguientes caracteres especiales: @, #, $, %, ^, &, *, <, >");
         return false;
     }
 
-    if (!tituloValido(contenidoCapitulo)) {
+    if (contenidoCapitulo.trim() === '') {
+        return true;
+    } else if (!tituloValido(contenidoCapitulo)) {
         alertaMensaje(ventanaError,"red","La entrada solo permite los siguientes caracteres: letras, números, espacios y los siguientes caracteres especiales: @, #, $, %, ^, &, *, <, >");
         return false;
     }else{
@@ -148,7 +152,7 @@ function tituloValido(titulo) {
         return false;
     }
     // Expresión regular para verificar si el título contiene solo caracteres alfanuméricos y especiales permitidos
-    var regex = /^[a-zA-Z0-9_!@#$%^&*()<>\s]+$/;
+    let regex = /^[a-zA-ZÀ-ÿ0-9_!@#$%^&*()<>\s¿?"¡,.:]+$/;
     if (!regex.test(titulo)) {
         return false;
     }

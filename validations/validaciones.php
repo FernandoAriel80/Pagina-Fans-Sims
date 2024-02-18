@@ -14,11 +14,24 @@
 //     } 
 // }
 
+function textoValido(string $titulo){
+    // Verifica si el nombre está vacío
+    if (empty($titulo)) {
+        return true;
+    } 
+    if (strpos($titulo, '=') !== false) {
+        return false; // Verifica si el nombre contiene el signo "="
+    }
+    if (!preg_match('/^[a-zA-ZÀ-ÿ0-9_!@#$%^&*()<>\s¿?"¡,.:]+$/', $titulo)) {
+        return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
+    } 
+    return true;
+}
 function tituloValido(string $titulo){
     if (strpos($titulo, '=') !== false) {
         return false; // Verifica si el nombre contiene el signo "="
     }
-    if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()<>\s]+$/', $titulo)) {
+    if (!preg_match('/^[a-zA-ZÀ-ÿ0-9_!@#$%^&*()<>\s¿?"¡,.:]+$/', $titulo)) {
         return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
     } 
     return true;
@@ -38,7 +51,7 @@ function nombreValida(string $nombre):bool
         return false;
     }else if (strpos($nombreSinEspacio, '=') !== false) {
         return false; // Verifica si el nombre contiene el signo "="
-    }else if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $nombreSinEspacio)) {
+    }else if (!preg_match('/^[a-zA-ZÀ-ÿ0-9_!@#$%^&*()-]+$/', $nombreSinEspacio)) {
         return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
     }else if ($nombre !== $nombreSinEspacio) {
         return false;

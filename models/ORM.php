@@ -35,10 +35,10 @@ class Orm{
             error_log("Error al obtener el registro: " . $e->getMessage());
         }
     }
-    public function getAllJoin($tabla1, $tabla2) {
+    public function getAllJoin($tablaUnida) { // se le agrega tabla del id relacionado a esa tabla
         try{
-            $idTabla = "id{$tabla1}";
-            $query = "SELECT * FROM $tabla1 INNER JOIN $tabla2 ON {$tabla1}.{$idTabla} = {$tabla2}.{$idTabla}";
+            $idTabla = "id{$tablaUnida}";
+            $query = "SELECT * FROM {$this->tabla} INNER JOIN $tablaUnida ON {$this->tabla}.{$idTabla} = {$tablaUnida}.{$idTabla}";
             $stm = $this->connection->prepare($query);
             $stm->execute();
             return $stm->fetchAll();

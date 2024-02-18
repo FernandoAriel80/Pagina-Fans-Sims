@@ -35,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // el idUsuario lo tengo que recuperar de otra manera, porque en cookies es inseguro y con session se pierde al cerrar el navegador
                 $idDiario=$diarioModelo->creaDiario($_SESSION['idUsuario'],$tituloDiario,$descripcion,$checkDiario);
                 if($idDiario !== null){
-                    //$diarioModelo->guardaDatosCreaDiarioDB($_SESSION['idUsuario'],$tituloDiario);
                     $idCapitulo=$capituloModelo->creaCapitulo($idDiario,$tituloEntrada,$imagen,$contenidoE);
                     if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
                         $categoriaElegida = $_POST["categoriaD"];
@@ -74,7 +73,7 @@ function muestraCategorias(Categoria $Modelo){
 }
 
 function validaCreaDiario(string $tituloDiario,$descripcionDiario,string $tituloEntrada,string $descripcionCapitulo){
-    if (tituloValido($tituloDiario)&&tituloValido($descripcionDiario)&&tituloValido($tituloEntrada)&&tituloValido($descripcionCapitulo)) {
+    if (tituloValido($tituloDiario)&&textoValido($descripcionDiario)&&tituloValido($tituloEntrada)&&textoValido($descripcionCapitulo)) {
         return true;
     } 
     return false;

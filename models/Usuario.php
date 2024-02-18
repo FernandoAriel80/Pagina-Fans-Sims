@@ -3,16 +3,17 @@ require_once __DIR__.'/Orm.php';
 final class Usuario extends Orm{
     private  $id;
     private  $usuario;
-    private  $token;
     private  $nombre;
+    private  $correo;
+    private  $clave;
+    private  $sal;
+    private  $token;
     private  $foto;
     private  $descripcion;
     private  $fechaCreacion;
     private  $activo;
-    private  $correo;
-    private  $clave;
-    private  $sal;
     private  $rol;
+    private  $eliminado;
 
 
     public function __construct(PDO $connecion){
@@ -57,6 +58,31 @@ final class Usuario extends Orm{
         $this->rol = $rol;
     }
 
+    // public function datosUsuario($idUsuario,$titulo) {
+    //     $datoFilt=array(
+    //         'idUsuario' => $idUsuario,
+    //         'titulo' => $titulo
+    //     );
+
+    //     $dato = $this->getByFilterData($datoFilt);
+    //     if (!empty($dato)) {
+    //         foreach ($dato as $key) {
+    //             $this->id = $key["idUsuario"];
+    //             $this->usuario = $key["nomUsuario"];
+    //             $this->nombre = $key["nombre"];
+    //             $this->correo = $key["correo"];
+    //             $this->clave = $key["clave"];
+    //             $this->sal = $key["sal"];
+    //             $this->token = $key["token"];
+    //             $this->foto = $key["foto"];
+    //             $this->descripcion = $key["descripcion"];
+    //             $this->fechaCreacion = $key["fechaCreacion"];
+    //             $this->activo = $key["activo"];
+    //             $this->rol = $key["rol"];
+    //             $this->eliminado = $key["eliminado"];
+    //         }
+    //     }
+    // }
 
     public function datosRegistro(string $nombre,string $correo,string $usuario,string $clave):void
     {

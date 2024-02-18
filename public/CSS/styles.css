@@ -283,7 +283,7 @@ input[type="submit"] {
   justify-content: center; 
   align-items: center; 
 }
- .contenedor-icono-inicio,.contenedor-icono-diario{
+ .contenedor-icono-inicio,.contenedor-icono-diario,.contenedor-icono-perfil{
   padding: 5px 5px;
   background-size: contain; 
   background-position: center;
@@ -298,6 +298,11 @@ input[type="submit"] {
   width: 50px;
   height: 50px; 
   background-image: url('../Imagenes/diario.png');
+}
+.contenedor-icono-perfil{
+  width: 50px;
+  height: 50px; 
+  background-image: url('../Iconos/myPerfil.png');
 }
 .Bienvenida-login {
   font-size: 20px;
