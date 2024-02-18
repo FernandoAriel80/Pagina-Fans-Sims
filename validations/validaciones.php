@@ -1,16 +1,50 @@
 <?php
 
+// function tituloValido(string $titulo){
+
+//     // Verifica si el nombre tiene una longitud adecuada
+//     if (strlen($titulo) < 3) {
+//         return false;
+//     }else if (strpos($titulo, '=') !== false) {
+//         return false; // Verifica si el nombre contiene el signo "="
+//     }else if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $titulo)) {
+//         return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
+//     }else{
+//         return true;
+//     } 
+// }
+
+function tituloValido(string $titulo){
+    if (strpos($titulo, '=') !== false) {
+        return false; // Verifica si el nombre contiene el signo "="
+    }
+    if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()<>\s]+$/', $titulo)) {
+        return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
+    } 
+    return true;
+}
+
 function nombreValida(string $nombre):bool
 {
+     // Verifica si el nombre está vacío
     if (empty($nombre)) {
         return false;
-    }else if(strlen($nombre) < 3 || strlen($nombre) > 50){
+    } 
+    // Elimina los espacios en blanco
+    $nombreSinEspacio = str_replace(' ', '', $nombre);
+
+    // Verifica si el nombre tiene una longitud adecuada
+    if (strlen($nombreSinEspacio) < 3 || strlen($nombreSinEspacio) > 50) {
         return false;
-    }else if(!ctype_alnum($nombre)){
-        return false; // Manejar error de nombre no alfanumérico ej:!, @, #, $, %, &, etc.,
+    }else if (strpos($nombreSinEspacio, '=') !== false) {
+        return false; // Verifica si el nombre contiene el signo "="
+    }else if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $nombreSinEspacio)) {
+        return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
+    }else if ($nombre !== $nombreSinEspacio) {
+        return false;
     }else{
         return true;
-    }
+    } 
 }
 function usuarioValida(string $usuario):bool
 {
@@ -62,28 +96,69 @@ function numeroValida($numero):bool
     }
 }
 
-function imagenValida($imagen):bool
-{
-    // Verificar si se proporcionó información sobre la imagen
-    if (!empty($imagen) && isset($imagen['error']) && $imagen['error'] === UPLOAD_ERR_OK) {
-        // Validar el tipo de archivo (imagen)
-        $tipo_permitido = ['image/jpeg', 'image/jpg','image/png'];
-        $tipo_archivo = $imagen['type'];
-        if (in_array($tipo_archivo, $tipo_permitido)) {
-            // Validar tamaño máximo del archivo (ejemplo: 2MB)
-            $tamano_maximo = 2 * 1024 * 1024; // 2 MB
-            $tamano_archivo = $imagen['size'];
-            if ($tamano_archivo < $tamano_maximo) {
-                return true;
-            }else {
-                return false;
-            }
-        }else {
-            return false;
-        }
-    }else {
+function imagenValida($imagen = null): bool {
+    // Verifica si no se proporcionó ninguna imagen
+    if ($imagen === null) {
+        return true; // Si no se proporcionó ninguna imagen, se considera válida
+    }
+    // Verifica si hay errores en la carga de la imagen
+    if (!isset($imagen['error']) || $imagen['error'] !== UPLOAD_ERR_OK) {
         return false;
-    }  
+    }
+    // Verificación del tipo de archivo
+    $tipo_permitido = ['image/jpeg', 'image/jpg', 'image/png'];
+    $tipo_archivo = $imagen['type'];
+    if (!in_array($tipo_archivo, $tipo_permitido)) {
+        return false;
+    }
+    // Verificación del tamaño del archivo
+    $tamano_maximo = 2 * 1024 * 1024; // 2 MB
+    $tamano_archivo = $imagen['size'];
+    if ($tamano_archivo > $tamano_maximo) {
+        return false;
+    }
+    // Si pasa todas las verificaciones, la imagen es válida
+    return true;
+}
+
+
+// function imagenValida($imagen):bool
+// {
+//     // Verificar si se proporcionó información sobre la imagen
+//     if (isset($imagen['error']) && $imagen['error'] === UPLOAD_ERR_OK) {
+//         // Validar el tipo de archivo (imagen)
+//         $tipo_permitido = ['image/jpeg', 'image/jpg','image/png'];
+//         $tipo_archivo = $imagen['type'];
+//         if (in_array($tipo_archivo, $tipo_permitido)) {//"Error: Solo se permiten imágenes JPEG, PNG o GIF."
+//             // Validar tamaño máximo del archivo (ejemplo: 2MB)
+//             $tamano_maximo = 2 * 1024 * 1024; // 2 MB
+//             $tamano_archivo = $imagen['size'];
+//             if ($tamano_archivo < $tamano_maximo) {
+//                 return true;
+//             }else {
+//                 return false;
+//             }
+//         }else {
+//             return false;
+//         }
+//     }else {
+//         return false;
+//     }  
+// }
+
+function categoriaValida($categoria){
+    if(isset($categoria) && !empty($categoria)) {
+       return true;
+    } else {
+       return false;
+    }
+}
+function checkValida($check){
+    if ($check == 'on') {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 ///////////////// otros /////////////////
 function sinEspaciosLados(string $cadena):string

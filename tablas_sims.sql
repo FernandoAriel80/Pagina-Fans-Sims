@@ -11,16 +11,17 @@ CREATE TABLE Usuario(
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     activo TINYINT(1) DEFAULT '0',
     rol VARCHAR(10) NOT NULL DEFAULT 'Usuario',
+    eliminado TINYINT(1) DEFAULT '0',
 	PRIMARY KEY(idUsuario)
 );
 
 CREATE TABLE Diario(
 	idDiario INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
-    nombreDiario VARCHAR(30) NOT NULL,
+    titulo VARCHAR(30) NOT NULL,
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaActualizacion TIMESTAMP NULL,
-    descripccion TEXT NULL,
+    descripcion TEXT NULL,
     puntoPrimedio FLOAT(2,1) NULL,
     favoritoTotal INT NULL,
     visible TINYINT(1) DEFAULT '1',
@@ -94,5 +95,16 @@ CREATE TABLE Mensaje(
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );
 
+
+INSERT INTO categoria(descripcion)VALUES
+    ('Acción'),
+    ('Aventura'),
+    ('Amor'),
+    ('Terror'),
+    ('Misterio'),
+    ('Fantasia'),
+    ('Drama'),
+    ('Boys Love'),
+    ('Girls Love')
 
 

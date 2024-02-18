@@ -20,6 +20,16 @@ document.addEventListener("DOMContentLoaded",function(){
   });
 });
 
+document.addEventListener("DOMContentLoaded",function(){
+  let formularioLogin = document.querySelector(".formulario-crea-diario");
+  formularioLogin.addEventListener("submit", function (event) {
+      // Realizar validaciones aquí
+      if (!validarFormularioCreaDiario()) {
+          event.preventDefault(); // Detener el envío del formulario si no es válido
+      }
+  });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   var miBoton = document.getElementById("miniCirculo");
 

@@ -25,11 +25,11 @@ class Orm{
     public function getById($id){
         try{
             $idTabla = "id{$this->tabla}";
-        $query = "SELECT * FROM {$this->tabla} WHERE {$idTabla} =:id";
-        $stm = $this->connection->prepare($query);
-        $stm->bindValue(":id", $id);
-        $stm->execute();
-        return $stm->fetch();
+            $query = "SELECT * FROM {$this->tabla} WHERE {$idTabla} =:id";
+            $stm = $this->connection->prepare($query);
+            $stm->bindValue(":id", $id);
+            $stm->execute();
+            return $stm->fetch();
         }catch (PDOException $e) {
             echo "Error al obtener el registro: " . $e->getMessage();
             error_log("Error al obtener el registro: " . $e->getMessage());
@@ -75,13 +75,13 @@ class Orm{
             foreach ($dato as $key => $value) {
                 $stm->bindValue(":{$key}", $value);
             }  
-    
-            // Ejecutar la consulta
-            return $stm->execute();
+             // Ejecutar la consulta
+            $stm->execute();
+            // retorna ultimo id insertado 
+            return $this->connection->lastInsertId();
         } catch (PDOException $e) {
             echo "Error al insertar registro: " . $e->getMessage();
             error_log("Error al insertar registro: " . $e->getMessage());
-            return false;
         }
     }
     
@@ -150,4 +150,75 @@ class Orm{
         }
     }
 
+    // public function filtrarDatos($condiciones = array()) {
+    //     $query = "SELECT * FROM {$this->tabla}";
+    //     $params = array();
+
+    //     if (!empty($condiciones)) {
+    //         $query .= " WHERE ";
+    //         $condiciones_sql = array();
+    //         foreach ($condiciones as $campo => $valor) {
+    //             $condiciones_sql[] = "$campo = ?";
+    //             $params[] = $valor;
+    //         }
+    //         $query .= implode(" AND ", $condiciones_sql);
+    //     }
+
+    //     $stm = $this->connection->prepare($query);
+    //     $stm->execute($params);
+    //     return $stm->fetchAll();
+    // }
+
+    // public function getByFilterData($condiciones = array()) {
+    //     $query = "SELECT * FROM {$this->tabla}";
+    //     $params = array();
+    
+    //     if (!empty($condiciones)) {
+    //         $query .= " WHERE ";
+    //         $condiciones_sql = array();
+    //         foreach ($condiciones as $campo => $valor) {
+    //             $condiciones_sql[] = "$campo = ?";
+    //             $params[$campo] = $valor; // Agregamos la condición al array de parámetros
+    //         }
+    //         $query .= implode(" AND ", $condiciones_sql);
+    //     }
+    
+    //     $stm = $this->connection->prepare($query);
+    
+    //     // Asignamos valores utilizando bindValue()
+    //     foreach ($params as $campo => $valor) {
+    //         $stm->bindValue(":$campo", $valor);
+    //     }
+    
+    //     $stm->execute();
+    //     return $stm->fetchAll();
+    // }
+    
+    public function getByFilterData($condiciones = array()) {
+        try {
+            $query = "SELECT * FROM {$this->tabla}";
+            $params = array();
+            if (!empty($condiciones)) {
+                $query .= " WHERE ";
+                $condiciones_sql = array();
+                foreach ($condiciones as $clave => $valor) {
+                    $condiciones_sql[] = "$clave = ?";
+                    $params[] = $valor; // Agregamos el valor al array de parámetros
+                }
+                $query .= implode(" AND ", $condiciones_sql);
+            }
+            $stm = $this->connection->prepare($query);
+            // Asignamos valores utilizando bindValue()
+            foreach ($params as $index => $valor) {
+                $stm->bindValue($index + 1, $valor);
+            }
+            $stm->execute();
+            return $stm->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error al getByFilterData: " . $e->getMessage();
+            error_log("Error al getByFilterData: " . $e->getMessage());
+            return false;
+        }
+    }
+    
 }

@@ -1,0 +1,15 @@
+.contenedor-index-imagen {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.contenedor-index-imagen img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.contenedor-index-cartelera{
+    width: 100%;
+}

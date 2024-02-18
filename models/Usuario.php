@@ -79,14 +79,14 @@ final class Usuario extends Orm{
 
     public function getByUsuAndEmail(string $usuario,string $correo){
         try{
-            $query = "SELECT * FROM {$this->tabla} WHERE nomUsuario =:usuario OR correo =:correo";
+            $query = "SELECT * FROM {$this->tabla} WHERE nomUsuario =:usuario OR correo =:correo AND eliminado = '0'";
             $stm = $this->connection->prepare($query);
             $stm->bindValue(":usuario", $usuario);
             $stm->bindValue(":correo", $correo);
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-             echo "Error al obtener registro getByUsuAndEmail: " . $e->getMessage();
+            echo "Error al obtener registro getByUsuAndEmail: " . $e->getMessage();
             error_log("Error al obtener registro getByUsuAndEmail: " . $e->getMessage()) ;
         } 
     }
