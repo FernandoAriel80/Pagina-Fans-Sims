@@ -19,28 +19,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $diarioModelo = new Diario($coneccion);
         $categoriaDiarioModelo = new CategoriaDiario($coneccion);
         $capituloModelo = new Capitulo($coneccion);
-        if (isset($_POST["tituloD"])/*&&isset($_POST["descripcionD"])*/&&isset($_POST["checkD"])
-        &&isset($_POST["tituloE"])/*&&isset($_POST["contenidoE"])*/) {
+        if (isset($_POST["tituloD"])&&isset($_POST["checkD"])&&isset($_POST["tituloE"])) {
             // solo datos diario
             $tituloDiario = sinEspaciosLados($_POST["tituloD"]);
             $descripcion = sinEspaciosLados($_POST["descripcionD"]);
             $checkDiario = checkValida($_POST["checkD"]); /// de "on" : "off" a 1 : 0
-            // solo datos categoriaDiario
-            //$categoria = $_POST["categoriaD"];
-            // solo datos capitulo
             $tituloEntrada = sinEspaciosLados($_POST["tituloE"]);
             $contenidoE = sinEspaciosLados(limpiarTexto($_POST["contenidoE"]));
-            //$imagen = codificaImagen($_POST["imagenE"]);
-            // $imagen = $_FILES["imagenE"];
             if(validaCreaDiario($tituloDiario,$descripcion,$tituloEntrada,$contenidoE)){
                 if(isset($_FILES["imagenE"])){
                     if(imagenValida($_FILES["imagenE"])){
                         $imagen = codificaImagen($_FILES["imagenE"]);
                     }
                 }   
-                //$diarioModelo->datosDiario($tituloDiario,$descripcion,$checkDiario);
-                //categoriaSelecionada($categoriaDiarioModelo,$id,$categoria);
-
                 // el idUsuario lo tengo que recuperar de otra manera, porque en cookies es inseguro y con session se pierde al cerrar el navegador
                 $idDiario=$diarioModelo->creaDiario($_SESSION['idUsuario'],$tituloDiario,$descripcion,$checkDiario);
                 if($idDiario !== null){
