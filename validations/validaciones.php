@@ -1,18 +1,29 @@
 <?php
 
-function tituloValido(string $titulo){
+// function tituloValido(string $titulo){
 
-    // Verifica si el nombre tiene una longitud adecuada
-    if (strlen($titulo) < 3) {
-        return false;
-    }else if (strpos($titulo, '=') !== false) {
+//     // Verifica si el nombre tiene una longitud adecuada
+//     if (strlen($titulo) < 3) {
+//         return false;
+//     }else if (strpos($titulo, '=') !== false) {
+//         return false; // Verifica si el nombre contiene el signo "="
+//     }else if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $titulo)) {
+//         return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
+//     }else{
+//         return true;
+//     } 
+// }
+
+function tituloValido(string $titulo){
+    if (strpos($titulo, '=') !== false) {
         return false; // Verifica si el nombre contiene el signo "="
-    }else if (preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $titulo)) {
+    }
+    if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()<>\s]+$/', $titulo)) {
         return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
-    }else{
-        return true;
     } 
+    return true;
 }
+
 function nombreValida(string $nombre):bool
 {
      // Verifica si el nombre está vacío
@@ -84,25 +95,32 @@ function numeroValida($numero):bool
         return true;
     }
 }
-function imagenValida($imagen): bool {
+
+function imagenValida($imagen = null): bool {
+    // Verifica si no se proporcionó ninguna imagen
+    if ($imagen === null) {
+        return true; // Si no se proporcionó ninguna imagen, se considera válida
+    }
+    // Verifica si hay errores en la carga de la imagen
     if (!isset($imagen['error']) || $imagen['error'] !== UPLOAD_ERR_OK) {
         return false;
     }
-
+    // Verificación del tipo de archivo
     $tipo_permitido = ['image/jpeg', 'image/jpg', 'image/png'];
     $tipo_archivo = $imagen['type'];
     if (!in_array($tipo_archivo, $tipo_permitido)) {
         return false;
     }
-
+    // Verificación del tamaño del archivo
     $tamano_maximo = 2 * 1024 * 1024; // 2 MB
     $tamano_archivo = $imagen['size'];
     if ($tamano_archivo > $tamano_maximo) {
         return false;
     }
-
+    // Si pasa todas las verificaciones, la imagen es válida
     return true;
 }
+
 
 // function imagenValida($imagen):bool
 // {

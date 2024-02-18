@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $contenidoE = sinEspaciosLados(limpiarTexto($_POST["contenidoE"]));
             //$imagen = codificaImagen($_POST["imagenE"]);
             // $imagen = $_FILES["imagenE"];
-            if(validaCreaDiario($tituloDiario,$tituloEntrada,$contenidoE)){
+            if(validaCreaDiario($tituloDiario,$descripcion,$tituloEntrada,$contenidoE)){
                 if(isset($_FILES["imagenE"])){
                     if(imagenValida($_FILES["imagenE"])){
                         $imagen = codificaImagen($_FILES["imagenE"]);
@@ -82,12 +82,11 @@ function muestraCategorias(Categoria $Modelo){
     }
 }
 
-function validaCreaDiario(string $tituloDiario,string $tituloEntrada,string $descripcion){
-    if (tituloValido($tituloDiario)&&tituloValido($tituloEntrada)&&tituloValido($descripcion)) {
+function validaCreaDiario(string $tituloDiario,$descripcionDiario,string $tituloEntrada,string $descripcionCapitulo){
+    if (tituloValido($tituloDiario)&&tituloValido($descripcionDiario)&&tituloValido($tituloEntrada)&&tituloValido($descripcionCapitulo)) {
         return true;
-    } else {
-        return false;
     } 
+    return false;
 }
 
 function categoriaSelecionada(CategoriaDiario $modelo,$id,$categorias){

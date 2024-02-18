@@ -105,13 +105,56 @@ function validarFormularioRegistro(){
 
 
 function validarFormularioCreaDiario(){
-    let nombre = document.getElementById('nombreR').value;
-    let email = document.getElementById('emailR').value;
-    let usuario = document.getElementById('usuarioR').value;
-    let clave = document.getElementById('contraseñaR').value;
-    let confirmacionClave = document.getElementById('confirmarContraseñaR').value;
-    let ventanaError = document.getElementById('mensajeErrorRegistro');  
+    let tituloDiario = document.getElementById('tituloD').value;
+    let descripcionDiario = document.getElementById('descripcionD').value;
+    let tituloCapitulo = document.getElementById('tituloE').value;
+    let contenidoCapitulo = document.getElementById('contenidoE').value;
+    let ventanaError = document.getElementById('mensajeErrorCreaDiario'); 
+    
+    if (tituloDiario.trim() === '') {
+        alertaMensaje(ventanaError,"red","ingrese algun titulo para el diario");
+        return false;
+    } else if (!tituloValido(tituloDiario)) {
+        alertaMensaje(ventanaError,"red","El titulo para el diario solo permite los siguientes caracteres: letras, números, espacios y los siguientes caracteres especiales: @, #, $, %, ^, &, *, <, >");
+        return false;
+    }
+    
+    if (tituloCapitulo.trim() === '') {
+        alertaMensaje(ventanaError,"red","ingrese algun titulo para la entrada");
+        return false;
+    } else if (!tituloValido(tituloCapitulo)) {
+        alertaMensaje(ventanaError,"red","El titulo para la entrada solo permite los siguientes caracteres: letras, números, espacios y los siguientes caracteres especiales: @, #, $, %, ^, &, *, <, >");
+        return false;
+    }
+
+    if (!tituloValido(descripcionDiario)) {
+        alertaMensaje(ventanaError,"red","La descripcion del diario solo permite los siguientes caracteres: letras, números, espacios y los siguientes caracteres especiales: @, #, $, %, ^, &, *, <, >");
+        return false;
+    }
+
+    if (!tituloValido(contenidoCapitulo)) {
+        alertaMensaje(ventanaError,"red","La entrada solo permite los siguientes caracteres: letras, números, espacios y los siguientes caracteres especiales: @, #, $, %, ^, &, *, <, >");
+        return false;
+    }else{
+        ventanaError.style.display = 'none';
+        return true; 
+    }
+
 }
+
+function tituloValido(titulo) {
+    // Verifica si el título contiene el signo "="
+    if (titulo.includes('=')) {
+        return false;
+    }
+    // Expresión regular para verificar si el título contiene solo caracteres alfanuméricos y especiales permitidos
+    var regex = /^[a-zA-Z0-9_!@#$%^&*()<>\s]+$/;
+    if (!regex.test(titulo)) {
+        return false;
+    }
+    return true;
+}
+
 //////////////////////////////////
 function alertaMensaje(ventana,color,mensaje) {
     if (ventana.style.display=="none") {
