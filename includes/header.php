@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="public/CSS/indexStyles.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/todosDiariosStyles.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/creaDiarioStyles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/perfilStyles.css">
     <title>Pagina Fans Sims</title>
     <link rel="icon" href="public/Iconos/logo.png" type="image/png">
     <!-- Agrega enlaces a tus hojas de estilo CSS aquí si es necesario -->

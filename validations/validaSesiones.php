@@ -41,12 +41,14 @@ function crearCookie($nombre,$id,$rol) {
     return $token;
 }
 
-function encriptar_id_usuario($id_usuario, $token) {
-    $iv = openssl_random_pseudo_bytes(16); // El 16 indica la longitud del IV en bytes (para AES, debe ser 16 bytes)
-    $datos_encriptados = openssl_encrypt($id_usuario, 'aes-256-cbc', $token, 0,$iv); 
-    return urlencode($datos_encriptados); // Codificar para la URL
+
+function generaTokenId($id_usuario,$token) {
+    $tokenId = urlencode(base64_encode($id_usuario.'_'.$token));
+    return $tokenId;
 }
-function desencriptar_id_usuario($datos_encriptados, $token) {
-    $id_usuario = openssl_decrypt(urldecode($datos_encriptados), 'aes-256-cbc', $token, 0, '1234567890123456');
-    return $id_usuario;
+
+function obteneTokenId($token) {
+    $tokenDeco = base64_decode(urldecode($token));
+    $id_usuario = explode('_', $tokenDeco);
+    return $id_usuario[0];
 }

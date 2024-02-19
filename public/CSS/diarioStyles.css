@@ -1,0 +1,56 @@
+.diario-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+.contenidoDiario {
+    flex: 1;
+}
+.imagenDiario img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+.botonesDiario {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.botonesDiario button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* Estilos para los botones */
+.boton-modificar {
+    background-color: #007bff;
+    color: #fff;
+}
+.boton-favorito {
+    background-color: #28a745;
+    color: #fff;
+}
+/* Estilos para la puntuación */
+.puntuacionD {
+    margin-top: 10px;
+}
+
+/* Reglas de diseño responsivo */
+@media only screen and (min-width: 600px) {
+    .diario-container {
+        flex-direction: row;
+    }
+    .contenidoDiario {
+        flex: 2;
+        margin-right: 20px;
+    }
+}

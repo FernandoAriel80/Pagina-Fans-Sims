@@ -15,8 +15,8 @@ $todosDiarios = [];
 $perfil= '';
 $idUsuarioActual = $_SESSION['idUsuario'];
 
-if (isset($_GET['idAutor'])) {
-    $idUsuarioActual = $_GET['idAutor'];
+if (isset($_GET['token'])) {
+    $idUsuarioActual = obteneTokenId($_GET['token']);
 }
 
 $perfil = muestraPerfil($usuarioModelo,$idUsuarioActual);
@@ -32,7 +32,7 @@ function muestraPerfil(Usuario $modelo,$id){
                             <div class="elemento-diario">
                                 <div class="crea-diario">
                                     <!-- autor -->
-                                    <div> <a href="creaDiario.php">CREA NUEVO DIARIO</a></div>
+                                    <div> <a class="boton-crea-diario" href="creaDiario.php">CREA NUEVO DIARIO</a></div>
                                 </div>
                             </div>
                             <h4>MIS DIARIOS:</h4>';
@@ -49,7 +49,7 @@ function muestraMisDiarios(Diario $modelo,$id){
     if (!empty($dato)) {
         foreach ($dato as $key){
             if ($id == $key['idUsuario']) {
-                $misDiarios[] = vistaDiarios($key['idUsuario'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']);
+                $misDiarios[] = vistaDiarios($key['idUsuario'],$key['token'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']);
             }    
         }
         return $misDiarios; 
@@ -63,17 +63,18 @@ function muestraTodosDiarios(Diario $modelo){
     $losDiarios = []; 
     if (!empty($dato)) {
         foreach ($dato as $key){
-            $losDiarios[] = vistaDiarios($key['idUsuario'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']); 
+            $losDiarios[] = vistaDiarios($key['idUsuario'],$key['token'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']); 
         }
         return $losDiarios; 
     }else {
         return '<h4>¡NO HAY NINGUN DIARIO!</h4>';
     }
 }
-function vistaDiarios($idAutor,$tituloDiario,$fechaCreacion,$fechaActualizacion,$puntaje,$autor){
+function vistaDiarios($idAutor,$token,$tituloDiario,$fechaCreacion,$fechaActualizacion,$puntaje,$autor){
+    $tokenId = generaTokenId($idAutor,$token);
     $vista = '  <div class="cada-diario">
                     <div class="diario-datos">
-                        <a href="">
+                        <a href="diario.php">
                             <div class="diario-datos-arriba">
                                 <h4>'.$tituloDiario.'</h4>
                             </div>
@@ -87,7 +88,8 @@ function vistaDiarios($idAutor,$tituloDiario,$fechaCreacion,$fechaActualizacion,
                     <div class="diario-derecho">
                         <div class="diario-autor">
                             <!-- autor -->
-                            <div> <a href="/paginaSims/perfil.php?idAutor='.$idAutor.'">'.$autor.'</a></div>
+                           
+                            <div> <a href="perfil.php?token='.$tokenId.'">'.$autor.'</a></div>
                         </div>
                         <div class="diario-fav">
                             <form class="formulario-diario-fav" action=" " method="post">
@@ -97,4 +99,5 @@ function vistaDiarios($idAutor,$tituloDiario,$fechaCreacion,$fechaActualizacion,
                     </div>
                 </div>';
     return $vista;
+    //  <div> <a href="/paginaSims/perfil.php>'.$autor.'</a></div>
 }

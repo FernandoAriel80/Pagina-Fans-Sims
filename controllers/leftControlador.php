@@ -27,6 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         cerrarSesion();
         // Redirigir al usuario a la página de inicio de sesión
         $vistaLeft = muestraLogin();
+        header("Location: index.php");
+        exit();
     }
     ////////////////////////// LOGIN ////////////////////
     if (isset($_POST["formularioLogin"])) {
