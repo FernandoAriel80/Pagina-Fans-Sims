@@ -188,11 +188,13 @@ function limpiarTexto(string $texto):string
     return $texto_escapado; //Limpia y filtra los datos de entrada para prevenir ataques de script entre sitios.
 }
 
+// function codificaImagen($imagen){
+//     return addslashes(file_get_contents($imagen['tmp_name']));
+// }
+
 function codificaImagen($imagen){
-    // Convertir datos binarios a cadena base64 para almacenar en la base de datos
     return base64_encode(file_get_contents($imagen['tmp_name']));
 }
-
 function dedificaImagen($imagen){
     // Convertir datos binarios a cadena base64 para almacenar en la base de datos
     return base64_decode($imagen);

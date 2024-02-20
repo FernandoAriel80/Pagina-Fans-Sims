@@ -1,33 +1,30 @@
 <?php include 'includes/header.php'; ?>
+<?php include 'controllers/diarioControlador.php';?>
 <?php 
 require_once 'validations/validaSesiones.php';
 if (!sesionActiva()) {
     header("Location: index.php");
     exit();
  }
-
 ?>
 <main>
     <div class="contenedor-main-flex">
         <?php include 'includes/Left.php'; ?>
         <div class="contenedor-flex">
             <!-- CONTENEDOR -->
-            <div class="diario-container">
+            <div class="contenido-todo-diario">
                 <!-- CONTENIDO DIARIO -->
+                <!-- contenido capitulo -->
                 <div class="contenidoDiario">
-                    <h2>Título del Diario</h2>
-                    <p>Historia del diario...</p>
-                    <div class="botonesDiario">
-                        <button class="boton-modificar">Modificar</button>
-                        <button class="boton-favorito">Favorito</button>
-                    </div>
-                    <div class="puntuacion">
-                        <label for="puntuacion">Puntuación:</label>
-                        <input type="number" id="puntuacionD" name="puntuacionD" min="0" max="10" step="1">
-                    </div>
+                    <?php echo $diario; ?>
                 </div>
-                <div class="imagenDiario">
-                    <img src="ruta/a/la/imagen.jpg" alt="Imagen del Diario">
+                <!-- contenido categoria -->
+                <div class="contenidoCategoria">
+                    <?php echo $categoria; ?>
+                </div>
+                <!-- contenido capitulos -->
+                <div class="contenidoCapitulos">
+                    <?php echo $capitulo; ?>
                 </div>
             </div>
             <!-- END CONTENEDOR -->

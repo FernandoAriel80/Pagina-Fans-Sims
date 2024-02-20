@@ -47,19 +47,19 @@ class Orm{
             error_log("Error al obtener todos los registros join: " . $e->getMessage());
         }
     }
-    public function getByIdJoin($tabla1, $tabla2, $id) {
-        try{
-            $idTabla = "id{$tabla1}";
-            $query = "SELECT * FROM $tabla1 INNER JOIN $tabla2 ON {$tabla1}.{$idTabla} = {$tabla2}.{$idTabla} WHERE {$idTabla} =:id";
-            $stm = $this->connection->prepare($query);
-            $stm->bindValue(":id", $id);
-            $stm->execute();
-            return $stm->fetchAll();
-        }catch (PDOException $e) {
-            echo "Error al obtener registro join: " . $e->getMessage();
-            error_log("Error al obtener registro join: " . $e->getMessage());
-        }
-    }
+    // public function getByIdJoin($tablaUnida,$id) {
+    //     try{
+    //         $idTabla = "id{$tablaUnida}";
+    //         $query = "SELECT * FROM {$this->tabla} INNER JOIN $tablaUnida ON {$this->tabla}.{$idTabla} = {$tablaUnida}.{$idTabla} WHERE {$this->tabla} =:id";
+    //         $stm = $this->connection->prepare($query);
+    //         $stm->bindValue(":id", $id);
+    //         $stm->execute();
+    //         return $stm->fetchAll();
+    //     }catch (PDOException $e) {
+    //         echo "Error al obtener registro join: " . $e->getMessage();
+    //         error_log("Error al obtener registro join: " . $e->getMessage());
+    //     }
+    // }
 
     public function insert($dato){
         try {
@@ -85,49 +85,7 @@ class Orm{
         }
     }
     
-    // public function insert($dato){
-    //     try{
-    //         $query = "INSERT INTO {$this->tabla}(";
-    //         foreach ($dato as $key => $value) {
-    //             $query .= "{$key},";
-    //          }
-    //          $query = trim($query,",");
-    //          $query .= ") VALUES (";
-             
-    //          foreach ($dato as $key => $value) {
-    //             $query .= ":{$key}";
-    //          }
-    //          $query = trim($query,",");
-    //          $query .= ")";
-             
-    //          $stm = $this->connection->prepare($query);
-    //          foreach ($dato as $key => $value) {
-    //             $stm->bindValue(":{$key}", $value);
-    //          }  
-    //          return $stm->execute();
-    //     }catch (PDOException $e) {
-    //         echo "Error al insertar registro: " . $e->getMessage();
-    //         return false;
-    //     }
-    // }
-    // public function getByField($id){
-    //    try{
-    //       
-    //    }catch (PDOException $e) {
-    //        echo "Error al obtener todos los registros: " . $e->getMessage();
-    //    }
-    //     $query = "SELECT * FROM {$this->tabla} WHERE id".$this->tabla." =:id";
-    //     $stm = $this->connection->prepare($query);
-    //     $stm->bindValue(":id", $id);
-    //     $stm->execute();
-    //     return $stm->fetch();
-    // }
-
-//     SELECT *
-// FROM usuarios_productos up
-// INNER JOIN usuarios u ON u.idUsuario = up.idUsuario
-// INNER JOIN productos p ON p.idProducto = up.idProducto;
-
+   
     public function upDateById($id,$dato){
         try{
             $query = "UPDATE {$this->tabla} SET ";
@@ -220,5 +178,57 @@ class Orm{
             return false;
         }
     }
+
+    public function consultaJoin($condicionesJoin = array(),$condicionesWhere = array()) {
+        try{
+            $query = "SELECT * FROM {$this->tabla} ";
+            $paramsJoin = array();
+            $params = array();
+            if (!empty($condicionesJoin)) {
+                $query .= " JOIN ";
+                $condiciones_join = array();
+                foreach ($condicionesJoin as $clave => $valor) {
+                    $condiciones_join[] = "$clave ON ?";
+                    $paramsJoin[] = $valor; // Agregamos el valor al array de parámetros
+                }
+                $query .= implode(" JOIN ", $condiciones_join);
+            }
+            if (!empty($condicionesWhere)) {
+                $query .= " WHERE ";
+                $condiciones_sql = array();
+                foreach ($condicionesWhere as $clave => $valor) {
+                    $condiciones_sql[] = "$clave = ?";
+                    $params[] = $valor; // Agregamos el valor al array de parámetros
+                }
+                $query .= implode(" AND ", $condiciones_sql);
+            }
+            $stm = $this->connection->prepare($query);
+            // Asignamos valores utilizando bindValue()
+            foreach ($paramsJoin as $index => $valor) {
+                $stm->bindValue($index + 1, $valor);
+            }
+            foreach ($params as $index => $valor) {
+                $stm->bindValue($index + 1, $valor);
+            }
+            $stm->execute();
+            return $stm->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error al consultaJoin: " . $e->getMessage();
+            error_log("Error al consultaJoin: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // public function consultaJoin($tablaPrincipal, $condiciones) {
+    //     $sql = "SELECT * FROM $tablaPrincipal ";
+    //     foreach ($condiciones as $join) {
+    //         $sql .= " JOIN {$join['tabla']} ON {$join['condicion']} ";
+    //     }
+    //     $sql .= " WHERE {$condiciones[0]['condicion']}";
+
+    //     $stmt = $this->pdo->prepare($sql);
+    //     $stmt->execute();
+    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // }
     
 }

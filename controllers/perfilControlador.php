@@ -49,7 +49,7 @@ function muestraMisDiarios(Diario $modelo,$id){
     if (!empty($dato)) {
         foreach ($dato as $key){
             if ($id == $key['idUsuario']) {
-                $misDiarios[] = vistaDiarios($key['idUsuario'],$key['token'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']);
+                $misDiarios[] = vistaDiarios($key['idUsuario'],$key['idDiario'],$key['token'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']);
             }    
         }
         return $misDiarios; 
@@ -63,18 +63,20 @@ function muestraTodosDiarios(Diario $modelo){
     $losDiarios = []; 
     if (!empty($dato)) {
         foreach ($dato as $key){
-            $losDiarios[] = vistaDiarios($key['idUsuario'],$key['token'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']); 
+            $losDiarios[] = vistaDiarios($key['idUsuario'],$key['idDiario'],$key['token'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']); 
         }
         return $losDiarios; 
     }else {
         return '<h4>¡NO HAY NINGUN DIARIO!</h4>';
     }
 }
-function vistaDiarios($idAutor,$token,$tituloDiario,$fechaCreacion,$fechaActualizacion,$puntaje,$autor){
-    $tokenId = generaTokenId($idAutor,$token);
+function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fechaActualizacion,$puntaje,$autor){
+    $tokenIdUsuario = generaTokenId($idAutor,$token);
+    $tokenD = bin2hex(random_bytes(32));
+    $tokenIdDiario = generaTokenId($idDiario,$tokenD);
     $vista = '  <div class="cada-diario">
                     <div class="diario-datos">
-                        <a href="diario.php">
+                        <a href="diario.php?tokenU='.$tokenIdUsuario.'&tokenD='.$tokenIdDiario.'&autor='.$autor.'">
                             <div class="diario-datos-arriba">
                                 <h4>'.$tituloDiario.'</h4>
                             </div>
@@ -89,7 +91,7 @@ function vistaDiarios($idAutor,$token,$tituloDiario,$fechaCreacion,$fechaActuali
                         <div class="diario-autor">
                             <!-- autor -->
                            
-                            <div> <a href="perfil.php?token='.$tokenId.'">'.$autor.'</a></div>
+                            <div> <a href="perfil.php?token='.$tokenIdUsuario.'">'.$autor.'</a></div>
                         </div>
                         <div class="diario-fav">
                             <form class="formulario-diario-fav" action=" " method="post">
