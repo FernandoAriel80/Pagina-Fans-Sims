@@ -25,22 +25,29 @@ if (isset($_GET['tokenD'])) {
     $idDiarioActual = obteneTokenId($_GET['tokenD']);
 }
 
-$diario = vistaDiario($diarioModelo,$idUsuarioActual,$idDiarioActual);
-$categoria = vistaCategoria($categoriaDiarioModelo,$idDiarioActual);
-$capitulo = vistaCapitulo($capituloModelo,$idDiarioActual);
+$datoDiarioModelo = $diarioModelo->obtenerTodosDiarios();
+$datocapituloModelo = $capituloModelo->obtenerTodosCapitulos();
+$datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
 
-function vistaDiario(Diario $modelo,$idautor,$idDiario){
-    $datoDiario = $modelo->getById($idDiario);
-    if ($datoDiario) {
-        if ($idautor == $datoDiario['idUsuario']) {
-            $vista = '  <!-- contenido diario -->
-                        <div class="contenidoDiario">
-                            <div class = "DiarioText" >
-                                <h2>'.$datoDiario['titulo'].'</h2>
-                                <p>'.$datoDiario['descripcion'].'</p>
-                            </div>          
-                        </div>';
-        return $vista;
+$diario = vistaDiario($datoDiarioModelo,$idUsuarioActual,$idDiarioActual);
+$categoria = vistaCategoria($categoriaDiarioModelo,$idDiarioActual);
+$capitulo = vistaCapitulo($datocapituloModelo,$idDiarioActual);
+
+function vistaDiario($datoD,$idautor,$idDiario){    
+    if ($datoD) {
+        foreach ($datoD as $diario ) {
+            if ($idDiario == $diario->idDiario) {
+                if ($idautor == $diario->idUsuario) {
+                    $vista = '  <!-- contenido diario -->
+                                <div class="contenidoDiario">
+                                    <div class = "DiarioText" >
+                                        <h2>'.$diario->titulo.'</h2>
+                                        <p>'.$diario->descripcion.'</p>
+                                    </div>          
+                                </div>';
+                return $vista;
+                }
+            }
         }
     }
 }
@@ -57,29 +64,26 @@ function vistaCategoria(CategoriaDiario $modelo,$idDiario){
         return $vista;
     }
 }
-function vistaCapitulo(Capitulo $modelo,$idDiario){
-    $datoFilt=array(
-        'idDiario' => $idDiario,
-    );
+function vistaCapitulo($datoC,$idDiario){
     $vista ='';
-    $dato = $modelo->getByFilterData($datoFilt);
-    if (!empty($dato)) {
-        foreach ($dato as $key) {
-            if (!empty($key['imagen'])) {
-                $vista = '  <div class = "capituloText" >
-                                <h2>'.$key['titulo'].'</h2>
-                                <p>'.$key['parrafo'].'</p>
-                            </div>
-                            <div class="imagenCapitulo">
-                                <img height="500px" src="data:image/png;base64,'.$key['imagen'].'" alt="Imagen" />
-                            </div>';
-            } else {
-                $vista = '  <div class = "capituloText" >
-                                <h2>'.$key['titulo'].'</h2>
-                                <p>'.$key['parrafo'].'</p>
-                            </div>';
-            }
-            
+    if (!empty($datoC)) {
+        foreach ($datoC as $capitulo) {
+            if ($capitulo->idDiario == $idDiario) {
+                if ($capitulo->imagen != null) {
+                    $vista = '  <div class = "capituloText" >
+                                    <h2>'.$capitulo->titulo.'</h2>
+                                    <p>'.$capitulo->parrafo.'</p>
+                                </div>
+                                <div class="imagenCapitulo">
+                                    <img width= 50% src="data:image/png;base64,'.$capitulo->imagen.'" alt="Imagen" />
+                                </div>';
+                } else {
+                    $vista = '  <div class = "capituloText" >
+                                    <h2>'.$capitulo->titulo.'</h2>
+                                    <p>'.$capitulo->parrafo.'</p>
+                                </div>';
+                }
+            }    
         }
         return $vista;
     }

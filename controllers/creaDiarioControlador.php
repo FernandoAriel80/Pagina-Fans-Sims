@@ -9,7 +9,8 @@ require_once 'validations/validaciones.php';
 $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
 $categoriaModelo = new Categoria($coneccion);
-$vistaCategoria = muestraCategorias($categoriaModelo);
+$datoCategoriaModelo = $categoriaModelo->obtenerTodosCategorias();
+$vistaCategoria = muestraCategorias($datoCategoriaModelo);
 $dataBase->desconectar();
 $mensaje='';
 
@@ -38,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $idCapitulo=$capituloModelo->creaCapitulo($idDiario,$tituloEntrada,$imagen,$contenidoE);
                     if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
                         $categoriaElegida = $_POST["categoriaD"];
-                        categoriaSelecionada($categoriaDiarioModelo,$idCapitulo,$categoriaElegida);
+                        $categoriaDiarioModelo->categoriaSelecionada($idCapitulo,$categoriaElegida);
                     }
                    header("Location: perfil.php");
                 }
@@ -58,14 +59,14 @@ function muestraMensajea($message){
             </div>';
     return $vista;
 }
-function muestraCategorias(Categoria $Modelo){
-    $dato = $Modelo->getAll();
+function muestraCategorias($datoCate){
+
     $vista="";
-    if (!empty($dato)) {
-        foreach ($dato as $key) {
+    if (!empty($datoCate)) {
+        foreach ($datoCate as $key) {
             $vista.="<div class='selector-categoria'>
-                        <input type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $key["idCategoria"] . "'>
-                        <label for='categoria_" . $key["idCategoria"] . "' class='checkbox-label'>" . $key["descripcion"] . "</label>
+                        <input type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $key->idCategoria . "'>
+                        <label for='categoria_" . $key->idCategoria. "' class='checkbox-label'>" . $key->descripcion . "</label>
                     </div>";
         } 
         return $vista;    
@@ -79,12 +80,3 @@ function validaCreaDiario(string $tituloDiario,$descripcionDiario,string $titulo
     return false;
 }
 
-function categoriaSelecionada(CategoriaDiario $modelo,$id,$categorias){
-    foreach ($categorias as $idCategoria) {
-        $dato=[
-            'idDiario' => $id,
-            'idCategoria' => $idCategoria
-        ];
-        $modelo->insert($dato);
-    }
-}

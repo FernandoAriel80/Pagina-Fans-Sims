@@ -1,74 +1,63 @@
 <?php
 require_once __DIR__.'/Orm.php';
 final class Diario extends Orm{
-    private  $id;
-    private  $idUsuario;
-    private  $titulo;
-    private  $fechaCreacion;
-    private  $fechaActualizacion;
-    private  $descripcion;
-    private  $puntoPromedio;
-    private  $favoritoTotal;
-    private  $visible;
-    
-    public function __construct(PDO $connecion){
-        parent::__construct("Diario",$connecion);
+
+    private $atributos = [];
+
+    public function __construct(PDO $connecion) {
+        parent::__construct('Diario',$connecion);
     }
 
-    public function getId(){ return $this->id; }
-    public function getIdUsuario(){return $this->idUsuario;}
-    public function getTitulo(){return $this->titulo;}
-    public function getFechaCreacion(){return $this->fechaCreacion;}
-    public function getFechaActualizacion(){return $this->fechaActualizacion;}
-    public function getDescripcion(){return $this->descripcion;}
-    public function getPuntoPromedio(){return $this->puntoPromedio;}
-    public function getFavoritoTotal(){return $this->favoritoTotal;}
-    public function getVisible(){return $this->visible;}
-    
-    // public function datosDiario($nombre,$descripcion,$visible){
-    //     $this->nombre = $nombre;
-    //     $this->descripcion = $descripcion; 
-    //     $this->visible = $visible;
-    // }
+    // Método mágico __set
+    public function setAtributos($nombre, $valor) {
+        $this->atributos[$nombre] = $valor;
+    }
 
-    public function guardaDatosDeUnDiarioDB($idUsuario,$titulo) {
-        $datoFilt=array(
-            'idUsuario' => $idUsuario,
-            'titulo' => $titulo
-        );
+    // Método mágico __get
+    public function __get($nombre) {
+        if (array_key_exists($nombre, $this->atributos)) {
+            return $this->atributos[$nombre];
+        }
+        return null;
+    }
 
-        $dato = $this->getByFilterData($datoFilt);
-        if (!empty($dato)) {
-            foreach ($dato as $key) {
-                $this->id = $key["idDiario"];
-                $this->idUsuario = $key["idUsuario"];
-                $this->titulo = $key["titulo"];
-                $this->fechaCreacion = $key["fechaCreacion"];
-                $this->fechaActualizacion = $key["fechaActualizacion"];
-                $this->descripcion = $key["descripcion"]; 
-                $this->puntoPromedio = $key["puntoPromedio"];
-                $this->favoritoTotal = $key["favoritoTotal"];
-                $this->visible = $key["visible"];
+    public function obtenerTodosDiarios() {
+        try {
+            $resultados = $this->getAll();
+            $diarios = [];
+            foreach ($resultados as $fila) {
+                $diario = new Diario($this->connection);
+                // Asignar atributos utilizando __set
+                foreach ($fila as $nombre => $valor) {
+                    $diario->setAtributos($nombre,$valor);
+                }
+                $diarios[] = $diario;
             }
+            return $diarios;
+        } catch (PDOException $e) {
+            echo "Error al obtener obtenerTodosDiarios: " . $e->getMessage();
+            error_log("Error al obtener obtenerTodosDiarios:" . $e->getMessage()) ;
+            return [];
         }
     }
-    // public function guardaDatosDiariosDB() {
-    //     $dato = $this->getAllJoin('Usuario');
-    //     if (!empty($dato)) {
-    //         foreach ($dato as $key) {
-    //             $this->id = $key["idDiario"];
-    //             $this->idUsuario = $key["nombre"];
-    //             $this->titulo = $key["titulo"];
-    //             $this->fechaCreacion = $key["fechaCreacion"];
-    //             $this->fechaActualizacion = $key["fechaActualizacion"];
-    //             $this->descripcion = $key["descripcion"]; 
-    //             $this->puntoPromedio = $key["puntoPromedio"];
-    //             $this->favoritoTotal = $key["favoritoTotal"];
-    //             $this->visible = $key["visible"];
-    //         }
-    //     }
-    //     return $dato;
-    // }
+
+    public function obtenerUnDiario($id) {
+        try {
+            $resultado = $this->getById($id);
+            if ($resultado) {
+                $diario = new Diario($this->connection);
+                foreach ($resultado as $nombre => $valor) {
+                    // Asignar atributos utilizando __set
+                    $diario->setAtributos($nombre,$valor);
+                }
+                return $diario;
+            }
+        }catch (PDOException $e) {
+            echo "Error al obtener obtenerUnDiario: " . $e->getMessage();
+            error_log("Error al obtener obtenerUnDiario:" . $e->getMessage()) ;
+            return [];
+        }
+    }
 
     public function creaDiario($idUsuario,$titulo,$descripcion,$visible){
         $dato=[
@@ -77,9 +66,15 @@ final class Diario extends Orm{
             'descripcion' => $descripcion,
             'visible' => $visible
         ];
-        
-        return $this->insert($dato);
+        try {
+           return $this->insert($dato);
+
+        } catch (PDOException $e) {
+            echo "Error al registrarUsuario: " . $e->getMessage();
+            error_log("Error al obtener guardaToken:" . $e->getMessage()) ;
+            return false;
+        }
     }
 
-
+    
 }

@@ -6,7 +6,7 @@ require_once 'validations/validaciones.php';
 require_once 'validations/validaSesiones.php';
 
 $dataBase = new DataBase();
-$coneccion = $dataBase->conectar();
+$conexion = $dataBase->conectar();
 $vistaLeft = '';
 $mensaje='';
 
@@ -32,28 +32,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     ////////////////////////// LOGIN ////////////////////
     if (isset($_POST["formularioLogin"])) {
-        $usuarioModeloLogin = new Usuario($coneccion);
+        $usuarioModeloLogin = new Usuario($conexion);
+        $datoUsuarioLogin = $usuarioModeloLogin->obtenerTodosUsuarios();
         if (isset($_POST["usuarioL"]) && isset($_POST["contraseñaL"])){
             $usuario = sinEspaciosLados($_POST["usuarioL"]);
             $clave = sinEspaciosLados($_POST["contraseñaL"]);
             if(validaLogin($usuario,$clave)){   
-                $datoValidar = $usuarioModeloLogin->getByUsu($usuario);   
-                if(validaLoginExistente($usuario,$clave,$datoValidar)){
-                    $token = crearCookie($datoValidar['nombre'],$datoValidar['idUsuario'],$datoValidar['rol']);
-                    iniciarSesion($datoValidar['idUsuario'],$datoValidar['nomUsuario'],$datoValidar['nombre'],$token,$datoValidar['rol']);
-                    if(guardaToken($usuarioModeloLogin,$datoValidar['idUsuario'],$token)){
-                        $datoGuardar = $usuarioModeloLogin->getById($datoValidar['idUsuario']);
-                        traerDatosUsuario($usuarioModeloLogin,$datoGuardar);
-                        $mensaje = muestraMensaje("¡Ha iniciado sesion correctamente!");
-                        $vistaLeft = muestraLogeado(); 
-                    }else{
-                        $mensaje = muestraMensaje("¡Ha ocurrido un error al iniciar sesion!");
-                        $vistaLeft = muestraLogin();
+                if (!empty($datoUsuarioLogin)) {
+                    foreach ($datoUsuarioLogin as $DatoUsuario){
+                        if ($DatoUsuario->nomUsuario == $usuario) {
+                            if(validaLoginExistente($datoUsuarioLogin,$usuario,$clave)){
+                                $token = crearCookie($DatoUsuario->nombre,$DatoUsuario->idUsuario,$DatoUsuario->rol);
+                                iniciarSesion($DatoUsuario->idUsuario,$DatoUsuario->nomUsuario,$DatoUsuario->nombre,$token,$DatoUsuario->rol);
+                                if($DatoUsuario->guardaToken($token)){
+                                    $mensaje = muestraMensaje("¡Ha iniciado sesion correctamente!");
+                                    $vistaLeft = muestraLogeado(); 
+                                }else{
+                                    $mensaje = muestraMensaje("¡Ha ocurrido un error al iniciar sesion!");
+                                    $vistaLeft = muestraLogin();
+                                }
+                            }else{
+                                $mensaje = muestraMensaje("¡Ha ocurrido un error, datos no coinciden!");
+                                $vistaLeft = muestraLogin();
+                            }
+                        } 
                     }
-                }else{
-                    $mensaje = muestraMensaje("¡Ha ocurrido un error, datos no coinciden!");
-                    $vistaLeft = muestraLogin();
-                }
+                }  
             }else{
                 $mensaje = muestraMensaje("¡Ha ocurrido un error!");
                 $vistaLeft = muestraLogin();
@@ -62,10 +66,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $dataBase->desconectar(); 
     }
 }
+   ///////////////////////// REGISTRO ////////////////////
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    ///////////////////////// REGISTRO ////////////////////
+    $usuarioModeloRegistro = new Usuario($conexion);
+    $usuarioModeloRegistro->obtenerTodosUsuarios();
    if(isset($_POST["formularioRegistro"])){
-        $usuarioModeloRegistro = new Usuario($coneccion);
         if (isset($_POST["nombreR"])&&isset($_POST["emailR"])&&
         isset($_POST["usuarioR"])&&isset($_POST["contraseñaR"])&&isset($_POST["confirmarContraseñaR"])) {
             $nombre = sinEspaciosLados($_POST["nombreR"]);
@@ -75,12 +80,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $claveConfirmar = sinEspaciosLados($_POST["confirmarContraseñaR"]);
             if (validaRegistro($nombre,$correo,$usuario,$clave,$claveConfirmar)){ 
                 $resultadoExistente =validaRegistroExistente($usuarioModeloRegistro,$usuario,$nombre,$correo);
-                if (!$resultadoExistente) {
-                    $usuarioModeloRegistro->datosRegistro($nombre,$correo,$usuario,$clave);
-                    $resultado = registrarUsuario($usuarioModeloRegistro);
+                if (!$resultadoExistente) {    
+                    $sal = generaSal();
+                    $claveEncrip = encriptaClave($clave,$sal);
+                    $resultado = $usuarioModeloRegistro->registrarUsuario($usuario,$nombre,$correo,$claveEncrip,$sal);
                     if ($resultado) {
-                        $datoGuardar= $usuarioModeloRegistro->getByUsu($usuarioModeloRegistro->getUsuario());
-                        traerDatosUsuario($usuarioModeloRegistro,$datoGuardar);
                         $mensaje = muestraMensaje("¡Se registro correctamente!");
                         $vistaLeft = muestraLogin();
                         # code... se creo correctamente
@@ -88,6 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $mensaje = muestraMensaje("¡Ha ocurrido un error al registrar!");
                         $vistaLeft= muestraRegistro(); 
                     }   
+                   
                 }else{
                     $mensaje = muestraMensaje($resultadoExistente[1]);
                     $vistaLeft= muestraRegistro();
@@ -177,7 +182,7 @@ function validaLogin(string $usuario,string $clave){
 }
 
 function validaRegistroExistente(Usuario $modelo,string $usuario,string $nombre,string $correo){  
-    $dato = $modelo->getByUsuAndEmail($usuario,$correo);
+    $dato = $modelo->getByUsuAndEmailAndNom($usuario,$correo,$nombre);
     if (!empty($dato)) {
         foreach ($dato as $key) {
             if($key['nomUsuario'] == $usuario){
@@ -192,61 +197,18 @@ function validaRegistroExistente(Usuario $modelo,string $usuario,string $nombre,
         }
     }
 }
-function validaLoginExistente(string $usuario,string $clave,$dato){
-    if (!empty($dato)) {
-        $usuDB = $dato["nomUsuario"];
-        $salDB = $dato["sal"];
-        $clavDB = $dato["clave"];
-        if ( $usuario == $usuDB && password_verify($clave.$salDB,$clavDB)){  
-            return true;
-        }else{
-           return false; 
+function validaLoginExistente($datoU,string $usuario,string $clave){
+    if (!empty($datoU)) {
+        foreach ($datoU as $key) {
+            $usuDB = $key->nomUsuario;
+            $salDB = $key->sal;
+            $clavDB = $key->clave;
+            if ( $usuario == $usuDB && password_verify($clave.$salDB,$clavDB)){  
+                return true;
+            }else{
+               return false; 
+            }
         }
     }
 }
 
-function registrarUsuario(Usuario $modelo){
-    $dato=[
-        'nomUsuario' => $modelo->getUsuario(),
-        'nombre' => $modelo->getNombre(),
-        'correo' => $modelo->getCorreo(),
-        'clave' => $modelo->getClaveEncript(),
-        'sal' => $modelo->getSal()
-    ];
-    $resultado = $modelo->insert($dato);
-    if (!empty($resultado)) {
-        return true;
-    } else {
-        return false;
-    }  
-}
-
-function guardaToken(Usuario $modelo,$id, string $token){
-    $dato=[
-        'token' => $token,
-    ];
-    $resultado = $modelo->upDateById($id,$dato);
-    if (!empty($resultado)) {
-        return true;
-    } else {
-        return false;
-    }  
-}
-function traerDatosUsuario(Usuario $modelo,$dato){
-    if (!empty($dato)) {
-        $modelo->datosUsuarioDB(
-            $dato['idUsuario'],
-            $dato['nomUsuario'],
-            $dato['token'],
-            $dato['nombre'],
-            $dato['foto'],
-            $dato['descripcion'],
-            $dato['fechaCreacion'],
-            $dato['activo'],
-            $dato['correo'],
-            $dato['clave'],
-            $dato['sal'],
-            $dato['rol']
-        ); 
-    } 
-}

@@ -195,7 +195,17 @@ function limpiarTexto(string $texto):string
 function codificaImagen($imagen){
     return base64_encode(file_get_contents($imagen['tmp_name']));
 }
-function dedificaImagen($imagen){
-    // Convertir datos binarios a cadena base64 para almacenar en la base de datos
-    return base64_decode($imagen);
+
+function generaSal(){
+    return password_hash(random_bytes(16), PASSWORD_DEFAULT);
 }
+function encriptaClave($clave,$sal){
+    return password_hash($clave . $sal, PASSWORD_DEFAULT);
+}
+function soloFecha($fecha){
+    return date('d-m-Y', strtotime($fecha));
+}
+// function dedificaImagen($imagen){
+//     // Convertir datos binarios a cadena base64 para almacenar en la base de datos
+//     return base64_decode($imagen);
+// }

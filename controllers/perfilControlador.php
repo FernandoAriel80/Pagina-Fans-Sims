@@ -20,14 +20,16 @@ if (isset($_GET['token'])) {
 }
 
 $perfil = muestraPerfil($usuarioModelo,$idUsuarioActual);
-$misDiarios = muestraMisDiarios($diarioModelo,$idUsuarioActual);
-$todosDiarios = muestraTodosDiarios($diarioModelo);
+$datoU = $usuarioModelo->obtenerTodosUsuarios();
+$datoD = $diarioModelo->obtenerTodosDiarios();
+$misDiarios = muestraMisDiarios($datoD,$datoU,$idUsuarioActual);
+$todosDiarios = muestraTodosDiarios($datoD,$datoU);
 
-function muestraPerfil(Usuario $modelo,$id){
-    $datoUsuario = $modelo->getById($id);
+function muestraPerfil(Usuario $modeloU,$idU){
+    $datoUsuario = $modeloU->obtenerUnUsuario($idU);
     if ($datoUsuario) {
-        if ($id == $_SESSION['idUsuario']) {
-            return $vista ='<h4>El perfil del Usuario: '.$datoUsuario['nombre'].'</h4>
+        if ($idU == $_SESSION['idUsuario']) {
+            return $vista ='<h4>El perfil del Usuario: '.$datoUsuario->nombre.'</h4>
                             <h4>DIARIOS:</h4>
                             <div class="elemento-diario">
                                 <div class="crea-diario">
@@ -37,20 +39,31 @@ function muestraPerfil(Usuario $modelo,$id){
                             </div>
                             <h4>MIS DIARIOS:</h4>';
         } else {
-            return $vista ='<h4>El perfil del Usuario: '.$datoUsuario['nombre'].'</h4>
+            return $vista ='<h4>El perfil del Usuario: '.$datoUsuario->nombre.'</h4>
                             <h4>DIARIOS:</h4>
                             <h4>SUS DIARIOS:</h4>';
         }  
     }
 }
-function muestraMisDiarios(Diario $modelo,$id){
-    $dato = $modelo->getAllJoin('Usuario');
+function muestraMisDiarios($datoDiario, $datoUsuario,$idU){
     $misDiarios = []; 
-    if (!empty($dato)) {
-        foreach ($dato as $key){
-            if ($id == $key['idUsuario']) {
-                $misDiarios[] = vistaDiarios($key['idUsuario'],$key['idDiario'],$key['token'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']);
-            }    
+    if (!empty($datoDiario)) {
+        foreach ($datoDiario as $diario){
+            if (!empty($datoUsuario)) {
+                foreach ($datoUsuario as $usuario){
+                    if ($usuario->idUsuario == $diario->idUsuario) {
+                        if ($idU == $diario->idUsuario) {
+                            $fechaCreado = soloFecha($diario->fechaCreacion);
+                            $fechaActualizado= '';
+                            if ($diario->fechaActualizacion) {
+                                $fechaActualizado = soloFecha($diario->fechaActualizacion);
+                            } 
+                            $misDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
+                            $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre); 
+                        }  
+                    }
+                }
+            }  
         }
         return $misDiarios; 
     }else {
@@ -58,12 +71,23 @@ function muestraMisDiarios(Diario $modelo,$id){
     }
 }
 
-function muestraTodosDiarios(Diario $modelo){
-    $dato = $modelo->getAllJoin('Usuario');
+function muestraTodosDiarios($datoDiario, $datoUsuario){
     $losDiarios = []; 
-    if (!empty($dato)) {
-        foreach ($dato as $key){
-            $losDiarios[] = vistaDiarios($key['idUsuario'],$key['idDiario'],$key['token'],$key['titulo'],$key['fechaCreacion'],$key['fechaActualizacion'],$key['puntoPromedio'],$key['nombre']); 
+    if (!empty($datoDiario)) {
+        foreach ($datoDiario as $diario){
+            if (!empty($datoUsuario)) {
+                foreach ($datoUsuario as $usuario){
+                    if ($usuario->idUsuario == $diario->idUsuario) {
+                        $fechaCreado = soloFecha($diario->fechaCreacion);
+                        $fechaActualizado= '';
+                        if ($diario->fechaActualizacion) {
+                            $fechaActualizado = soloFecha($diario->fechaActualizacion);
+                        } 
+                        $losDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
+                        $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre); 
+                    }
+                }
+            }  
         }
         return $losDiarios; 
     }else {
@@ -101,5 +125,4 @@ function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fe
                     </div>
                 </div>';
     return $vista;
-    //  <div> <a href="/paginaSims/perfil.php>'.$autor.'</a></div>
 }

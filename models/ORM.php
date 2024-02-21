@@ -179,45 +179,45 @@ class Orm{
         }
     }
 
-    public function consultaJoin($condicionesJoin = array(),$condicionesWhere = array()) {
-        try{
-            $query = "SELECT * FROM {$this->tabla} ";
-            $paramsJoin = array();
-            $params = array();
-            if (!empty($condicionesJoin)) {
-                $query .= " JOIN ";
-                $condiciones_join = array();
-                foreach ($condicionesJoin as $clave => $valor) {
-                    $condiciones_join[] = "$clave ON ?";
-                    $paramsJoin[] = $valor; // Agregamos el valor al array de parámetros
-                }
-                $query .= implode(" JOIN ", $condiciones_join);
-            }
-            if (!empty($condicionesWhere)) {
-                $query .= " WHERE ";
-                $condiciones_sql = array();
-                foreach ($condicionesWhere as $clave => $valor) {
-                    $condiciones_sql[] = "$clave = ?";
-                    $params[] = $valor; // Agregamos el valor al array de parámetros
-                }
-                $query .= implode(" AND ", $condiciones_sql);
-            }
-            $stm = $this->connection->prepare($query);
-            // Asignamos valores utilizando bindValue()
-            foreach ($paramsJoin as $index => $valor) {
-                $stm->bindValue($index + 1, $valor);
-            }
-            foreach ($params as $index => $valor) {
-                $stm->bindValue($index + 1, $valor);
-            }
-            $stm->execute();
-            return $stm->fetchAll();
-        } catch (PDOException $e) {
-            echo "Error al consultaJoin: " . $e->getMessage();
-            error_log("Error al consultaJoin: " . $e->getMessage());
-            return false;
-        }
-    }
+    // public function consultaJoin($condicionesJoin = array(),$condicionesWhere = array()) {
+    //     try{
+    //         $query = "SELECT * FROM {$this->tabla} ";
+    //         $paramsJoin = array();
+    //         $params = array();
+    //         if (!empty($condicionesJoin)) {
+    //             $query .= " JOIN ";
+    //             $condiciones_join = array();
+    //             foreach ($condicionesJoin as $clave => $valor) {
+    //                 $condiciones_join[] = "$clave ON ?";
+    //                 $paramsJoin[] = $valor; // Agregamos el valor al array de parámetros
+    //             }
+    //             $query .= implode(" JOIN ", $condiciones_join);
+    //         }
+    //         if (!empty($condicionesWhere)) {
+    //             $query .= " WHERE ";
+    //             $condiciones_sql = array();
+    //             foreach ($condicionesWhere as $clave => $valor) {
+    //                 $condiciones_sql[] = "$clave = ?";
+    //                 $params[] = $valor; // Agregamos el valor al array de parámetros
+    //             }
+    //             $query .= implode(" AND ", $condiciones_sql);
+    //         }
+    //         $stm = $this->connection->prepare($query);
+    //         // Asignamos valores utilizando bindValue()
+    //         foreach ($paramsJoin as $index => $valor) {
+    //             $stm->bindValue($index + 1, $valor);
+    //         }
+    //         foreach ($params as $index => $valor) {
+    //             $stm->bindValue($index + 1, $valor);
+    //         }
+    //         $stm->execute();
+    //         return $stm->fetchAll();
+    //     } catch (PDOException $e) {
+    //         echo "Error al consultaJoin: " . $e->getMessage();
+    //         error_log("Error al consultaJoin: " . $e->getMessage());
+    //         return false;
+    //     }
+    // }
 
     // public function consultaJoin($tablaPrincipal, $condiciones) {
     //     $sql = "SELECT * FROM $tablaPrincipal ";

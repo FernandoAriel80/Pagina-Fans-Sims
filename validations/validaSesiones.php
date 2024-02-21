@@ -28,7 +28,6 @@ function cerrarSesion() {
     setcookie('nombre', '', time() - 3600, '/', '', true, true);
     setcookie('idUsuario', '', time() - 3600, '/', '', true, true);
     setcookie('rolUsuario', '', time() - 3600, '/', '', true, true);
-    setcookie('usuario', '', time() - 3600, '/', '', true, true);
 }
 
 function crearCookie($nombre,$id,$rol) {
@@ -37,7 +36,6 @@ function crearCookie($nombre,$id,$rol) {
     setcookie('nombre', $nombre, time() + (86400 * 30), '/', '', true, true);
     setcookie('idUsuario', $id, time() + (86400 * 30), '/', '', true, true);
     setcookie('rolUsuario', $rol, time() + (86400 * 30), '/', '', true, true);
-    setcookie('usuario', $rol, time() + (86400 * 30), '/', '', true, true);
     return $token;
 }
 

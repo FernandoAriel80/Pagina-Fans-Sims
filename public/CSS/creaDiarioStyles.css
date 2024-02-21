@@ -64,7 +64,7 @@ textarea {
 
 @media only screen and (min-width: 769px) {
     .contenedor-imagen{
-        width: 40%;
+        width: 55%;
     }
     .imagenYboton{
         display: flex;
