@@ -19,17 +19,21 @@ if (!sesionActiva()) {
                 <!-- perfil end -->
                 <div class="elemento-diario">
                     <!-- cada diario  -->
-                    <?php foreach ($misDiarios as $diario) {
+                    <?php if (is_array($misDiarios)) {
+                        foreach ($misDiarios as $diario) {
                             echo $diario;
-                          }?>
+                          }
+                    }?>
                     <!-- cada diario end  -->
                 </div>
                 <h4>TODOS LOS DIARIOS:</h4>
                 <div class="elemento-diario">
                     <!-- cada diario  -->
-                    <?php foreach ($todosDiarios as $diario) {
+                    <?php if (is_array($todosDiarios)) {
+                        foreach ($todosDiarios as $diario) {
                             echo $diario;
-                          }?>
+                          }
+                    }?>
                     <!-- cada diario end  -->
                 </div>
             </div>

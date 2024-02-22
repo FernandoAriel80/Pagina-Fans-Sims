@@ -219,7 +219,7 @@ input[type="submit"] {
 
 .boton-login,.boton-registrar{
   margin: auto;
-  background-image: url('../Imagenes/btn_login.png');
+  background-image: url('../Iconos/btn_login.png');
   background-size: contain; 
   background-position: left; 
   background-repeat: no-repeat;
@@ -297,7 +297,7 @@ input[type="submit"] {
 .contenedor-icono-diario{
   width: 50px;
   height: 50px; 
-  background-image: url('../Imagenes/diario.png');
+  background-image: url('../Iconos/diario.png');
 }
 .contenedor-icono-perfil{
   width: 50px;
@@ -316,7 +316,7 @@ input[type="submit"] {
 /* Estilos para dispositivos de escritorio */
 @media only screen and (min-width: 769px) {
   body{
-    margin: 5% 7%;
+    margin: 8% 7%;
   }
   .contenedor-izquierdo-flex{
     /* display: flex; */

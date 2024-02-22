@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (!empty($datoUsuarioLogin)) {
                     foreach ($datoUsuarioLogin as $DatoUsuario){
                         if ($DatoUsuario->nomUsuario == $usuario) {
-                            if(validaLoginExistente($datoUsuarioLogin,$usuario,$clave)){
+                            if(validaLoginExistente($DatoUsuario->nomUsuario,$DatoUsuario->clave,$DatoUsuario->sal,$usuario,$clave)){
                                 $token = crearCookie($DatoUsuario->nombre,$DatoUsuario->idUsuario,$DatoUsuario->rol);
                                 iniciarSesion($DatoUsuario->idUsuario,$DatoUsuario->nomUsuario,$DatoUsuario->nombre,$token,$DatoUsuario->rol);
                                 if($DatoUsuario->guardaToken($token)){
@@ -197,18 +197,12 @@ function validaRegistroExistente(Usuario $modelo,string $usuario,string $nombre,
         }
     }
 }
-function validaLoginExistente($datoU,string $usuario,string $clave){
-    if (!empty($datoU)) {
-        foreach ($datoU as $key) {
-            $usuDB = $key->nomUsuario;
-            $salDB = $key->sal;
-            $clavDB = $key->clave;
-            if ( $usuario == $usuDB && password_verify($clave.$salDB,$clavDB)){  
-                return true;
-            }else{
-               return false; 
-            }
-        }
+function validaLoginExistente($usuarioDB,$claveDB,$salDB,string $usuario,string $clave){
+   
+    if ( $usuario == $usuarioDB && password_verify($clave.$salDB,$claveDB)){  
+        return true;
+    }else{
+       return false; 
     }
 }
 

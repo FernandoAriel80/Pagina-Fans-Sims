@@ -1,9 +1,50 @@
-.contenidoDiario {
+/* .contenidoDiario {
     display: flex;
     justify-content:center;
     align-items: flex-start;
     flex-wrap: wrap;
+} */
+.modifica-creaEntrada{
+ 
+    display: flex; 
+    justify-content:end; 
+    align-items:end; 
 }
+.modificaEntrada{
+    display: flex; 
+    justify-content:end; 
+    align-items:end; 
+}
+
+.contenedor-icono-crea ,.contenedor-icono-modifica{
+ 
+    margin: 5px;
+    width: 50px;
+    height: 30px;
+    background-image: url('https://png.pngtree.com/background/20230611/original/pngtree-dragon-ball-z-picture-image_3166980.jpg');
+    background-size: contain; 
+    background-position: center;
+    background-repeat: no-repeat;
+} 
+.contenidoCapitulos{
+  margin-bottom: 20px;
+  
+}
+.dato-capitulo{
+    border: 1px solid white;
+    padding: 5px;
+    margin: 10px 0px;
+}
+
+.imagenCapitulo img{
+    justify-content: center;
+    height: 350px; 
+    width: 100%; 
+}
+.capituloText{
+
+    width: 100%; 
+} 
 
 /* .diarioText {
     flex: 1 1 60%; 
@@ -16,32 +57,35 @@
     max-width: 40%;
 } */
 
-/* .imagenCapitulo img{
-    height: 20px;
-    width: 20px;
-} */
 
-.contenido-todo-diario{
+/* .contenido-todo-diario{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+} */
 
-@media (max-width: 768px) {
-    .contenidoDiario {
+@media only screen and (min-width: 769px) {
+    /* .contenidoDiario {
         flex-direction: column;
         align-items: center;
-    }
+    } */
 
+    .imagenCapitulo {
+        width: 40%;
+    }
+    .capituloText{
+        width: 60%; 
+       
+    }
+    
     .diarioText, .imagenDiario {
-        max-width: 100%;
+        max-width: 50%;
         margin-right: 0;
     }
     .contenidoCapitulos{
         display: flex;
         justify-content: space-between;
-        align-items: center;
 
     }
 }

@@ -23,9 +23,14 @@ if (!sesionActiva()) {
                     <?php echo $categoria; ?>
                 </div>
                 <!-- contenido capitulos -->
-                <div class="contenidoCapitulos">
+                <div class="dato-capitulo">
                     <?php echo $capitulo; ?>
                 </div>
+                <div class="dato-capitulo">
+                    <?php echo $capitulo; ?>
+                </div>
+                    
+            
             </div>
             <!-- END CONTENEDOR -->
         </div>
