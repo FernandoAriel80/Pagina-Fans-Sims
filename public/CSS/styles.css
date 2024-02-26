@@ -217,9 +217,8 @@ input[type="submit"] {
   margin: auto;
 }
 
-.boton-login,.boton-registrar{
+.boton-login,.boton-registrar,.boton-deslogin{
   margin: auto;
-  background-image: url('../Iconos/btn_login.png');
   background-size: contain; 
   background-position: left; 
   background-repeat: no-repeat;
@@ -228,6 +227,12 @@ input[type="submit"] {
   width: 60px;
   height: 60px;
   right: 40px;
+}
+.boton-login,.boton-registrar{
+  background-image: url('../Iconos/login.png');
+}
+.boton-deslogin{
+  background-image: url('../Iconos/desLogin.png');
 }
  .boton-nav-registrar{
   margin: auto;
@@ -339,7 +344,7 @@ input[type="submit"] {
     margin:15px 2px;
     flex-direction: column; 
   }
-  .boton-login,.boton-registrar{
+  .boton-login,.boton-registrar,.boton-deslogin{
     right: 12px;
     width: 40px;
     height: 40px;

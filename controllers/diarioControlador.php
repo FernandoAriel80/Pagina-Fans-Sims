@@ -24,16 +24,19 @@ if (isset($_GET['tokenU'])) {
 if (isset($_GET['tokenD'])) {
     $idDiarioActual = obteneTokenId($_GET['tokenD']);
 }
+if (isset($_GET['autor'])) {
+    $autor = $_GET['autor'];
+}
 
 $datoDiarioModelo = $diarioModelo->obtenerTodosDiarios();
 $datocapituloModelo = $capituloModelo->obtenerTodosCapitulos();
 $datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
 
-$diario = vistaDiario($datoDiarioModelo,$idUsuarioActual,$idDiarioActual);
+$diario = vistaDiario($datoDiarioModelo,$idUsuarioActual,$idDiarioActual,$autor);
 $categoria = vistaCategoria($categoriaDiarioModelo,$idDiarioActual);
 $capitulo = vistaCapitulo($datocapituloModelo,$idUsuarioActual,$idDiarioActual);
 
-function vistaDiario($datoD,$idautor,$idDiario){    
+function vistaDiario($datoD,$idautor,$idDiario,$autor){    
     if ($datoD) {
         foreach ($datoD as $diario ) {
             if ($idDiario == $diario->idDiario) {
@@ -41,14 +44,15 @@ function vistaDiario($datoD,$idautor,$idDiario){
                     if ($idautor == $_SESSION['idUsuario']) {
                         $vista = '  <!-- contenido modifica diario -->
                                     <div class = "modifica-creaEntrada" >
-                                        <a class="contenedor-icono-crea" href="todosDiarios.php"></a>
-                                        <a class="contenedor-icono-modifica" href="todosDiarios.php"></a>
+                                        <a class="contenedor-icono-crea" href="creaCapitulo.php" placeholder="agrega una entrada"></a>
+                                        <a class="contenedor-icono-modifica" href="todosDiarios.php" placeholder="modifica diario"></a>
                                     </div>
                                     <!-- contenido diario -->
                                     <div class="contenidoDiario">
                                         <div class = "DiarioText" >
                                             <h2>'.$diario->titulo.'</h2>
                                             <p>'.$diario->descripcion.'</p>
+                                            <p> Autor: '.$autor.'</p>
                                         </div>          
                                     </div>';
                     }else{
@@ -57,6 +61,7 @@ function vistaDiario($datoD,$idautor,$idDiario){
                                         <div class = "DiarioText" >
                                             <h2>'.$diario->titulo.'</h2>
                                             <p>'.$diario->descripcion.'</p>
+                                            <p> Autor: '.$autor.'</p>
                                         </div>          
                                     </div>';
 
@@ -87,18 +92,30 @@ function vistaCapitulo($datoC,$idautor,$idDiario){
         foreach ($datoC as $capitulo) {
             if ($capitulo->idDiario == $idDiario) {              
                 if ($capitulo->imagen != null) {
-                    $vista = '  <div class="contenidoCapitulos">
-                                    <div class = "capituloText" >
-                                        <h4>'.$capitulo->titulo.'</h4>
-                                        <p>'.$capitulo->parrafo.'</p>
-                                    </div>
-                                    <div class="imagenCapitulo">
-                                        <img src="public/Imagenes/'.$capitulo->imagen.'"/>
-                                    </div>
-                                </div>';
+                    if ($capitulo->parrafo != '') {
+                        $vista = '  <div class="contenidoCapitulos">
+                                        <div class = "capituloText" >
+                                            <h4>'.$capitulo->titulo.'</h4>
+                                            <p>'.$capitulo->parrafo.'</p>
+                                        </div>
+                                        <div class="imagenCapitulo">
+                                            <img src="public/ImagenesDiario/'.$capitulo->imagen.'"/>
+                                        </div>
+                                    </div>';
+                    } else {
+                        $vista = '  <div class="contenidoCapitulos " style="display: block;">
+                                        <div class = "capituloText" >
+                                            <h4>'.$capitulo->titulo.'</h4>
+                                        </div>
+                                        <div class="imagenCapitulo" style="width: 100%;">
+                                            <img src="public/ImagenesDiario/'.$capitulo->imagen.'"/>
+                                        </div>
+                                    </div>';
+                    }
+                   
                 } else {
                     $vista = '  <div class="contenidoCapitulos">
-                                    <div class = "capituloText" >
+                                    <div class = "capituloText" style="width: 100%;">
                                         <h4>'.$capitulo->titulo.'</h4>
                                         <p>'.$capitulo->parrafo.'</p>
                                     </div>

@@ -63,24 +63,3 @@ function muestraMensajea($message){
             </div>';
     return $vista;
 }
-function muestraCategorias($datoCate){
-
-    $vista="";
-    if (!empty($datoCate)) {
-        foreach ($datoCate as $key) {
-            $vista.="<div class='selector-categoria'>
-                        <input type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $key->idCategoria . "'>
-                        <label for='categoria_" . $key->idCategoria. "' class='checkbox-label'>" . $key->descripcion . "</label>
-                    </div>";
-        } 
-        return $vista;    
-    }
-}
-
-function validaCreaDiario(string $tituloDiario,$descripcionDiario,string $tituloEntrada,string $descripcionCapitulo){
-    if (tituloValido($tituloDiario)&&textoValido($descripcionDiario)&&tituloValido($tituloEntrada)&&textoValido($descripcionCapitulo)) {
-        return true;
-    } 
-    return false;
-}
-

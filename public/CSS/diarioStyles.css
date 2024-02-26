@@ -19,13 +19,18 @@
 .contenedor-icono-crea ,.contenedor-icono-modifica{
  
     margin: 5px;
-    width: 50px;
+    width: 30px;
     height: 30px;
-    background-image: url('https://png.pngtree.com/background/20230611/original/pngtree-dragon-ball-z-picture-image_3166980.jpg');
     background-size: contain; 
     background-position: center;
     background-repeat: no-repeat;
 } 
+.contenedor-icono-crea {
+    background-image: url('../Iconos/agrega.png');
+}
+.contenedor-icono-modifica{
+    background-image: url('../Iconos/edita.png');
+}
 .contenidoCapitulos{
   margin-bottom: 20px;
   
@@ -42,7 +47,7 @@
     width: 100%; 
 }
 .capituloText{
-
+    margin: 5px;
     width: 100%; 
 } 
 

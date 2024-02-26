@@ -126,10 +126,16 @@ function imagenValida($imagen = null): bool {
 function codificaImagen($imagen){
     return base64_encode(file_get_contents($imagen['tmp_name']));
 }
-function guardaImagen($temp,$imagen){
-    move_uploaded_file($temp,'public/Imagenes/'.$imagen);
+function guardaImagen($temp,$url,$imagen){
+    $nombre_unico = uniqid() . '_' . $imagen;
+    move_uploaded_file($temp,$url.$nombre_unico);
+    return $nombre_unico;
 }
-
+function eliminaImagen($url,$imagen){
+    if (file_exists($url.$imagen)) {
+        unlink($url.$imagen);
+    }  
+}
 function categoriaValida($categoria){
     if(isset($categoria) && !empty($categoria)) {
        return true;
