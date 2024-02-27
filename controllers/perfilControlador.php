@@ -21,10 +21,10 @@ if (isset($_GET['token'])) {
 
 $perfil = muestraPerfil($usuarioModelo,$idUsuarioActual);
 $datoU = $usuarioModelo->obtenerTodosUsuarios();
-$datoD = $diarioModelo->obtenerTodosDiarios();
+$datoD = $diarioModelo->obtenerTodosDiariosOrden('fechaActualizacion');
 $misDiarios = muestraMisDiarios($datoD,$datoU,$idUsuarioActual);
 $todosDiarios = muestraTodosDiarios($datoD,$datoU);
-
+$dataBase->desconectar(); 
 function muestraPerfil(Usuario $modeloU,$idU){
     $datoUsuario = $modeloU->obtenerUnUsuario($idU);
     if ($datoUsuario) {

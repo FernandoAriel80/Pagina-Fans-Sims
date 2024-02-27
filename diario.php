@@ -23,14 +23,14 @@ if (!sesionActiva()) {
                     <?php echo $categoria; ?>
                 </div>
                 <!-- contenido capitulos -->
-                <div class="dato-capitulo">
-                    <?php echo $capitulo; ?>
-                </div>
-                <div class="dato-capitulo">
-                    <?php echo $capitulo; ?>
-                </div>
-                    
-            
+                
+                <?php if (is_array($todosCapitulos)) {
+                        foreach ($todosCapitulos as $capitulo) {?>
+                        <div class="dato-capitulo">
+                             <?php echo $capitulo;?>
+                        </div>
+                        <?php }
+                    }?>
             </div>
             <!-- END CONTENEDOR -->
         </div>

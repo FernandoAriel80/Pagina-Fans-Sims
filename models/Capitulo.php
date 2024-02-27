@@ -74,6 +74,21 @@ final class Capitulo extends Orm{
             return false;
         }
     }
+    public function editaCapitulo($idCapitulo,$idDiario,$titulo,$imagen,$parrafo){
+        $dato=[
+            'idDiario' => $idDiario,
+            'titulo' => $titulo,
+            'imagen' => $imagen,
+            'parrafo' => $parrafo
+        ];
+        try {
+           return $this->upDateById($idCapitulo,$dato);
 
+        } catch (PDOException $e) {
+            echo "Error al registrarUsuario: " . $e->getMessage();
+            error_log("Error al obtener guardaToken:" . $e->getMessage()) ;
+            return false;
+        }
+    }
 
 }

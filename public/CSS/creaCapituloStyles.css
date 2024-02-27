@@ -1,8 +1,8 @@
 
-.contenedor-crea-diario{
+.contenedor-crea-capitulo{
     text-align: center;
 }
-.formulario-crea-diario {
+.formulario-crea-capitulo {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -32,30 +32,6 @@ textarea {
 
 }
 
-.subYcheck{
-    width: 100px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.contenedor-categoria {
-    flex-wrap: wrap;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    max-width: 150px; 
-}
-
-.selector-item {
-    width: 100%; 
-    box-sizing: border-box; 
-}
-
-#categoria-input{
-    width: 20px;
-    height: 20px; 
-}
 
 @media only screen and (min-width: 769px) {
     .contenedor-imagen{

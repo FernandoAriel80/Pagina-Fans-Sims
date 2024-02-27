@@ -16,7 +16,7 @@ $categoriaDiarioModelo = new CategoriaDiario($coneccion);
 
 $diario= '';
 $categoria= '';
-$capitulo= '';
+$todosCapitulos= [];
 
 if (isset($_GET['tokenU'])) {
     $idUsuarioActual = obteneTokenId($_GET['tokenU']);
@@ -34,9 +34,11 @@ $datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
 
 $diario = vistaDiario($datoDiarioModelo,$idUsuarioActual,$idDiarioActual,$autor);
 $categoria = vistaCategoria($categoriaDiarioModelo,$idDiarioActual);
-$capitulo = vistaCapitulo($datocapituloModelo,$idUsuarioActual,$idDiarioActual);
-
-function vistaDiario($datoD,$idautor,$idDiario,$autor){    
+$todosCapitulos = muestraTodosCapitulos($datocapituloModelo,$idUsuarioActual,$idDiarioActual);
+$dataBase->desconectar(); 
+function vistaDiario($datoD,$idautor,$idDiario,$autor){ 
+    $tokenD = bin2hex(random_bytes(32));
+    $tokenIdDiario = generaTokenId($idDiario,$tokenD);   
     if ($datoD) {
         foreach ($datoD as $diario ) {
             if ($idDiario == $diario->idDiario) {
@@ -44,8 +46,8 @@ function vistaDiario($datoD,$idautor,$idDiario,$autor){
                     if ($idautor == $_SESSION['idUsuario']) {
                         $vista = '  <!-- contenido modifica diario -->
                                     <div class = "modifica-creaEntrada" >
-                                        <a class="contenedor-icono-crea" href="creaCapitulo.php" placeholder="agrega una entrada"></a>
-                                        <a class="contenedor-icono-modifica" href="todosDiarios.php" placeholder="modifica diario"></a>
+                                        <a class="contenedor-icono-crea" href="creaCapitulo.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="agrega una entrada"></a>
+                                        <a class="contenedor-icono-modifica" href="todosDiarios.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="modifica diario"></a>
                                     </div>
                                     <!-- contenido diario -->
                                     <div class="contenidoDiario">
@@ -86,52 +88,66 @@ function vistaCategoria(CategoriaDiario $modelo,$idDiario){
         return $vista;
     }
 }
-function vistaCapitulo($datoC,$idautor,$idDiario){
-    $vista ='';
+function muestraTodosCapitulos($datoC,$idautor,$idDiario){
+    $losCapitulos= [];
     if (!empty($datoC)) {
         foreach ($datoC as $capitulo) {
             if ($capitulo->idDiario == $idDiario) {              
-                if ($capitulo->imagen != null) {
-                    if ($capitulo->parrafo != '') {
-                        $vista = '  <div class="contenidoCapitulos">
-                                        <div class = "capituloText" >
-                                            <h4>'.$capitulo->titulo.'</h4>
-                                            <p>'.$capitulo->parrafo.'</p>
-                                        </div>
-                                        <div class="imagenCapitulo">
-                                            <img src="public/ImagenesDiario/'.$capitulo->imagen.'"/>
-                                        </div>
-                                    </div>';
-                    } else {
-                        $vista = '  <div class="contenidoCapitulos " style="display: block;">
-                                        <div class = "capituloText" >
-                                            <h4>'.$capitulo->titulo.'</h4>
-                                        </div>
-                                        <div class="imagenCapitulo" style="width: 100%;">
-                                            <img src="public/ImagenesDiario/'.$capitulo->imagen.'"/>
-                                        </div>
-                                    </div>';
-                    }
-                   
-                } else {
-                    $vista = '  <div class="contenidoCapitulos">
-                                    <div class = "capituloText" style="width: 100%;">
-                                        <h4>'.$capitulo->titulo.'</h4>
-                                        <p>'.$capitulo->parrafo.'</p>
-                                    </div>
-                                </div>';
-                }
-                if ($idautor == $_SESSION['idUsuario']) {
-                    $vista .= ' <!-- contenido modifica entrada -->
-                                <div class = "modificaEntrada" >
-                                    <a class="contenedor-icono-modifica" href="todosDiarios.php"></a>
-                                </div>';
-                }
+                $losCapitulos[] = vistacapitulo($idautor,$capitulo->idDiario,$capitulo->idCapitulo,$capitulo->imagen,$capitulo->titulo,$capitulo->parrafo);
             }    
         }
-        return $vista;
+        return $losCapitulos;
     }
 }
+
+function vistacapitulo($idautor,$idDiario,$idCapitulo,$imagen,$titulo,$parrafo){
+    $tokenC = bin2hex(random_bytes(32));
+    $tokenIdCapitulo = generaTokenId($idCapitulo,$tokenC); 
+    $tokenD = bin2hex(random_bytes(32));
+    $tokenIdDiario = generaTokenId($idDiario,$tokenD);
+    if ($imagen != null) {
+        if ($parrafo != '') {
+            $vista = '  <div class="contenidoCapitulos">
+                            <div class = "capituloText" >
+                                <h4>'.$titulo.'</h4>
+                                <p>'.$parrafo.'</p>
+                            </div>
+                            <div class="imagenCapitulo">
+                                <img src="public/ImagenesDiario/'.$imagen.'"/>
+                            </div>
+                        </div>';
+        } else {
+            $vista = '  <div class="contenidoCapitulos " style="display: block;">
+                            <div class = "capituloText" >
+                                <h4>'.$titulo.'</h4>
+                            </div>
+                            <div class="imagenCapitulo" style="width: 100%;">
+                                <img src="public/ImagenesDiario/'.$imagen.'"/>
+                            </div>
+                        </div>';
+        }
+       
+    } else {
+        $vista = '  <div class="contenidoCapitulos">
+                        <div class = "capituloText" style="width: 100%;">
+                            <h4>'.$titulo.'</h4>
+                            <p>'.$parrafo.'</p>
+                        </div>
+                    </div>';
+    }
+    if ($idautor == $_SESSION['idUsuario']) {
+        $vista .= ' <!-- contenido modifica entrada -->
+                    <div class = "modificaEntrada" >
+                        <a class="contenedor-icono-modifica" href="editaCapitulo.php?tokenC='.$tokenIdCapitulo.'&tokenD='.$tokenIdDiario.'" title="modifica entrada"></a>
+                    </div>';
+    }
+    return $vista;
+}    
+
+
+    
+// return $vista;
+// }
 // <div class="botonesDiario">
 // <button class="boton-modificar">Modificar</button>
 // <button class="boton-favorito">Favorito</button>

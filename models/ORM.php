@@ -179,6 +179,25 @@ class Orm{
         }
     }
 
+    public function getAllOrderBy($orderColumn, $orderDirection = 'ASC'){
+        try{
+            // Verificar la dirección de ordenamiento para evitar posibles inyecciones SQL
+            $validOrderDirections = array('ASC', 'DESC');
+            $orderDirection = strtoupper($orderDirection);
+            if (!in_array($orderDirection, $validOrderDirections)) {
+                $orderDirection = 'ASC';
+            }
+    
+            // Preparar la consulta SQL con la cláusula ORDER BY
+            $query = "SELECT * FROM {$this->tabla} ORDER BY {$orderColumn} {$orderDirection}";
+            $stm = $this->connection->prepare($query);
+            $stm->execute();
+            return $stm->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error al obtener todos los registros ordenados: " . $e->getMessage();
+            error_log("Error al obtener todos los registros ordenados: " . $e->getMessage());
+        }
+    }
     // public function consultaJoin($condicionesJoin = array(),$condicionesWhere = array()) {
     //     try{
     //         $query = "SELECT * FROM {$this->tabla} ";

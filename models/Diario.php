@@ -40,7 +40,25 @@ final class Diario extends Orm{
             return [];
         }
     }
-
+    public function obtenerTodosDiariosOrden($columna,$orden= 'DESC'){
+        try {
+            $resultados = $this->getAllOrderBy($columna,$orden);
+            $diarios = [];
+            foreach ($resultados as $fila) {
+                $diario = new Diario($this->connection);
+                // Asignar atributos utilizando __set
+                foreach ($fila as $nombre => $valor) {
+                    $diario->setAtributos($nombre,$valor);
+                }
+                $diarios[] = $diario;
+            }
+            return $diarios;
+        } catch (PDOException $e) {
+            echo "Error al obtener obtenerTodosDiariosOrden: " . $e->getMessage();
+            error_log("Error al obtener obtenerTodosDiariosOrden:" . $e->getMessage()) ;
+            return [];
+        }
+    }
     public function obtenerUnDiario($id) {
         try {
             $resultado = $this->getById($id);
@@ -59,6 +77,7 @@ final class Diario extends Orm{
         }
     }
 
+
     public function creaDiario($idUsuario,$titulo,$descripcion,$visible){
         $dato=[
             'idUsuario' => $idUsuario,
@@ -75,6 +94,23 @@ final class Diario extends Orm{
             return false;
         }
     }
+    function actualizarDiario($id){
 
+        try {
+            $query = "UPDATE {$this->tabla} SET fechaActualizacion = CURRENT_TIMESTAMP WHERE id{$this->tabla} = :id";
+            $stm = $this->connection->prepare($query);
+            $stm->bindValue(":id", $id);
+            $resultado = $stm->execute();
+            if (!empty($resultado)) {
+                return true;
+            } else {
+                return false;
+            }  
+        } catch (PDOException $e) {
+            echo "Error al guardaToken: " . $e->getMessage();
+            error_log("Error al obtener guardaToken:" . $e->getMessage()) ;
+            return false;
+        }
+    }
     
 }
