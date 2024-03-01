@@ -47,7 +47,7 @@ CREATE TABLE Categoria(
 );
 
 CREATE TABLE CategoriaDiario(
-	idCategoriaDiario INT AUTO_INCREMENT UNIQUE,
+	idCategoriaDiario INT AUTO_INCREMENT,
     idDiario INT NOT NULL,
     idCategoria INT NOT NULL,
     PRIMARY KEY(idDiario,idCategoria),

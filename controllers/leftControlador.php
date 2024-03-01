@@ -7,6 +7,7 @@ require_once 'validations/validaSesiones.php';
 
 $dataBase = new DataBase();
 $conexion = $dataBase->conectar();
+
 $vistaLeft = '';
 $mensaje='';
 

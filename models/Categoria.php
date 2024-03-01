@@ -8,7 +8,6 @@ final class Categoria extends Orm{
         parent::__construct('Categoria',$connecion);
     }
 
-    // Método mágico __set
     public function setAtributos($nombre, $valor) {
         $this->atributos[$nombre] = $valor;
     }
@@ -24,16 +23,16 @@ final class Categoria extends Orm{
     public function obtenerTodosCategorias() {
         try {
             $resultados = $this->getAll();
-            $Categorias = [];
+            $categorias = [];
             foreach ($resultados as $fila) {
-                $Categoria = new Categoria($this->connection);
+                $categoria = new Categoria($this->connection);
                 // Asignar atributos utilizando __set
                 foreach ($fila as $nombre => $valor) {
-                    $Categoria->setAtributos($nombre,$valor);
+                    $categoria->setAtributos($nombre,$valor);
                 }
-                $Categorias[] = $Categoria;
+                $categorias[] = $categoria;
             }
-            return $Categorias;
+            return $categorias;
         } catch (PDOException $e) {
             echo "Error al obtener obtenerTodosCategorias: " . $e->getMessage();
             error_log("Error al obtener obtenerTodosCategorias:" . $e->getMessage()) ;
@@ -45,12 +44,12 @@ final class Categoria extends Orm{
         try {
             $resultado = $this->getById($id);
             if ($resultado) {
-                $Categoria = new Categoria($this->connection);
+                $categoria = new Categoria($this->connection);
                 foreach ($resultado as $nombre => $valor) {
                     // Asignar atributos utilizando __set
-                    $Categoria->setAtributos($nombre,$valor);
+                    $categoria->setAtributos($nombre,$valor);
                 }
-                return $Categoria;
+                return $categoria;
             }
         }catch (PDOException $e) {
             echo "Error al obtener obtenerUnCategoria: " . $e->getMessage();

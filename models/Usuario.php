@@ -75,7 +75,7 @@ final class Usuario extends Orm{
             }
         } catch (PDOException $e) {
             echo "Error al registrarUsuario: " . $e->getMessage();
-            error_log("Error al obtener guardaToken:" . $e->getMessage()) ;
+            error_log("Error al obtener registrarUsuario:" . $e->getMessage()) ;
             return false;
         }
     }
@@ -108,8 +108,8 @@ final class Usuario extends Orm{
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-            echo "Error al obtener registro getByUsuAndEmail: " . $e->getMessage();
-            error_log("Error al obtener registro getByUsuAndEmail: " . $e->getMessage()) ;
+            echo "Error al obtener registro getByUsuAndEmailAndNom: " . $e->getMessage();
+            error_log("Error al obtener registro getByUsuAndEmailAndNom: " . $e->getMessage()) ;
         } 
     }
     

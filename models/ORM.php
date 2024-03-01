@@ -17,8 +17,8 @@ class Orm{
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-            echo "Error al obtener todos los registros: " . $e->getMessage();
-            error_log("Error al obtener todos los registros: " . $e->getMessage());
+            echo "Error al obtener getAll: " . $e->getMessage();
+            error_log("Error al obtener getAll: " . $e->getMessage());
         }
        
     }
@@ -31,8 +31,8 @@ class Orm{
             $stm->execute();
             return $stm->fetch();
         }catch (PDOException $e) {
-            echo "Error al obtener el registro: " . $e->getMessage();
-            error_log("Error al obtener el registro: " . $e->getMessage());
+            echo "Error al obtener el getById: " . $e->getMessage();
+            error_log("Error al obtener el getById: " . $e->getMessage());
         }
     }
     public function getAllJoin($tablaUnida) { // se le agrega tabla del id relacionado a esa tabla
@@ -43,8 +43,8 @@ class Orm{
             $stm->execute();
             return $stm->fetchAll();
         }catch (PDOException $e) {
-            echo "Error al obtener todos los registros join: " . $e->getMessage();
-            error_log("Error al obtener todos los registros join: " . $e->getMessage());
+            echo "Error al obtener todos getAllJoin: " . $e->getMessage();
+            error_log("Error al obtener getAllJoin: " . $e->getMessage());
         }
     }
     // public function getByIdJoin($tablaUnida,$id) {
@@ -198,6 +198,20 @@ class Orm{
             error_log("Error al obtener todos los registros ordenados: " . $e->getMessage());
         }
     }
+
+    // public function deleteById($id) {
+    //     try {
+    //         $idTabla = "id{$this->tabla}";
+    //         $query = "DELETE FROM {$this->tabla} WHERE {$idTabla} = :id";
+    //         $stm = $this->connection->prepare($query);
+    //         $stm->bindParam(':id', $id);
+    //         return $stm->execute();
+    //     } catch (PDOException $e) {
+    //         echo "Error al eliminar el registro por ID: " . $e->getMessage();
+    //         error_log("Error al eliminar el registro por ID: " . $e->getMessage());
+    //     }
+    // }
+    
     // public function consultaJoin($condicionesJoin = array(),$condicionesWhere = array()) {
     //     try{
     //         $query = "SELECT * FROM {$this->tabla} ";

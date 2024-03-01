@@ -8,7 +8,6 @@ final class Diario extends Orm{
         parent::__construct('Diario',$connecion);
     }
 
-    // Método mágico __set
     public function setAtributos($nombre, $valor) {
         $this->atributos[$nombre] = $valor;
     }
@@ -89,13 +88,12 @@ final class Diario extends Orm{
            return $this->insert($dato);
 
         } catch (PDOException $e) {
-            echo "Error al registrarUsuario: " . $e->getMessage();
-            error_log("Error al obtener guardaToken:" . $e->getMessage()) ;
+            echo "Error al creaDiario: " . $e->getMessage();
+            error_log("Error al obtener creaDiario:" . $e->getMessage()) ;
             return false;
         }
     }
-    function actualizarDiario($id){
-
+    function fechaActualizarDiario($id){
         try {
             $query = "UPDATE {$this->tabla} SET fechaActualizacion = CURRENT_TIMESTAMP WHERE id{$this->tabla} = :id";
             $stm = $this->connection->prepare($query);
@@ -107,8 +105,24 @@ final class Diario extends Orm{
                 return false;
             }  
         } catch (PDOException $e) {
-            echo "Error al guardaToken: " . $e->getMessage();
-            error_log("Error al obtener guardaToken:" . $e->getMessage()) ;
+            echo "Error al fechaActualizarDiario: " . $e->getMessage();
+            error_log("Error al obtener fechaActualizarDiario:" . $e->getMessage()) ;
+            return false;
+        }
+    }
+
+    public function editaDiario($idDiario,$titulo,$descripcion,$visible){
+        $dato=[
+            'titulo' => $titulo,
+            'descripcion' => $descripcion,
+            'visible' => $visible
+        ];
+        try {
+           return $this->upDateById($idDiario,$dato);
+
+        } catch (PDOException $e) {
+            echo "Error al editaDiario: " . $e->getMessage();
+            error_log("Error al obtener editaDiario:" . $e->getMessage()) ;
             return false;
         }
     }

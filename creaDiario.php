@@ -1,4 +1,5 @@
 <?php include 'includes/header.php'; ?>
+<?php include 'controllers/creaDiarioControlador.php';?>
 
 <?php 
 require_once 'validations/validaSesiones.php';
@@ -7,17 +8,12 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
-<main>
-    <div class="contenedor-main-flex">
-        <?php include 'includes/Left.php'; ?>
-        <div class="contenedor-flex">
             <!-- CONTENEDOR -->
 
             <div class="contenedor-crea-diario">
                 <h2>CREA TU DIARIO</h2>
                 <p>Crea tu diario contando de que se van a tratar tus historias o aventuras y las locuras que hacen tus
                     Sims.. :D</p>
-                <?php include 'controllers/creaDiarioControlador.php';?>
                 <!-- agrega formulario diario -->
                 <form class="formulario-crea-diario" action=" " enctype="multipart/form-data" method="POST">
                     <input type="text" id="tituloD" name="tituloD" placeholder="Titulo del diario" required>
@@ -39,8 +35,8 @@ if (!sesionActiva()) {
                             <input type="file" name="imagenE">
                         </div>
                         <div class="subYcheck">
-                            <input title="Quieres que tu diario sea publico?" type="checkbox" id="check-diario"
-                                name="checkD" checked>
+                            <input checked title="Quieres que tu diario sea publico?" type="checkbox" id="check-diario"
+                                name="checkD">
                             <input type="submit" id="boton-crea-diario" value="Crear Diario" name="botonCrearDiario">
                         </div>
                     </div>
@@ -52,8 +48,5 @@ if (!sesionActiva()) {
             </div>
             <!-- <input type="file" name="imagen" > -->
             <!-- END CONTENEDOR -->
-        </div>
-    </div>
-</main>
 
 <?php include 'includes/footer.php'; ?>

@@ -47,7 +47,7 @@ function vistaDiario($datoD,$idautor,$idDiario,$autor){
                         $vista = '  <!-- contenido modifica diario -->
                                     <div class = "modifica-creaEntrada" >
                                         <a class="contenedor-icono-crea" href="creaCapitulo.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="agrega una entrada"></a>
-                                        <a class="contenedor-icono-modifica" href="todosDiarios.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="modifica diario"></a>
+                                        <a class="contenedor-icono-modifica" href="editaDiario.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="modifica diario"></a>
                                     </div>
                                     <!-- contenido diario -->
                                     <div class="contenidoDiario">

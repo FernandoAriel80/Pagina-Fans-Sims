@@ -7,34 +7,27 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
-<main>
-    <div class="contenedor-main-flex">
-        <?php include 'includes/Left.php'; ?>
-        <div class="contenedor-flex">
-            <!-- CONTENEDOR -->
-            <div class="contenido-todo-diario">
-                <!-- CONTENIDO DIARIO -->
-                <!-- contenido capitulo -->
-                <div class="contenidoDiario">
-                    <?php echo $diario; ?>
-                </div>
-                <!-- contenido categoria -->
-                <div class="contenidoCategoria">
-                    <?php echo $categoria; ?>
-                </div>
-                <!-- contenido capitulos -->
-                
-                <?php if (is_array($todosCapitulos)) {
-                        foreach ($todosCapitulos as $capitulo) {?>
-                        <div class="dato-capitulo">
-                             <?php echo $capitulo;?>
-                        </div>
-                        <?php }
-                    }?>
-            </div>
-            <!-- END CONTENEDOR -->
-        </div>
+<!-- CONTENEDOR -->
+<div class="contenido-todo-diario">
+    <!-- CONTENIDO DIARIO -->
+    <!-- contenido capitulo -->
+    <div class="contenidoDiario">
+        <?php echo $diario; ?>
     </div>
-</main>
+    <!-- contenido categoria -->
+    <div class="contenidoCategoria">
+        <?php echo $categoria; ?>
+    </div>
+    <!-- contenido capitulos -->
+
+    <?php if (is_array($todosCapitulos)) {
+                        foreach ($todosCapitulos as $capitulo) {?>
+    <div class="dato-capitulo">
+        <?php echo $capitulo;?>
+    </div>
+    <?php }
+                    }?>
+</div>
+<!-- END CONTENEDOR -->
 
 <?php include 'includes/footer.php'; ?>

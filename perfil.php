@@ -8,39 +8,32 @@ if (!sesionActiva()) {
  }
 
 ?>
-<main>
-    <div class="contenedor-main-flex">
-        <?php include 'includes/Left.php'; ?>
-        <div class="contenedor-flex">
-            <!-- CONTENEDOR -->
-            <div class="diario">
-                <!-- perfil -->
-                <?php echo$perfil;?>
-                <!-- perfil end -->
-                <div class="elemento-diario">
-                    <!-- cada diario  -->
-                    <?php if (is_array($misDiarios)) {
+<!-- CONTENEDOR -->
+<div class="diario">
+    <!-- perfil -->
+    <?php echo$perfil;?>
+    <!-- perfil end -->
+    <div class="elemento-diario">
+        <!-- cada diario  -->
+        <?php if (is_array($misDiarios)) {
                         foreach ($misDiarios as $diario) {
                             echo $diario;
                           }
                     }?>
-                    <!-- cada diario end  -->
-                </div>
-                <h4>TODOS LOS DIARIOS:</h4>
-                <div class="elemento-diario">
-                    <!-- cada diario  -->
-                    <?php if (is_array($todosDiarios)) {
+        <!-- cada diario end  -->
+    </div>
+    <h4>TODOS LOS DIARIOS:</h4>
+    <div class="elemento-diario">
+        <!-- cada diario  -->
+        <?php if (is_array($todosDiarios)) {
                         foreach ($todosDiarios as $diario) {
                             echo $diario;
                           }
                     }?>
-                    <!-- cada diario end  -->
-                </div>
-            </div>
-
-             <!-- END CONTENEDOR -->
-        </div>
+        <!-- cada diario end  -->
     </div>
-</main>
+</div>
+
+<!-- END CONTENEDOR -->
 
 <?php include 'includes/footer.php'; ?>

@@ -7,7 +7,6 @@ final class Capitulo extends Orm{
         parent::__construct('Capitulo',$connecion);
     }
 
-    // Método mágico __set
     public function setAtributos($nombre, $valor) {
         $this->atributos[$nombre] = $valor;
     }
@@ -69,14 +68,13 @@ final class Capitulo extends Orm{
            return $this->insert($dato);
 
         } catch (PDOException $e) {
-            echo "Error al registrarUsuario: " . $e->getMessage();
-            error_log("Error al obtener guardaToken:" . $e->getMessage()) ;
+            echo "Error al creaCapitulo: " . $e->getMessage();
+            error_log("Error al obtener creaCapitulo:" . $e->getMessage()) ;
             return false;
         }
     }
-    public function editaCapitulo($idCapitulo,$idDiario,$titulo,$imagen,$parrafo){
+    public function editaCapitulo($idCapitulo,$titulo,$imagen,$parrafo){
         $dato=[
-            'idDiario' => $idDiario,
             'titulo' => $titulo,
             'imagen' => $imagen,
             'parrafo' => $parrafo
@@ -85,8 +83,8 @@ final class Capitulo extends Orm{
            return $this->upDateById($idCapitulo,$dato);
 
         } catch (PDOException $e) {
-            echo "Error al registrarUsuario: " . $e->getMessage();
-            error_log("Error al obtener guardaToken:" . $e->getMessage()) ;
+            echo "Error al editaCapitulo: " . $e->getMessage();
+            error_log("Error al obtener editaCapitulo:" . $e->getMessage()) ;
             return false;
         }
     }

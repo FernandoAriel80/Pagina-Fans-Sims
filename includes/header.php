@@ -43,3 +43,7 @@
             </div>
         </div>
     </header>
+    <main>
+    <div class="contenedor-main-flex">
+        <?php include 'Left.php'; ?>
+        <div class="contenedor-flex">

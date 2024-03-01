@@ -10,6 +10,7 @@ $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
 $diarioModelo = new Diario($coneccion);
 $usuarioModelo = new Usuario($coneccion);
+
 $misDiarios = [];
 $todosDiarios = [];
 $perfil= '';
@@ -19,12 +20,14 @@ if (isset($_GET['token'])) {
     $idUsuarioActual = obteneTokenId($_GET['token']);
 }
 
+$datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
+$datoDiarioModelo = $diarioModelo->obtenerTodosDiariosOrden('fechaActualizacion');
+
 $perfil = muestraPerfil($usuarioModelo,$idUsuarioActual);
-$datoU = $usuarioModelo->obtenerTodosUsuarios();
-$datoD = $diarioModelo->obtenerTodosDiariosOrden('fechaActualizacion');
-$misDiarios = muestraMisDiarios($datoD,$datoU,$idUsuarioActual);
-$todosDiarios = muestraTodosDiarios($datoD,$datoU);
+$misDiarios = muestraMisDiarios($datoDiarioModelo,$datoUsuarioModelo,$idUsuarioActual);
+$todosDiarios = muestraTodosDiarios($datoDiarioModelo,$datoUsuarioModelo);
 $dataBase->desconectar(); 
+
 function muestraPerfil(Usuario $modeloU,$idU){
     $datoUsuario = $modeloU->obtenerUnUsuario($idU);
     if ($datoUsuario) {

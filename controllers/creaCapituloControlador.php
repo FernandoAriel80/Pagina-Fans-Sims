@@ -6,6 +6,7 @@ require_once 'validations/validaciones.php';
 
 $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
+
 $mensaje='';
 
 if (isset($_GET['tokenD'])) {

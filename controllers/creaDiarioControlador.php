@@ -9,10 +9,13 @@ require_once 'validations/validaciones.php';
 $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
 $categoriaModelo = new Categoria($coneccion);
+
+$mensaje='';
+
 $datoCategoriaModelo = $categoriaModelo->obtenerTodosCategorias();
+
 $vistaCategoria = muestraCategorias($datoCategoriaModelo);
 $dataBase->desconectar();
-$mensaje='';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ////////////////////////// BOTON CREAR DIARIO + CAPITULO ////////////////////
@@ -41,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $idCapitulo=$capituloModelo->creaCapitulo($idDiario,$tituloEntrada,$imagenNombre,$contenidoE); 
                     if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
                         $categoriaElegida = $_POST["categoriaD"];
-                        $categoriaDiarioModelo->categoriaSelecionada($idCapitulo,$categoriaElegida);
+                        $categoriaDiarioModelo->categoriaSeleccionada($idDiario,$categoriaElegida);
                     }
                    header("Location: perfil.php");
                 }

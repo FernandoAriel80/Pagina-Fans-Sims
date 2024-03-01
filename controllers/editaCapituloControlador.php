@@ -16,8 +16,7 @@ if (isset($_GET['tokenC'])) {
 if (isset($_GET['tokenD'])) {
     $idDiarioActual = obteneTokenId($_GET['tokenD']);
 }
-echo ' capitulo '.$idCapituloActual;
-echo ' diario ' .$idDiarioActual;
+
 $datocapituloModelo=$capituloModelo->obtenerUnCapitulo($idCapituloActual);
 $vistaDato = vistacapitulo($datocapituloModelo);
 $dataBase->desconectar(); 
@@ -25,7 +24,7 @@ $dataBase->desconectar();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ////////////////////////// BOTON CAPITULO ////////////////////
     if (isset($_POST["botonEditaCapitulo"])) {
-        $capituloDiario = new Diario($coneccion);
+        $diarioModelo = new Diario($coneccion);
         if (isset($_POST["tituloE"])) {
             $tituloEntrada = sinEspaciosLados($_POST["tituloE"]);
             $contenidoE = sinEspaciosLados(limpiarTexto($_POST["contenidoE"]));
@@ -41,9 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     eliminaImagen('public/ImagenesDiario/',$datocapituloModelo->imagen);
                 }
                 if($idDiarioActual !== null){
-                    $resultado=$capituloModelo->editaCapitulo($idCapituloActual,$idDiarioActual,$tituloEntrada,$imagenNombre,$contenidoE);
+                    $resultado=$capituloModelo->editaCapitulo($idCapituloActual,$tituloEntrada,$imagenNombre,$contenidoE);
                     if($resultado){
-                        $capituloDiario->actualizarDiario($idDiarioActual); 
+                        $diarioModelo->fechaActualizarDiario($idDiarioActual); 
                     }
                    header("Location: perfil.php");
                 }
