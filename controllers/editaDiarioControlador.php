@@ -46,120 +46,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $checkDiario = checkValida($_POST["checkD"]); /// de "on" : "off" a 1 : 0
             if(validaEditaDiario($tituloDiario,$descripcion)){
                 if($idDiarioActual !== null){
-                    //$resultado=$diarioModelo->editaDiario($idDiarioActual,$tituloDiario,$descripcion,$checkDiario);
-                    
-                    // if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
-                    //     $categoriaElegida = $_POST["categoriaD"];
-                    
-                    //     // Almacena los ids de las categorías originales
-                    //     $idsCategoriasOriginales = array_map(function($categoria) {
-                    //         return $categoria->idCategoria;
-                    //     }, $datoCategoriaDiarioModelo);
-                    
-                    //     // Itera sobre las categorías seleccionadas
-                    //     foreach ($categoriaElegida as $idCategoria) {
-                    
-                    //         if (in_array($idCategoria, $idsCategoriasOriginales)) {
-                    //             echo 'La categoría ' . $idCategoria . ' está seleccionada' . '</br>';
-                    //             // Puedes realizar acciones adicionales para las categorías seleccionadas
-                    //         } else {
-                    //             echo 'La categoría ' . $idCategoria . ' es una selección adicional' . '</br>';
-                    //             // Puedes realizar acciones adicionales para las selecciones adicionales
-                    //         }
-                    //     }
-                    
-                    //     // Itera sobre las categorías originales
-                    //     foreach ($datoCategoriaDiarioModelo as $categoriaActual) {
-                    //         $idCategoriaActual = $categoriaActual->idCategoria;
-                    //         if (!in_array($idCategoriaActual, $categoriaElegida)) {
-                    //             echo 'La categoría ' . $idCategoriaActual . ' está deseleccionada' . '</br>';
-                    //             // Puedes realizar acciones adicionales para las categorías deseleccionadas
-                    //         }
-                    //     }
-                    // }
-                    
-                    //////////////////////////////////////////////////////////////////////
-                    // if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
-                    //     $categoriaElegida = $_POST["categoriaD"];
-                    //     $categoriaExistente= [];
-                    //     // Recorre todas las categorías presentes en $datoCategoriaDiarioModelo
-                    //     foreach ($datoCategoriaDiarioModelo as $categoriaActual) {
-                           
-                    //         if ($categoriaActual->idDiario == $idDiarioActual ) {
-                    //             $idCategoriaActual = $categoriaActual->idCategoria;
-                    //             $estaSeleccionada = in_array($idCategoriaActual, $categoriaElegida);
-             
-                    //             if ($estaSeleccionada) {
-                    //                 $categoriaExistente = $idCategoriaActual;
-                    //                 echo 'La categoría ' . $idCategoriaActual . ' está seleccionada' . '</br>';
-                    //                 // Aquí puedes realizar cualquier acción adicional para las categorías seleccionadas
-                    //             } else {
-                                    
-                    //                 echo 'La categoría ' . $idCategoriaActual . ' está deseleccionada' . '</br>';
-                    //                 // Aquí puedes realizar cualquier acción adicional para las categorías deseleccionadas
-                    //             }
-                    //         }
-                           
-                    //     }
 
-                    //         foreach ($categoriaElegida as $idcategoria) {
-                    //             if ($idcategoria != $categoriaExistente) {
-                    //                         echo('incluido'.'</br>');
-                    //                         echo($idcategoria.'</br>');
-                                                   
-                    //                 } 
-                    //         }
-                       
-                    // }
-                    
-                    //////////////////////////////////////////////////////////
-                    // if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
-                    //     $categoriaElegida = $_POST["categoriaD"];
-                    //         foreach ($categoriaElegida as $idcategoria) {
-                    //             $categoriaExistente= [];
-                    //             foreach ($datoCategoriaDiarioModelo as $categoriaActual) {
-                    //                 if ($categoriaActual->idDiario == $idDiarioActual ) {
-                    //                     if ($categoriaActual->idCategoria == $idcategoria) {
-                    //                         $categoriaExistente = $idcategoria; 
-                    //                         echo('ya estaba'.'</br>');
-                    //                         //echo($idcategoria.'</br>'); 
-                    //                         echo($categoriaActual->idCategoria.'</br>');
-                    //                         //$categoriaDiarioModelo->eliminaCategoria($idDiarioActual, $categoriaActual->idCategoria);
-                                           
-                    //                     }else if($categoriaActual->idCategoria != $categoriaExistente){
-                    //                         echo('no se eligio'.'</br>');
-                    //                         echo($idcategoria.'</br>');
-                    //                     }
-                                      
-                    //                 }
-                    //             }
-                                
-                    //            if ($idcategoria != $categoriaExistente) {
-                    //                echo('incluido'.'</br>');
-                    //                echo($idcategoria.'</br>');
-                                   
-                    //            }   
-                                    
-                               
-            
-                   
-                    //             //if (!in_array($categoriaActual['idCategoria'], $categoriaElegida)) {
-                    //             //    $categoriaDiarioModelo->eliminaCategoria($idDiarioActual, $categoriaActual['idCategoria']);
-                    //             //}
-                    //         }
-                          
-                   
-                          
-                           
-                      
-                    //        // $categoriaDiarioModelo->categoriaSeleccionada($idDiarioActual,$categoriaElegida);
-                        
-                    // }
-                  
+                    $resultado=$diarioModelo->editaDiario($idDiarioActual,$tituloDiario,$descripcion,$checkDiario); 
+
+                    //////////////////////////CATEGORIA////////////////////////////////
+                     if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
+                        $categoriaElegida = $_POST["categoriaD"];
+                        $categoriaAgregadas= [];
+                        foreach ($categoriaElegida as $idcategoria) {
+                            $categoriaExistente= []; 
+                            foreach ($datoCategoriaDiarioModelo as $categoriaActual) {
+                                if ($categoriaActual->idDiario == $idDiarioActual ) {
+                                    if ($categoriaActual->idCategoria == $idcategoria) {
+                                        $categoriaExistente = $idcategoria;  
+                                    }
+                                    if (!in_array($categoriaActual->idCategoria, $categoriaElegida)) {
+                                       $idExistente = $categoriaDiarioModelo->obtenerUnCategoriaDiario($categoriaActual->idCategoriaDiario);
+                                        if(!empty($idExistente)){
+                                           $categoriaDiarioModelo->deleteById($categoriaActual->idCategoriaDiario);
+                                        }
+                                    }
+                                }
+                            }               
+                            if ($idcategoria != $categoriaExistente) {
+                                $categoriaAgregadas[] = $idcategoria;               
+                            }
+                        }
+                        if(isset($categoriaAgregadas)){
+                            $categoriaDiarioModelo->categoriaSeleccionada($idDiarioActual,$categoriaAgregadas); 
+                        }          
+                    }
                     if($resultado){
                        $diarioModelo->fechaActualizarDiario($idDiarioActual); 
                     }
-                  //header("Location: perfil.php");
+                    header("Location: perfil.php");
                 }
             }else{
                 $mensaje=muestraMensajea("problema con validaEditaDiario");

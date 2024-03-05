@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if($idDiarioActual !== null){
                     $idCapitulo=$capituloModelo->creaCapitulo($idDiarioActual,$tituloEntrada,$imagenNombre,$contenidoE);
                     if($idCapitulo){
-                        $capituloDiario->actualizarDiario($idDiarioActual); 
+                        $capituloDiario->fechaActualizarDiario($idDiarioActual); 
                     }
                    header("Location: perfil.php");
                 }

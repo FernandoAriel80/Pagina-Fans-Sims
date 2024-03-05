@@ -48,6 +48,7 @@ function vistaDiario($datoD,$idautor,$idDiario,$autor){
                                     <div class = "modifica-creaEntrada" >
                                         <a class="contenedor-icono-crea" href="creaCapitulo.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="agrega una entrada"></a>
                                         <a class="contenedor-icono-modifica" href="editaDiario.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="modifica diario"></a>
+                                        <a class="contenedor-icono-elimina" href="eliminaDiario.php?tokenD='.$tokenIdDiario.'" title="elimina diario" ></a>
                                     </div>
                                     <!-- contenido diario -->
                                     <div class="contenidoDiario">
@@ -121,7 +122,7 @@ function vistacapitulo($idautor,$idDiario,$idCapitulo,$imagen,$titulo,$parrafo){
                             <div class = "capituloText" >
                                 <h4>'.$titulo.'</h4>
                             </div>
-                            <div class="imagenCapitulo" style="width: 100%;">
+                            <div class="imagenCapitulo" style="width: 80%;">
                                 <img src="public/ImagenesDiario/'.$imagen.'"/>
                             </div>
                         </div>';
@@ -139,6 +140,7 @@ function vistacapitulo($idautor,$idDiario,$idCapitulo,$imagen,$titulo,$parrafo){
         $vista .= ' <!-- contenido modifica entrada -->
                     <div class = "modificaEntrada" >
                         <a class="contenedor-icono-modifica" href="editaCapitulo.php?tokenC='.$tokenIdCapitulo.'&tokenD='.$tokenIdDiario.'" title="modifica entrada"></a>
+                        <a class="contenedor-icono-elimina" href="eliminaCapitulo.php?tokenC='.$tokenIdCapitulo.'&tokenD='.$tokenIdDiario.'" title="elimina entrada" onclick="confirmarEliminar()"></a>
                     </div>';
     }
     return $vista;

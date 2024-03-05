@@ -146,6 +146,31 @@ function validarFormularioCreaDiario(){
 
 }
 
+function validarFormularioCreaCapitulo(){
+    let tituloCapitulo = document.getElementById('tituloE').value;
+    let contenidoCapitulo = document.getElementById('contenidoE').value;
+    let ventanaError = document.getElementById('mensajeErrorCreaDiario'); 
+    
+    if (tituloCapitulo.trim() === '') {
+        alertaMensaje(ventanaError,"red","ingrese algun titulo para la entrada");
+        return false;
+    } else if (!tituloValido(tituloCapitulo)) {
+        alertaMensaje(ventanaError,"red","El titulo para la entrada solo permite los siguientes caracteres: letras, números, espacios y los siguientes caracteres especiales: @, #, $, %, ^, &, *, <, >");
+        return false;
+    }
+
+    if (contenidoCapitulo.trim() === '') {
+        return true;
+    } else if (!tituloValido(contenidoCapitulo)) {
+        alertaMensaje(ventanaError,"red","La entrada solo permite los siguientes caracteres: letras, números, espacios y los siguientes caracteres especiales: @, #, $, %, ^, &, *, <, >");
+        return false;
+    }else{
+        ventanaError.style.display = 'none';
+        return true; 
+    }
+
+}
+
 function tituloValido(titulo) {
     // Verifica si el título contiene el signo "="
     if (titulo.includes('=')) {

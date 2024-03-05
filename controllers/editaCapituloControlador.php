@@ -29,16 +29,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $tituloEntrada = sinEspaciosLados($_POST["tituloE"]);
             $contenidoE = sinEspaciosLados(limpiarTexto($_POST["contenidoE"]));
             if(validaCreaCapitulo($tituloEntrada,$contenidoE)){
-                if(isset($_FILES["imagenE"])){
+                if(isset($_FILES["imagenE"]) && !empty($_FILES["imagenE"]["name"])){
                     if(imagenValida($_FILES["imagenE"])){
                         $imagen = $_FILES["imagenE"]["name"];
                         $temp = $_FILES["imagenE"]["tmp_name"];
                         $imagenNombre = guardaImagen($temp,'public/ImagenesDiario/',$imagen);
+                        if ($datocapituloModelo->imagen) {
+                            eliminaImagen('public/ImagenesDiario/',$datocapituloModelo->imagen);
+                        }
                     }
+                }else {
+                    $imagenNombre = $datocapituloModelo->imagen;
                 }   
-                if ($datocapituloModelo->imagen) {
-                    eliminaImagen('public/ImagenesDiario/',$datocapituloModelo->imagen);
-                }
+               
                 if($idDiarioActual !== null){
                     $resultado=$capituloModelo->editaCapitulo($idCapituloActual,$tituloEntrada,$imagenNombre,$contenidoE);
                     if($resultado){

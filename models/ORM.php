@@ -199,18 +199,18 @@ class Orm{
         }
     }
 
-    // public function deleteById($id) {
-    //     try {
-    //         $idTabla = "id{$this->tabla}";
-    //         $query = "DELETE FROM {$this->tabla} WHERE {$idTabla} = :id";
-    //         $stm = $this->connection->prepare($query);
-    //         $stm->bindParam(':id', $id);
-    //         return $stm->execute();
-    //     } catch (PDOException $e) {
-    //         echo "Error al eliminar el registro por ID: " . $e->getMessage();
-    //         error_log("Error al eliminar el registro por ID: " . $e->getMessage());
-    //     }
-    // }
+     public function deleteById($id) {
+         try {
+             $idTabla = "id{$this->tabla}";
+             $query = "DELETE FROM {$this->tabla} WHERE {$idTabla} = :id";
+             $stm = $this->connection->prepare($query);
+             $stm->bindParam(':id', $id);
+             return $stm->execute();
+         } catch (PDOException $e) {
+             echo "Error al eliminar el registro por ID: " . $e->getMessage();
+             error_log("Error al eliminar el registro por ID: " . $e->getMessage());
+         }
+     }
     
     // public function consultaJoin($condicionesJoin = array(),$condicionesWhere = array()) {
     //     try{

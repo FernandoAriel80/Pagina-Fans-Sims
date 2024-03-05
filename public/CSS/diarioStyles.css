@@ -1,9 +1,4 @@
-/* .contenidoDiario {
-    display: flex;
-    justify-content:center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-} */
+
 .modifica-creaEntrada{
  
     display: flex; 
@@ -16,7 +11,7 @@
     align-items:end; 
 }
 
-.contenedor-icono-crea ,.contenedor-icono-modifica{
+.contenedor-icono-crea ,.contenedor-icono-modifica,.contenedor-icono-elimina{
  
     margin: 5px;
     width: 30px;
@@ -28,8 +23,14 @@
 .contenedor-icono-crea {
     background-image: url('../Iconos/agrega.png');
 }
+
 .contenedor-icono-modifica{
     background-image: url('../Iconos/edita.png');
+}
+.contenedor-icono-elimina{
+    background-image: url('../Iconos/elimina.png');
+    background-color: white;
+    border-radius: 50%;
 }
 .contenidoCapitulos{
   margin-bottom: 20px;
