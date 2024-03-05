@@ -6,7 +6,7 @@ CREATE TABLE Usuario(
     clave VARCHAR(255) NOT NULL,
     sal VARCHAR(255) NOT NULL,
     token VARCHAR(255) NULL UNIQUE,
-    foto LONGBLOB NULL,
+    foto VARCHAR (200) NULL,
     descripcion VARCHAR(600) NULL,
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     activo TINYINT(1) DEFAULT '0',
@@ -20,9 +20,9 @@ CREATE TABLE Diario(
     idUsuario INT NOT NULL,
     titulo VARCHAR(30) NOT NULL,
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fechaActualizacion TIMESTAMP NULL,
+    fechaActualizacion TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     descripcion TEXT NULL,
-    puntoPrimedio FLOAT(2,1) NULL,
+    puntoPromedio FLOAT(2,1) NULL,
     favoritoTotal INT NULL,
     visible TINYINT(1) DEFAULT '1',
     PRIMARY KEY(idDiario),
@@ -33,7 +33,7 @@ CREATE TABLE Capitulo(
 	idCapitulo INT AUTO_INCREMENT,
     idDiario INT NOT NULL,
     titulo VARCHAR(30) NULL,
-    imagen LONGBLOB NULL,
+    imagen VARCHAR (200) NULL,
     parrafo VARCHAR(600) NULL,
     fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idCapitulo),
@@ -47,7 +47,7 @@ CREATE TABLE Categoria(
 );
 
 CREATE TABLE CategoriaDiario(
-	idCategoriaDiario INT AUTO_INCREMENT UNIQUE,
+	idCategoriaDiario INT AUTO_INCREMENT,
     idDiario INT NOT NULL,
     idCategoria INT NOT NULL,
     PRIMARY KEY(idDiario,idCategoria),
@@ -99,7 +99,8 @@ CREATE TABLE Mensaje(
 INSERT INTO categoria(descripcion)VALUES
     ('Acción'),
     ('Aventura'),
-    ('Amor'),
+    ('Romance'),
+    ('Comedia'),
     ('Terror'),
     ('Misterio'),
     ('Fantasia'),

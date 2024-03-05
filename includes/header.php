@@ -1,3 +1,4 @@
+<?php require_once 'validations/validaSesiones.php';?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="public/CSS/indexStyles.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/todosDiariosStyles.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/creaDiarioStyles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/perfilStyles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/diarioStyles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/creaCapituloStyles.css">
     <title>Pagina Fans Sims</title>
     <link rel="icon" href="public/Iconos/logo.png" type="image/png">
     <!-- Agrega enlaces a tus hojas de estilo CSS aquí si es necesario -->
@@ -27,12 +31,19 @@
                 <div class="contenedor-rectangulo-izquierdo"></div>
                 <div class="contenedor-rectangulo-derecho">
                     <div class="contenedor-icono">
-                        <a class="contenedor-icono-inicio" href="/paginaSims/"></a>
+                        <a class="contenedor-icono-inicio" href="index.php"></a>
                     </div>
                     <div class="contenedor-icono">
-                        <a class="contenedor-icono-diario" href="/paginaSims/todosDiarios.php"></a>
+                        <a class="contenedor-icono-perfil" href="perfil.php"></a>
+                    </div>
+                    <div class="contenedor-icono">
+                        <a class="contenedor-icono-diario" href="todosDiarios.php"></a>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+    <main>
+    <div class="contenedor-main-flex">
+        <?php include 'Left.php'; ?>
+        <div class="contenedor-flex">

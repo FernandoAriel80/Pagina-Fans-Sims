@@ -1,24 +1,26 @@
 <?php
 
-// function tituloValido(string $titulo){
-
-//     // Verifica si el nombre tiene una longitud adecuada
-//     if (strlen($titulo) < 3) {
-//         return false;
-//     }else if (strpos($titulo, '=') !== false) {
-//         return false; // Verifica si el nombre contiene el signo "="
-//     }else if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $titulo)) {
-//         return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
-//     }else{
-//         return true;
-//     } 
-// }
-
+function textoValido(string $text){
+    // if (!is_array($text) && !is_object($text)) {
+    //     return false;
+    // }
+    // Verifica si el nombre está vacío
+    if (empty($text)) {
+        return true;
+    } 
+    if (strpos($text, '=') !== false) {
+        return false; // Verifica si el nombre contiene el signo "="
+    }
+    if (!preg_match('/^[a-zA-ZÀ-ÿ0-9_!@#$%^&*()<>\s¿?"¡,.:]+$/u', $text)) {
+        return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
+    } 
+    return true;
+}
 function tituloValido(string $titulo){
     if (strpos($titulo, '=') !== false) {
         return false; // Verifica si el nombre contiene el signo "="
     }
-    if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()<>\s]+$/', $titulo)) {
+    if (!preg_match('/^[a-zA-ZÀ-ÿ0-9_!@#$%^&*()<>\s¿?"¡,.:]+$/u', $titulo)) {
         return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
     } 
     return true;
@@ -38,7 +40,7 @@ function nombreValida(string $nombre):bool
         return false;
     }else if (strpos($nombreSinEspacio, '=') !== false) {
         return false; // Verifica si el nombre contiene el signo "="
-    }else if (!preg_match('/^[a-zA-Z0-9_!@#$%^&*()-]+$/', $nombreSinEspacio)) {
+    }else if (!preg_match('/^[a-zA-ZÀ-ÿ0-9_!@#$%^&*()-]+$/', $nombreSinEspacio)) {
         return false;  // Verifica si el nombre contiene solo caracteres alfanuméricos y especiales permitidos
     }else if ($nombre !== $nombreSinEspacio) {
         return false;
@@ -121,31 +123,19 @@ function imagenValida($imagen = null): bool {
     return true;
 }
 
-
-// function imagenValida($imagen):bool
-// {
-//     // Verificar si se proporcionó información sobre la imagen
-//     if (isset($imagen['error']) && $imagen['error'] === UPLOAD_ERR_OK) {
-//         // Validar el tipo de archivo (imagen)
-//         $tipo_permitido = ['image/jpeg', 'image/jpg','image/png'];
-//         $tipo_archivo = $imagen['type'];
-//         if (in_array($tipo_archivo, $tipo_permitido)) {//"Error: Solo se permiten imágenes JPEG, PNG o GIF."
-//             // Validar tamaño máximo del archivo (ejemplo: 2MB)
-//             $tamano_maximo = 2 * 1024 * 1024; // 2 MB
-//             $tamano_archivo = $imagen['size'];
-//             if ($tamano_archivo < $tamano_maximo) {
-//                 return true;
-//             }else {
-//                 return false;
-//             }
-//         }else {
-//             return false;
-//         }
-//     }else {
-//         return false;
-//     }  
-// }
-
+function codificaImagen($imagen){
+    return base64_encode(file_get_contents($imagen['tmp_name']));
+}
+function guardaImagen($temp,$url,$imagen){
+    $nombre_unico = uniqid() . '_' . $imagen;
+    move_uploaded_file($temp,$url.$nombre_unico);
+    return $nombre_unico;
+}
+function eliminaImagen($url,$imagen){
+    if (file_exists($url.$imagen)) {
+        unlink($url.$imagen);
+    }  
+}
 function categoriaValida($categoria){
     if(isset($categoria) && !empty($categoria)) {
        return true;
@@ -154,7 +144,7 @@ function categoriaValida($categoria){
     }
 }
 function checkValida($check){
-    if ($check == 'on') {
+    if (isset($check) && $check == "on") {
         return 1;
     } else {
         return 0;
@@ -175,12 +165,18 @@ function limpiarTexto(string $texto):string
     return $texto_escapado; //Limpia y filtra los datos de entrada para prevenir ataques de script entre sitios.
 }
 
-function codificaImagen($imagen){
-    // Convertir datos binarios a cadena base64 para almacenar en la base de datos
-    return base64_encode(file_get_contents($imagen['tmp_name']));
-}
 
-function dedificaImagen($imagen){
-    // Convertir datos binarios a cadena base64 para almacenar en la base de datos
-    return base64_decode($imagen);
+
+function generaSal(){
+    return password_hash(random_bytes(16), PASSWORD_DEFAULT);
 }
+function encriptaClave($clave,$sal){
+    return password_hash($clave . $sal, PASSWORD_DEFAULT);
+}
+function soloFecha($fecha){
+    return date('d-m-Y', strtotime($fecha));
+}
+// function dedificaImagen($imagen){
+//     // Convertir datos binarios a cadena base64 para almacenar en la base de datos
+//     return base64_decode($imagen);
+// }

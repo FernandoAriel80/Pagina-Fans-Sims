@@ -26,29 +26,27 @@ function cerrarSesion() {
     // Destruir la cookie
     setcookie('recuerdaTokenUsuario', '', time() - 3600, '/', '', true, true);
     setcookie('nombre', '', time() - 3600, '/', '', true, true);
-    setcookie('idUsuario', '', time() - 3600, '/', '', true, true);
-    setcookie('rolUsuario', '', time() - 3600, '/', '', true, true);
-    setcookie('usuario', '', time() - 3600, '/', '', true, true);
+    // setcookie('idUsuario', '', time() - 3600, '/', '', true, true);
+    // setcookie('rolUsuario', '', time() - 3600, '/', '', true, true);
 }
 
 function crearCookie($nombre,$id,$rol) {
     $token = bin2hex(random_bytes(32)); // Generar un token aleatorio
     setcookie('recuerdaTokenUsuario', $token, time() + (86400 * 30), '/', '', true, true); // Caduca en 30 días, seguro y accesible solo por HTTPS
     setcookie('nombre', $nombre, time() + (86400 * 30), '/', '', true, true);
-    setcookie('idUsuario', $id, time() + (86400 * 30), '/', '', true, true);
-    setcookie('rolUsuario', $rol, time() + (86400 * 30), '/', '', true, true);
-    setcookie('usuario', $rol, time() + (86400 * 30), '/', '', true, true);
+    // setcookie('idUsuario', $id, time() + (86400 * 30), '/', '', true, true);
+    // setcookie('rolUsuario', $rol, time() + (86400 * 30), '/', '', true, true);
     return $token;
 }
 
-// function verificarCookie() {
-//     if (isset($_COOKIE['recuerdaUsuario'])) {
-//         $token = $_COOKIE['recuerdaUsuario'];
 
-//         if (!isset($_SESSION["token"])) {
-//             $_SESSION["idUsuario"] = $usuarioId;
-//         }
-//     }
+function generaTokenId($id_usuario,$token) {
+    $tokenId = urlencode(base64_encode($id_usuario.'_'.$token));
+    return $tokenId;
+}
 
-//     return false;
-// }
+function obteneTokenId($token) {
+    $tokenDeco = base64_decode(urldecode($token));
+    $id_usuario = explode('_', $tokenDeco);
+    return $id_usuario[0];
+}

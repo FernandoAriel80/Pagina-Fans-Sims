@@ -9,9 +9,13 @@ require_once 'validations/validaciones.php';
 $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
 $categoriaModelo = new Categoria($coneccion);
-$vistaCategoria = muestraCategorias($categoriaModelo);
-$dataBase->desconectar();
+
 $mensaje='';
+
+$datoCategoriaModelo = $categoriaModelo->obtenerTodosCategorias();
+
+$vistaCategoria = muestraCategorias($datoCategoriaModelo);
+$dataBase->desconectar();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ////////////////////////// BOTON CREAR DIARIO + CAPITULO ////////////////////
@@ -19,27 +23,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $diarioModelo = new Diario($coneccion);
         $categoriaDiarioModelo = new CategoriaDiario($coneccion);
         $capituloModelo = new Capitulo($coneccion);
-        if (isset($_POST["tituloD"])&&isset($_POST["checkD"])&&isset($_POST["tituloE"])) {
+        if (isset($_POST["tituloD"])&&isset($_POST["tituloE"])) {
             // solo datos diario
             $tituloDiario = sinEspaciosLados($_POST["tituloD"]);
             $descripcion = sinEspaciosLados($_POST["descripcionD"]);
             $checkDiario = checkValida($_POST["checkD"]); /// de "on" : "off" a 1 : 0
+
             $tituloEntrada = sinEspaciosLados($_POST["tituloE"]);
             $contenidoE = sinEspaciosLados(limpiarTexto($_POST["contenidoE"]));
             if(validaCreaDiario($tituloDiario,$descripcion,$tituloEntrada,$contenidoE)){
                 if(isset($_FILES["imagenE"])){
                     if(imagenValida($_FILES["imagenE"])){
-                        $imagen = codificaImagen($_FILES["imagenE"]);
+                        $imagen = $_FILES["imagenE"]["name"];
+                        $temp = $_FILES["imagenE"]["tmp_name"];
+                        $imagenNombre = guardaImagen($temp,'public/ImagenesDiario/',$imagen);
                     }
                 }   
-                // el idUsuario lo tengo que recuperar de otra manera, porque en cookies es inseguro y con session se pierde al cerrar el navegador
                 $idDiario=$diarioModelo->creaDiario($_SESSION['idUsuario'],$tituloDiario,$descripcion,$checkDiario);
-                if($idDiario !== null){
-                    //$diarioModelo->guardaDatosCreaDiarioDB($_SESSION['idUsuario'],$tituloDiario);
-                    $idCapitulo=$capituloModelo->creaCapitulo($idDiario,$tituloEntrada,$imagen,$contenidoE);
+                if($idDiario !== null){ 
+                    $idCapitulo=$capituloModelo->creaCapitulo($idDiario,$tituloEntrada,$imagenNombre,$contenidoE); 
                     if (isset($_POST['categoriaD']) && is_array($_POST['categoriaD'])) {
                         $categoriaElegida = $_POST["categoriaD"];
-                        categoriaSelecionada($categoriaDiarioModelo,$idCapitulo,$categoriaElegida);
+                        $categoriaDiarioModelo->categoriaSeleccionada($idDiario,$categoriaElegida);
                     }
                    header("Location: perfil.php");
                 }
@@ -59,14 +64,14 @@ function muestraMensajea($message){
             </div>';
     return $vista;
 }
-function muestraCategorias(Categoria $Modelo){
-    $dato = $Modelo->getAll();
+function muestraCategorias($datoCate){
+
     $vista="";
-    if (!empty($dato)) {
-        foreach ($dato as $key) {
+    if (!empty($datoCate)) {
+        foreach ($datoCate as $key) {
             $vista.="<div class='selector-categoria'>
-                        <input type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $key["idCategoria"] . "'>
-                        <label for='categoria_" . $key["idCategoria"] . "' class='checkbox-label'>" . $key["descripcion"] . "</label>
+                        <input type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $key->idCategoria . "'>
+                        <label for='categoria_" . $key->idCategoria. "' class='checkbox-label'>" . $key->descripcion . "</label>
                     </div>";
         } 
         return $vista;    
@@ -74,18 +79,9 @@ function muestraCategorias(Categoria $Modelo){
 }
 
 function validaCreaDiario(string $tituloDiario,$descripcionDiario,string $tituloEntrada,string $descripcionCapitulo){
-    if (tituloValido($tituloDiario)&&tituloValido($descripcionDiario)&&tituloValido($tituloEntrada)&&tituloValido($descripcionCapitulo)) {
+    if (tituloValido($tituloDiario)&&textoValido($descripcionDiario)&&tituloValido($tituloEntrada)&&textoValido($descripcionCapitulo)) {
         return true;
     } 
     return false;
 }
 
-function categoriaSelecionada(CategoriaDiario $modelo,$id,$categorias){
-    foreach ($categorias as $idCategoria) {
-        $dato=[
-            'idDiario' => $id,
-            'idCategoria' => $idCategoria
-        ];
-        $modelo->insert($dato);
-    }
-}

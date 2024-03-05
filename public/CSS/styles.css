@@ -217,9 +217,8 @@ input[type="submit"] {
   margin: auto;
 }
 
-.boton-login,.boton-registrar{
+.boton-login,.boton-registrar,.boton-deslogin{
   margin: auto;
-  background-image: url('../Imagenes/btn_login.png');
   background-size: contain; 
   background-position: left; 
   background-repeat: no-repeat;
@@ -228,6 +227,12 @@ input[type="submit"] {
   width: 60px;
   height: 60px;
   right: 40px;
+}
+.boton-login,.boton-registrar{
+  background-image: url('../Iconos/login.png');
+}
+.boton-deslogin{
+  background-image: url('../Iconos/desLogin.png');
 }
  .boton-nav-registrar{
   margin: auto;
@@ -283,7 +288,7 @@ input[type="submit"] {
   justify-content: center; 
   align-items: center; 
 }
- .contenedor-icono-inicio,.contenedor-icono-diario{
+ .contenedor-icono-inicio,.contenedor-icono-diario,.contenedor-icono-perfil{
   padding: 5px 5px;
   background-size: contain; 
   background-position: center;
@@ -297,7 +302,12 @@ input[type="submit"] {
 .contenedor-icono-diario{
   width: 50px;
   height: 50px; 
-  background-image: url('../Imagenes/diario.png');
+  background-image: url('../Iconos/diario.png');
+}
+.contenedor-icono-perfil{
+  width: 50px;
+  height: 50px; 
+  background-image: url('../Iconos/myPerfil.png');
 }
 .Bienvenida-login {
   font-size: 20px;
@@ -311,7 +321,7 @@ input[type="submit"] {
 /* Estilos para dispositivos de escritorio */
 @media only screen and (min-width: 769px) {
   body{
-    margin: 5% 7%;
+    margin: 8% 7%;
   }
   .contenedor-izquierdo-flex{
     /* display: flex; */
@@ -334,7 +344,7 @@ input[type="submit"] {
     margin:15px 2px;
     flex-direction: column; 
   }
-  .boton-login,.boton-registrar{
+  .boton-login,.boton-registrar,.boton-deslogin{
     right: 12px;
     width: 40px;
     height: 40px;

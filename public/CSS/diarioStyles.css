@@ -1,0 +1,97 @@
+
+.modifica-creaEntrada{
+ 
+    display: flex; 
+    justify-content:end; 
+    align-items:end; 
+}
+.modificaEntrada{
+    display: flex; 
+    justify-content:end; 
+    align-items:end; 
+}
+
+.contenedor-icono-crea ,.contenedor-icono-modifica,.contenedor-icono-elimina{
+ 
+    margin: 5px;
+    width: 30px;
+    height: 30px;
+    background-size: contain; 
+    background-position: center;
+    background-repeat: no-repeat;
+} 
+.contenedor-icono-crea {
+    background-image: url('../Iconos/agrega.png');
+}
+
+.contenedor-icono-modifica{
+    background-image: url('../Iconos/edita.png');
+}
+.contenedor-icono-elimina{
+    background-image: url('../Iconos/elimina.png');
+    background-color: white;
+    border-radius: 50%;
+}
+.contenidoCapitulos{
+  margin-bottom: 20px;
+  
+}
+.dato-capitulo{
+    border: 1px solid white;
+    padding: 5px;
+    margin: 10px 0px;
+}
+
+.imagenCapitulo img{
+    justify-content: center;
+    height: 350px; 
+    width: 100%; 
+}
+.capituloText{
+    margin: 5px;
+    width: 100%; 
+} 
+
+/* .diarioText {
+    flex: 1 1 60%; 
+    margin-right: 20px;
+    max-width: 60%;
+}
+
+.imagenDiario {
+    flex: 1 1 40%;
+    max-width: 40%;
+} */
+
+
+/* .contenido-todo-diario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+
+@media only screen and (min-width: 769px) {
+    /* .contenidoDiario {
+        flex-direction: column;
+        align-items: center;
+    } */
+
+    .imagenCapitulo {
+        width: 40%;
+    }
+    .capituloText{
+        width: 60%; 
+       
+    }
+    
+    .diarioText, .imagenDiario {
+        max-width: 50%;
+        margin-right: 0;
+    }
+    .contenidoCapitulos{
+        display: flex;
+        justify-content: space-between;
+
+    }
+}

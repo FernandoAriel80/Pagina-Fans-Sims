@@ -24,15 +24,16 @@ textarea {
     color: white; 
 }
 
+.contenedor-imagen{
+    width: 100%;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+
+}
+
 .subYcheck{
     width: 100px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 10px;
-}
-.contenedor-imagen{
-    width: 300px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -54,4 +55,15 @@ textarea {
 #categoria-input{
     width: 20px;
     height: 20px; 
+}
+
+@media only screen and (min-width: 769px) {
+    .contenedor-imagen{
+        width: 55%;
+    }
+    .imagenYboton{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }

@@ -30,6 +30,18 @@ document.addEventListener("DOMContentLoaded",function(){
   });
 });
 
+document.addEventListener("DOMContentLoaded",function(){
+  let formularioLogin = document.querySelector(".formulario-crea-capitulo");
+  formularioLogin.addEventListener("submit", function (event) {
+      // Realizar validaciones aquí
+      if (!validarFormularioCreaCapitulo()) {
+          event.preventDefault(); // Detener el envío del formulario si no es válido
+      }
+  });
+});
+
+
+///////////////////////////////////////////////////////////////////////////
 document.addEventListener("DOMContentLoaded", function () {
   var miBoton = document.getElementById("miniCirculo");
 
@@ -46,7 +58,6 @@ function mostrarFormulario() {
       contenedorFormulario.style.display = 'flex';
     } 
 };
-
 
 
 
