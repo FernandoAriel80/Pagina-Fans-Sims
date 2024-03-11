@@ -43,7 +43,6 @@ a {
 .boton-diario-fav{
     width: 30px;
     height: 30px; 
-    background-image: url('../Iconos/estrella_negra.png');
     background-size: contain; 
     background-position: center; 
     background-repeat: no-repeat;
@@ -54,9 +53,6 @@ a {
     transform: translate(-50%, -50%);
 }
 
-.boton-diario-fav:hover{
-    background-image: url('../Iconos/estrella_amarilla.png');
-}
 /* Estilos para dispositivos de escritorio */
 @media only screen and (min-width: 769px) {
     .cada-diario { 

@@ -6,6 +6,7 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
+<?php include 'controllers/perfilControlador.php';?>
 <!-- CONTENEDOR -->
 <div class="diario">
     <h4>PERFIL:</h4>
@@ -41,7 +42,7 @@ if (!sesionActiva()) {
                 </div>
                 <div class="diario-fav">
                     <form class="formulario-diario-fav" action=" " method="post">
-                        <input type="submit" value="" class="boton-diario-fav" name="botonDiarioFav">
+                    <input type="image" src="public/Iconos/<?php echo $rutaImagen; ?>" class="boton-diario-fav" name="botonDiarioFav">
                     </form>
                 </div>
             </div>

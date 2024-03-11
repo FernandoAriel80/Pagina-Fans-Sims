@@ -2,18 +2,22 @@
 
 require_once 'models/Usuario.php';
 require_once 'models/Diario.php';
+require_once 'models/Favorito.php';
 require_once 'config/DataBase.php';
 require_once 'validations/validaciones.php';
 require_once 'validations/validaSesiones.php';
+
 
 $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
 $diarioModelo = new Diario($coneccion);
 $usuarioModelo = new Usuario($coneccion);
+$favoritoModelo = new Favorito($coneccion);
 
 $misDiarios = [];
 $todosDiarios = [];
 $perfil= '';
+$imagenEstrella = "estrella_negra.png";
 $idUsuarioActual = $_SESSION['idUsuario'];
 
 if (isset($_GET['token'])) {
@@ -21,12 +25,30 @@ if (isset($_GET['token'])) {
 }
 
 $datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
+//$datoFavoritoModelo = $favoritoModelo->obtenerTodosFavorito();
 $datoDiarioModelo = $diarioModelo->obtenerTodosDiariosOrden('fechaActualizacion');
 
 $perfil = muestraPerfil($usuarioModelo,$idUsuarioActual);
-$misDiarios = muestraMisDiarios($datoDiarioModelo,$datoUsuarioModelo,$idUsuarioActual);
-$todosDiarios = muestraTodosDiarios($datoDiarioModelo,$datoUsuarioModelo);
+$misDiarios = muestraMisDiarios($datoDiarioModelo,$datoUsuarioModelo,$idUsuarioActual,$imagenEstrella);
+$todosDiarios = muestraTodosDiarios($datoDiarioModelo,$datoUsuarioModelo,$imagenEstrella);
 $dataBase->desconectar(); 
+
+/////////////////////FAVORITO/////////////////////////////////////
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["botonDiarioFav"])) {
+        if (isset($_POST["idDiarioActual"])) {
+            $idDiarioActual = $_POST["idDiarioActual"];
+            $resultadoFavorito = $favoritoModelo->favoritoExistente($idUsuarioActual,$idDiarioActual);
+            if ($resultadoFavorito) {
+                $favoritoModelo->eliminaFavorito($idUsuarioActual,$idDiarioActual);
+                $imagenEstrella = 'estrella_negra.png';
+            }else{
+                $favoritoModelo->creaFavorito($idUsuarioActual,$idDiarioActual);
+                $imagenEstrella = 'estrella_amarilla.png';
+            }
+        }
+    }
+}
 
 function muestraPerfil(Usuario $modeloU,$idU){
     $datoUsuario = $modeloU->obtenerUnUsuario($idU);
@@ -52,7 +74,7 @@ function muestraPerfil(Usuario $modeloU,$idU){
         }  
     }
 }
-function muestraMisDiarios($datoDiario, $datoUsuario,$idU){
+function muestraMisDiarios($datoDiario, $datoUsuario,$idU,$imagenEstrella){
     $misDiarios = []; 
     if (!empty($datoDiario)) {
         foreach ($datoDiario as $diario){
@@ -67,7 +89,7 @@ function muestraMisDiarios($datoDiario, $datoUsuario,$idU){
                                     $fechaActualizado = soloFecha($diario->fechaActualizacion);
                                 } 
                                 $misDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                                $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre); 
+                                $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$imagenEstrella); 
                             }else{
                                 if ($diario->visible == '1') {
                                     $fechaCreado = soloFecha($diario->fechaCreacion);
@@ -76,7 +98,7 @@ function muestraMisDiarios($datoDiario, $datoUsuario,$idU){
                                         $fechaActualizado = soloFecha($diario->fechaActualizacion);
                                     } 
                                     $misDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                                    $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre); 
+                                    $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$imagenEstrella); 
                                 }
                             }
                             
@@ -91,7 +113,7 @@ function muestraMisDiarios($datoDiario, $datoUsuario,$idU){
     }
 }
 
-function muestraTodosDiarios($datoDiario, $datoUsuario){
+function muestraTodosDiarios($datoDiario, $datoUsuario,$imagenEstrella){
     $losDiarios = []; 
     if (!empty($datoDiario)) {
         foreach ($datoDiario as $diario){
@@ -105,7 +127,7 @@ function muestraTodosDiarios($datoDiario, $datoUsuario){
                                 $fechaActualizado = soloFecha($diario->fechaActualizacion);
                             } 
                             $losDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                            $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre);                        
+                            $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$imagenEstrella);                        
                         }
                     }
                 }
@@ -116,7 +138,7 @@ function muestraTodosDiarios($datoDiario, $datoUsuario){
         return '<h4>¡NO HAY NINGUN DIARIO!</h4>';
     }
 }
-function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fechaActualizacion,$puntaje,$autor){
+function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fechaActualizacion,$puntaje,$autor,$imagenEstrella){
     $tokenIdUsuario = generaTokenId($idAutor,$token);
     $tokenD = bin2hex(random_bytes(32));
     $tokenIdDiario = generaTokenId($idDiario,$tokenD);
@@ -141,7 +163,9 @@ function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fe
                         </div>
                         <div class="diario-fav">
                             <form class="formulario-diario-fav" action=" " method="post">
-                                <input type="submit" value="" class="boton-diario-fav" name="botonDiarioFav">
+                                <input type="hidden" value="'.$idDiario.'" class="boton-diario-fav" name="idDiarioActual">
+                                
+                                <input type="submit" src="public/Iconos/'.$imagenEstrella.'" value=" " class="boton-diario-fav" name="botonDiarioFav" style =" background-image: url("/public/Iconos/'.$imagenEstrella.'");">
                             </form>
                         </div>
                     </div>

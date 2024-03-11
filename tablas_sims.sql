@@ -11,7 +11,6 @@ CREATE TABLE Usuario(
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     activo TINYINT(1) DEFAULT '0',
     rol VARCHAR(10) NOT NULL DEFAULT 'Usuario',
-    eliminado TINYINT(1) DEFAULT '0',
 	PRIMARY KEY(idUsuario)
 );
 
@@ -22,8 +21,7 @@ CREATE TABLE Diario(
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaActualizacion TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     descripcion TEXT NULL,
-    puntoPromedio FLOAT(2,1) NULL,
-    favoritoTotal INT NULL,
+    puntoPromedio INT NULL,
     visible TINYINT(1) DEFAULT '1',
     PRIMARY KEY(idDiario),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
@@ -95,6 +93,26 @@ CREATE TABLE Mensaje(
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );
 
+CREATE TABLE Puntaje (
+    idPuntajes INT AUTO_INCREMENT,
+    idUsuario INT NOT NULL,
+    idDiario INT NOT NULL,
+    puntaje INT NOT NULL,
+    fecha_puntaje TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(idPuntajes),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
+    FOREIGN KEY (idDiario) REFERENCES diario(idDiario)
+);
+
+CREATE TABLE Favorito (
+    idFavoritos INT AUTO_INCREMENT,
+    idUsuario INT NOT NULL,
+    idDiario INT NOT NULL,
+    PRIMARY KEY(idFavoritos),
+    fecha_favorito TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
+    FOREIGN KEY (idDiario) REFERENCES diario(idDiario)
+);
 
 INSERT INTO categoria(descripcion)VALUES
     ('Acción'),
@@ -107,5 +125,4 @@ INSERT INTO categoria(descripcion)VALUES
     ('Drama'),
     ('Boys Love'),
     ('Girls Love')
-
 

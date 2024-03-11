@@ -114,7 +114,9 @@ function vistacapitulo($idautor,$idDiario,$idCapitulo,$imagen,$titulo,$parrafo){
                                 <p>'.$parrafo.'</p>
                             </div>
                             <div class="imagenCapitulo">
-                                <img src="public/ImagenesDiario/'.$imagen.'"/>
+                                <a href="public/ImagenesDiario/'.$imagen.'">
+                                    <img src="public/ImagenesDiario/'.$imagen.'"/>
+                                </a>  
                             </div>
                         </div>';
         } else {
@@ -123,7 +125,9 @@ function vistacapitulo($idautor,$idDiario,$idCapitulo,$imagen,$titulo,$parrafo){
                                 <h4>'.$titulo.'</h4>
                             </div>
                             <div class="imagenCapitulo" style="width: 80%;">
-                                <img src="public/ImagenesDiario/'.$imagen.'"/>
+                                <a href="public/ImagenesDiario/'.$imagen.'">
+                                    <img src="public/ImagenesDiario/'.$imagen.'"/>
+                                </a>
                             </div>
                         </div>';
         }

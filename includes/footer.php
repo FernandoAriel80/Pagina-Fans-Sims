@@ -9,5 +9,6 @@
     <!-- Agrega enlaces a tus scripts de JavaScript aquí si es necesario -->
     <script src="public/JS/script.js"></script>
     <script src="public/JS/validations/validaciones.js"></script>
+    
 </body>
 </html>
