@@ -4,6 +4,7 @@ require_once 'models/CategoriaDiario.php';
 require_once 'models/Diario.php';
 require_once 'models/Capitulo.php';
 require_once 'config/DataBase.php';
+require_once 'models/Favorito.php';
 require_once 'validations/validaciones.php';
 require_once 'validations/validaSesiones.php';
 
@@ -12,6 +13,7 @@ $coneccion = $dataBase->conectar();
 $diarioModelo = new Diario($coneccion);
 $usuarioModelo = new Usuario($coneccion);
 $capituloModelo = new Capitulo($coneccion);
+$favoritoModelo = new Favorito($coneccion);
 $categoriaDiarioModelo = new CategoriaDiario($coneccion);
 
 $diario= '';
@@ -27,28 +29,61 @@ if (isset($_GET['tokenD'])) {
 if (isset($_GET['autor'])) {
     $autor = $_GET['autor'];
 }
+if (isset($_SESSION["idUsuario"])){
+    $idSession =$_SESSION["idUsuario"];
+}
 
 $datoDiarioModelo = $diarioModelo->obtenerTodosDiarios();
 $datocapituloModelo = $capituloModelo->obtenerTodosCapitulos();
 $datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
 
-$diario = vistaDiario($datoDiarioModelo,$idUsuarioActual,$idDiarioActual,$autor);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["botonDiarioFav"])) {
+        if (isset($_POST["idDiarioActual"])) {
+            $idDiarioActualForm = $_POST["idDiarioActual"];
+            $resultadoFavorito = $favoritoModelo->favoritoExistente($idSession,$idDiarioActualForm);
+            if ($resultadoFavorito) {
+                $favoritoModelo->eliminaFavorito($idSession,$idDiarioActualForm);
+
+            }else{
+                $favoritoModelo->creaFavorito($idSession,$idDiarioActualForm);
+               
+            }
+        }
+    }
+}
+
+$diario = vistaDiario($datoDiarioModelo,$idUsuarioActual,$idDiarioActual,$autor,$favoritoModelo);
 $categoria = vistaCategoria($categoriaDiarioModelo,$idDiarioActual);
 $todosCapitulos = muestraTodosCapitulos($datocapituloModelo,$idUsuarioActual,$idDiarioActual);
 $dataBase->desconectar(); 
-function vistaDiario($datoD,$idautor,$idDiario,$autor){ 
+
+/////////////////////FAVORITO/////////////////////////////////////
+
+function vistaDiario($datoD,$idAutor,$idDiario,$autor,$favoritoModelo){ 
     $tokenD = bin2hex(random_bytes(32));
     $tokenIdDiario = generaTokenId($idDiario,$tokenD);   
     if ($datoD) {
         foreach ($datoD as $diario ) {
             if ($idDiario == $diario->idDiario) {
-                if ($idautor == $diario->idUsuario) {
-                    if ($idautor == $_SESSION['idUsuario']) {
-                        $vista = '  <!-- contenido modifica diario -->
-                                    <div class = "modifica-creaEntrada" >
+                if ($idAutor == $diario->idUsuario) {
+                    if ($idAutor == $_SESSION['idUsuario']) {
+                        $resultadoFavorito = $favoritoModelo->favoritoExistente($_SESSION['idUsuario'],$idDiario);
+                        if ($resultadoFavorito) {
+                            $vista = '  <!-- contenido modifica diario -->
+                                        <div class = "modifica-creaEntrada" >
+                                            <form class="contenedor-icono-favorito" action=" " method="post" style="background-color: yellow;">';
+                        }else{
+                            $vista = '  <!-- contenido modifica diario -->
+                                        <div class = "modifica-creaEntrada" >
+                                            <form class="contenedor-icono-favorito" action=" " method="post" style="background-color: black;">';
+                        }
+                        $vista .= '         <input type="hidden" value="'.$diario->idDiario.'" name="idDiarioActual">
+                                            <input type="submit" value=" " class="contenedor-icono-favorito" name="botonDiarioFav" title="agrega diario como favorito">
+                                        </form>
                                         <a class="contenedor-icono-crea" href="creaCapitulo.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="agrega una entrada"></a>
                                         <a class="contenedor-icono-modifica" href="editaDiario.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="modifica diario"></a>
-                                        <a class="contenedor-icono-elimina" href="eliminaDiario.php?tokenD='.$tokenIdDiario.'" title="elimina diario" ></a>
+                                        <a class="contenedor-icono-elimina" href="eliminaDiario.php?tokenD='.$tokenIdDiario.'" title="elimina diario" ></a> 
                                     </div>
                                     <!-- contenido diario -->
                                     <div class="contenidoDiario">
@@ -59,7 +94,26 @@ function vistaDiario($datoD,$idautor,$idDiario,$autor){
                                         </div>          
                                     </div>';
                     }else{
-                        $vista = ' <!-- contenido diario -->
+                        $resultadoFavorito = $favoritoModelo->favoritoExistente($_SESSION['idUsuario'],$idDiario);
+                        if ($resultadoFavorito) {
+                            $vista = '  <!-- contenido modifica diario -->
+                                        <div class = "modifica-creaEntrada" >
+                                            <form class=contenedor-icono-favorito" action=" " method="post">
+                                                <input type="hidden" value="'.$idDiario.'"  name="idDiarioActual">
+                                                <input type="submit" value=" " class="contenedor-icono-favorito" name="botonDiarioFav" style="background-color: yellow;">
+                                            </form>
+                                        </div>';
+                        }else{
+                            $vista = '  <!-- contenido modifica diario -->
+                                        <div class = "modifica-creaEntrada" >
+                                           <form class=contenedor-icono-favorito" action=" " method="post">
+                                                <input type="hidden" value="'.$idDiario.'"  name="idDiarioActual">
+                                                <input type="submit" value=" " class="contenedor-icono-favorito" name="botonDiarioFav" style="background-color: black;">
+                                            </form>
+                                        </div>';
+                        }
+
+                        $vista .= ' <!-- contenido diario -->
                                     <div class="contenidoDiario">
                                         <div class = "DiarioText" >
                                             <h2>'.$diario->titulo.'</h2>

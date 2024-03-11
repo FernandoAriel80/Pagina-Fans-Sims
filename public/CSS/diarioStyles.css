@@ -11,7 +11,7 @@
     align-items:end; 
 }
 
-.contenedor-icono-crea ,.contenedor-icono-modifica,.contenedor-icono-elimina{
+.contenedor-icono-crea ,.contenedor-icono-modifica,.contenedor-icono-elimina,.contenedor-icono-favorito{
  
     margin: 5px;
     width: 30px;
@@ -32,6 +32,15 @@
     background-color: white;
     border-radius: 50%;
 }
+.contenedor-icono-favorito{
+    border-radius: 20%;
+    border: none; 
+    background: none; 
+    padding: 0;  
+   
+    
+}
+
 .contenidoCapitulos{
   margin-bottom: 20px;
   
@@ -52,6 +61,7 @@
     width: 100%; 
 } 
 /*////////////////////////////////////////////////////*/
+
 
 @media only screen and (min-width: 769px) {
     /* .contenidoDiario {

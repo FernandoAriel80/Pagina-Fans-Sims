@@ -29,6 +29,9 @@
 .diario-autor, .diario-fav{
     width: 100%;
     position: relative;
+    display: grid;
+    place-items: center;
+    
 }
 
 h4{
@@ -40,7 +43,7 @@ a {
     text-decoration: none; 
 }
 
-.boton-diario-fav{
+/* .boton-diario-fav{
     width: 30px;
     height: 30px; 
     background-size: contain; 
@@ -51,7 +54,7 @@ a {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-}
+} */
 
 /* Estilos para dispositivos de escritorio */
 @media only screen and (min-width: 769px) {

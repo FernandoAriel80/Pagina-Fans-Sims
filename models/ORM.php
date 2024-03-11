@@ -263,5 +263,38 @@ class Orm{
     //     $stmt->execute();
     //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
     // }
+
+    
+public function getByCondition($conditions) {
+     try {
+            // Construir la consulta SQL base
+        $query = "SELECT * FROM {$this->tabla}";
+         // Verificar si se proporcionaron condiciones
+         if (!empty($conditions)) {
+         $query .= " WHERE ";
+         $conditions_array = [];
+         // Construir la parte de las condiciones de la consulta
+         foreach ($conditions as $campo => $valor) {
+             $conditions_array[] = "$campo = :$campo";
+                }
+                // Combinar todas las condiciones
+            $query .= implode(" AND ", $conditions_array);
+            }
+            // Preparar la consulta
+            $stm = $this->connection->prepare($query);
+            // Bindear los valores de las condiciones
+             foreach ($conditions as $campo => $valor) {
+                $stm->bindValue(":$campo", $valor);
+             }
+            // Ejecutar la consulta
+             $stm->execute();
+            // Retornar los resultados
+             return $stm->fetchAll();
+         } catch (PDOException $e) {
+            // Manejar la excepción
+             echo "Error al ejecutar la consulta: " . $e->getMessage();
+             return false;
+        }
+    }
     
 }
