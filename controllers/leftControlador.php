@@ -156,7 +156,7 @@ return $vista;
 function muestraLogeado(){
        $vista='<div class="contenedor-cosas">
                 <div class="contenedor-cosas-abajo">
-                    <div class = "Bienvenida-login">Bienvenido</br>'.$_SESSION['nombre'].' '.$_SESSION['rolUsuario'].'</div>  
+                    <div class = "Bienvenida-login">Bienvenido</br>'.$_SESSION['nombre'].'</br> Rol: '.$_SESSION['rolUsuario'].'</div>  
                     <form class="formulario-nav-out" action=" " method="post">
                         <input type="submit" value="" class="boton-deslogin" name="botonNavOut">
                     </form>

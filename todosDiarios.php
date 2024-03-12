@@ -6,31 +6,54 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
+
 <?php include 'controllers/todosDiariosControlador.php';?>
-<!-- CONTENEDOR -->
-<div class="diario">
-    <h4>PERFIL:</h4>
-    <div class="elemento-diario">
-
-        <p>Aqui encontraras tus diarios. Donde podras poner tus imagenes y las locuras que hacen tus Sims.
-            <br>
-            Esta es la lista de todos los diarios disponibles del momento.<br>
-            No seas timido y pon el tuyo!.
-        </p>
-
+<!-- PORCION LEFT -->
+<p>!!ESTOY ACAAAA¡¡</p>
+<div class="contenedor-cosas">
+    <div class="contenedor-cosas-abajo">
+        <form class="formulario-filtra" action=" " method="POST">
+            <div class="contenedor-categoria">
+                <h4>ELIJE LOS GENEROS DEL DIARIO QUE BUSCAS</h4>
+                <!-- agrega selector desde el controlador -->
+                <?php echo $vistaCategoria?>
+            </div>
+            <input type="text" id="tituloF" name="tituloF" placeholder="Titulo Diario">
+            <div class="subYcheck">
+                <input type="submit" id="boton-filtra" value="filtra diario" name="botonFiltra">
+            </div>
+        </form>
     </div>
-    <h4>TODOS LOS DIARIOS:</h4>
-    <div class="elemento-diario">
-        <!-- cada diario  -->
-        <?php if (is_array($todosDiarios)) {
+</div>
+</div>
+
+<!-- FINAL DE LA PORCION LEFT -->
+<div class="contenedor-flex">
+    <!-- CONTENEDOR -->
+    <div class="diario">
+        <h4>DIARIOS:</h4>
+        <div class="elemento-diario">
+
+            <p>Aquí encontraras los diarios que otras personas publicaron para que puedas ver las historias de los demás
+                n-n.
+                <br>
+                Esta es la lista de todos los diarios disponibles del momento.<br>
+                No seas tímido y pon el tuyo!.
+            </p>
+
+        </div>
+        <h4>TODOS LOS DIARIOS:</h4>
+        <div class="elemento-diario">
+            <!-- cada diario  -->
+            <?php if (is_array($todosDiarios)) {
                         foreach ($todosDiarios as $diario) {
                             echo $diario;
                           }
                     }?>
-        <!-- cada diario end  -->
-    </div>
-<!-- separador -->
+            <!-- cada diario end  -->
+        </div>
+        <!-- separador -->
 
-<!-- END CONTENEDOR -->
+        <!-- END CONTENEDOR -->
 
-<?php include 'includes/footer.php'; ?>
+        <?php include 'includes/footer.php'; ?>

@@ -102,17 +102,17 @@ function vistaDiario($datoD,$idAutor,$idDiario,$autor,$favoritoModelo){
                         if ($resultadoFavorito) {
                             $vista = '  <!-- contenido modifica diario -->
                                         <div class = "modifica-creaEntrada" >
-                                            <form class=contenedor-icono-favorito" action=" " method="post">
+                                            <form class=contenedor-favorito-amarillo" action=" " method="post">
                                                 <input type="hidden" value="'.$idDiario.'"  name="idDiarioActual">
-                                                <input type="submit" value=" " class="contenedor-icono-favorito" name="botonDiarioFav" style="background-color: yellow;">
+                                                <input type="submit" value=" " class="contenedor-favorito-amarillo" name="botonDiarioFav">
                                             </form>
                                         </div>';
                         }else{
                             $vista = '  <!-- contenido modifica diario -->
                                         <div class = "modifica-creaEntrada" >
-                                           <form class=contenedor-icono-favorito" action=" " method="post">
+                                           <form class="contenedor-favorito-negro" action=" " method="post">
                                                 <input type="hidden" value="'.$idDiario.'"  name="idDiarioActual">
-                                                <input type="submit" value=" " class="contenedor-icono-favorito" name="botonDiarioFav" style="background-color: black;">
+                                                <input type="submit" value=" " class="contenedor-favorito-negro" name="botonDiarioFav">
                                             </form>
                                         </div>';
                         }

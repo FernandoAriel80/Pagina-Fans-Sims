@@ -16,7 +16,7 @@
     
     <title>Pagina Fans Sims</title>
     <link rel="icon" href="public/Iconos/logo.png" type="image/png">
-    <!-- Agrega enlaces a tus hojas de estilo CSS aquí si es necesario -->
+    
 </head>
 
 <body>
@@ -47,4 +47,6 @@
     <main>
     <div class="contenedor-main-flex">
         <?php include 'Left.php'; ?>
-        <div class="contenedor-flex">
+
+     
+       

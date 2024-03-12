@@ -28,6 +28,21 @@ if (isset($_GET['token'])) {
 }
 
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["botonDiarioFavPerfil"])) {
+        if (isset($_POST["idDiarioActualPerfil"])) {
+            $idDiarioActual = $_POST["idDiarioActualPerfil"];
+            $resultadoFavorito = $favoritoModelo->favoritoExistente($_SESSION['idUsuario'],$idDiarioActual);
+            if ($resultadoFavorito) {
+                $favoritoModelo->eliminaFavorito($_SESSION['idUsuario'],$idDiarioActual);
+
+            }else{
+                $favoritoModelo->creaFavorito($_SESSION['idUsuario'],$idDiarioActual);
+            }
+            $dataBase->desconectar();
+        }
+    }
+}
 
 $datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
 $datoFavoritoModelo = $favoritoModelo->obtenerTodosFavorito();
@@ -57,6 +72,12 @@ function muestraPerfil(Usuario $modeloU,$idU){
                                     <!-- autor -->
                                     <div> <a class="boton-crea-diario" href="creaDiario.php">CREA NUEVO DIARIO</a></div>
                                 </div>
+                            </div>
+                            <div class="elemento-diario">
+                                <p>Aquí encontraras tus diarios. Donde podrás poner tus imágenes y las locuras que hacen tus Sims. <br>
+                                    Esta es la lista de todos los diarios disponibles del momento.<br>
+                                    No seas tímido y pon el tuyo!. 
+                                </p>
                             </div>
                             <h4>MIS DIARIOS:</h4>';
         } else {
@@ -195,20 +216,20 @@ function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fe
                 if ($resultadoFavorito) {
                     $vista .= '
                             <div class="diario-fav">
-                              
+                                <form class="contenedor-favorito-amarillo" action=" " method="post" >
                                     <input type="hidden" value="'.$idDiario.'"  name="idDiarioActualPerfil">
                                     <input type="submit" value=" " class="contenedor-favorito-amarillo" name="botonDiarioFavPerfil" title="agrega diario como favorito">
-                                
+                                </form>
                             </div>
                         </div>
                     </div>';
                 }else{
                     $vista .= '
                             <div class="diario-fav">
-                              
+                                <form class="contenedor-favorito-negro" action=" " method="post" >
                                     <input type="hidden" value="'.$idDiario.'"  name="idDiarioActualPerfil">
                                     <input type="submit" value=" " class="contenedor-favorito-negro" name="botonDiarioFavPerfil" title="agrega diario como favorito">
-                               
+                                    </form>
                             </div>
                         </div>
                     </div>';

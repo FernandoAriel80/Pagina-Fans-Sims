@@ -43,21 +43,10 @@ END //
 DELIMITER ; */
 
 
-CREATE TABLE puntajes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT,
-    id_diario INT,
-    puntaje INT,
-    fecha_puntaje TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
-    FOREIGN KEY (id_diario) REFERENCES diarios(id)
-);
-
-CREATE TABLE favoritos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT,
-    id_diario INT,
-    fecha_favorito TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
-    FOREIGN KEY (id_diario) REFERENCES diarios(id)
-);
+/* 
+SELECT * FROM diario JOIN
+Usuario ON Usuario.idUsuario = Diario.idUsuario JOIN
+CategoriaDiario ON CategoriaDiario.idDiario = Diario.idDiario
+WHERE diario.visible = 1
+GROUP BY diario.idDiario
+ORDER BY diario.fechaActualizacion DESC */

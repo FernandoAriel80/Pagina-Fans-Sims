@@ -212,7 +212,7 @@ class Orm{
          }
      }
     
-     public function consultaJoin($condicionesJoin = array(), $condicionesWhere = array()) {
+     public function consultaJoin($condicionesJoin = array(), $condicionesWhere = array(),$orderDirection = 'DESC') {
         try {
             $query = "SELECT * FROM {$this->tabla} ";
             $params = array();
@@ -235,7 +235,15 @@ class Orm{
                 }
                 $query .= implode(" AND ", $condiciones_sql);
             }
-            $query .= " GROUP BY {$this->tabla}.idDiario";
+            $query .= " GROUP BY {$this->tabla}.idDiario ";
+
+            $validOrderDirections = array('ASC', 'DESC');
+            $orderDirection = strtoupper($orderDirection);
+            if (!in_array($orderDirection, $validOrderDirections)) {
+                $orderDirection = 'DESC';
+            }
+
+            $query .= " ORDER BY {$this->tabla}.fechaActualizacion {$orderDirection} ";
             $stm = $this->connection->prepare($query);
     
             // Asignamos valores utilizando bindValue()

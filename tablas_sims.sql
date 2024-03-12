@@ -7,8 +7,8 @@ CREATE TABLE Usuario(
     sal VARCHAR(255) NOT NULL,
     token VARCHAR(255) NULL UNIQUE,
     foto VARCHAR (200) NULL,
-    descripcion VARCHAR(600) NULL,
-    fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    descripcionUsuario VARCHAR(600) NULL,
+    fechaCreacionUsuario TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     activo TINYINT(1) DEFAULT '0',
     rol VARCHAR(10) NOT NULL DEFAULT 'Usuario',
 	PRIMARY KEY(idUsuario)
@@ -17,10 +17,10 @@ CREATE TABLE Usuario(
 CREATE TABLE Diario(
 	idDiario INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
-    titulo VARCHAR(30) NOT NULL,
-    fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fechaActualizacion TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-    descripcion TEXT NULL,
+    tituloDiario VARCHAR(30) NOT NULL,
+    fechaCreacionDiario TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaActualizacionDiario TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    descripcionDiario TEXT NULL,
     puntoPromedio INT NULL,
     visible TINYINT(1) DEFAULT '1',
     PRIMARY KEY(idDiario),
@@ -30,8 +30,8 @@ CREATE TABLE Diario(
 CREATE TABLE Capitulo(
 	idCapitulo INT AUTO_INCREMENT,
     idDiario INT NOT NULL,
-    titulo VARCHAR(30) NULL,
-    imagen VARCHAR (200) NULL,
+    tituloCapitulo VARCHAR(30) NULL,
+    imagenCapitulo VARCHAR (200) NULL,
     parrafo VARCHAR(600) NULL,
     fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idCapitulo),
@@ -40,7 +40,7 @@ CREATE TABLE Capitulo(
 
 CREATE TABLE Categoria(
 	idCategoria INT AUTO_INCREMENT,
-    descripcion VARCHAR(10),
+    descripcionCategoria VARCHAR(10),
     PRIMARY KEY(idCategoria)
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE CategoriaDiario(
 CREATE TABLE Reporte(
 	idReporte INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
-    descripcion VARCHAR(600) NOT NULL,
+    descripcionReporte VARCHAR(600) NOT NULL,
     fechaReporte TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	lugarReporte VARCHAR(30) NOT NULL,
     PRIMARY KEY(idReporte),
@@ -65,8 +65,8 @@ CREATE TABLE Reporte(
 
 CREATE TABLE Foro(
 	idForo INT AUTO_INCREMENT,
-    titulo VARCHAR(30) NOT NULL,
-    descripcion VARCHAR(600) NULL,
+    tituloForo VARCHAR(30) NOT NULL,
+    descripcionForo VARCHAR(600) NULL,
     totalTemas INT NULL,
     totalMensajes INT NULL,
     PRIMARY KEY(idForo)
@@ -75,10 +75,10 @@ CREATE TABLE Foro(
 CREATE TABLE Tema(
 	idTema INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
-    titulo VARCHAR(30) NOT NULL,
-    descripcion VARCHAR(600) NULL,
+    tituloTema VARCHAR(30) NOT NULL,
+    descripcionTema VARCHAR(600) NULL,
     totalMensajes INT NULL,
-    fechaPublicacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaPublicacionTema TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idTema),
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );
@@ -87,8 +87,8 @@ CREATE TABLE Tema(
 CREATE TABLE Mensaje(
 	idMensaje INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
-    descripcion VARCHAR(600) NULL,
-    fechaPublicacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    descripcionMensaje VARCHAR(600) NULL,
+    fechaPublicacionMensaje TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idMensaje),
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );
@@ -97,7 +97,7 @@ CREATE TABLE Puntaje (
     idPuntajes INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
     idDiario INT NOT NULL,
-    puntaje INT NOT NULL,
+    puntajeDato INT NOT NULL,
     fecha_puntaje TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idPuntajes),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
@@ -109,12 +109,12 @@ CREATE TABLE Favorito (
     idUsuario INT NOT NULL,
     idDiario INT NOT NULL,
     PRIMARY KEY(idFavoritos),
-    fecha_favorito TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fechaCreacionFavorito TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
     FOREIGN KEY (idDiario) REFERENCES diario(idDiario)
 );
 
-INSERT INTO categoria(descripcion)VALUES
+INSERT INTO Categoria(descripcionCategoria)VALUES
     ('Acción'),
     ('Aventura'),
     ('Romance'),

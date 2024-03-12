@@ -68,10 +68,10 @@ function muestraCategorias($datoCate){
 
     $vista="";
     if (!empty($datoCate)) {
-        foreach ($datoCate as $key) {
+        foreach ($datoCate as $categoria) {
             $vista.="<div class='selector-categoria'>
-                        <input type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $key->idCategoria . "'>
-                        <label for='categoria_" . $key->idCategoria. "' class='checkbox-label'>" . $key->descripcion . "</label>
+                        <input type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $categoria->idCategoria . "'>
+                        <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcion . "</label>
                     </div>";
         } 
         return $vista;    

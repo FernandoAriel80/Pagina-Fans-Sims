@@ -1,9 +1,9 @@
 <?php
 
-
 require_once 'models/Usuario.php';
 require_once 'models/Diario.php';
 require_once 'models/Favorito.php';
+require_once 'models/Categoria.php';
 require_once 'config/DataBase.php';
 require_once 'validations/validaciones.php';
 require_once 'validations/validaSesiones.php';
@@ -14,46 +14,84 @@ $coneccion = $dataBase->conectar();
 $diarioModelo = new Diario($coneccion);
 $usuarioModelo = new Usuario($coneccion);
 $favoritoModelo = new Favorito($coneccion);
+$categoriaModelo = new Categoria($coneccion);
 
 
 $todosDiarios = [];
-
+$datoWhere = array();
+$aviso = '';
 
 if (isset($_SESSION['idUsuario'])) {
     $idUsuarioActual = $_SESSION['idUsuario'];
 }
 
+$datoCategoriaModelo = $categoriaModelo->obtenerTodosCategorias();
+$datoDiarioModelo = $diarioModelo->obtenerTodosDiarios();
+
+////////////////////////// FILTRA ////////////////////
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+  
+    if (isset($_POST["botonFiltra"])) {
+ 
+        if (isset($_POST['categoriaF']) && is_array($_POST['categoriaF'])) {
+            $categoriaElegida = $_POST["categoriaF"];
+          
+            foreach ($categoriaElegida as $idCategoria) {
+                $datoWhere['CategoriaDiario.idCategoria'] = $idCategoria;
+            }
+        }
+        /* if (isset($_POST['tituloF'])) {
+            $tituloElegido = $_POST['tituloF'];
+
+            foreach ($datoDiarioModelo as $diario) {
+                if (strpos($diario->titulo, $tituloElegido) !== false) {
+                    $datoWhere['Diario.titulo'] = $diario->titulo;
+                }
+            }
+            
+        }  */
+
+        $todosDiarios = muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $datoWhere);
+       /*  if (empty($todosDiarios)) {
+            $aviso = '<h4>¡no se encontro datos relacionados!</h4>';
+        } */
+    }
+}
 /////////////////////FAVORITO/////////////////////////////////////
-/* if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["botonDiarioFavPerfil"])) {
         if (isset($_POST["idDiarioActualPerfil"])) {
             $idDiarioActual = $_POST["idDiarioActualPerfil"];
-            $resultadoFavorito = $favoritoModelo->favoritoExistente($idSession,$idDiarioActual);
+            $resultadoFavorito = $favoritoModelo->favoritoExistente($idUsuarioActual,$idDiarioActual);
             if ($resultadoFavorito) {
-                $favoritoModelo->eliminaFavorito($idSession,$idDiarioActual);
+                $favoritoModelo->eliminaFavorito($idUsuarioActual,$idDiarioActual);
 
             }else{
-                $favoritoModelo->creaFavorito($idSession,$idDiarioActual);
+                $favoritoModelo->creaFavorito($idUsuarioActual,$idDiarioActual);
             }
+            $dataBase->desconectar();
         }
     }
-} */
+}
 
 
-$todosDiarios = muestraTodosDiarios($diarioModelo,$usuarioModelo,$idUsuarioActual,$favoritoModelo);
+$todosDiarios = muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $datoWhere);
+$vistaCategoria = muestraCategorias($datoCategoriaModelo);
+$dataBase->desconectar();
 
-function muestraTodosDiarios($diarioModelo, $usuarioModelo, $idUsuarioActual, $favoritoModelo) {
+
+function muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $datoWhere) {
     $losDiarios = array();
+   
 
     $datoJoin = array(
         'Usuario ON Usuario.idUsuario = Diario.idUsuario',
         'CategoriaDiario ON CategoriaDiario.idDiario = Diario.idDiario'
     );
 
-    $datoWhere = array(
-        'Diario.visible' => '1',
-        
-    );
+
+    $datoWhere['Diario.visible'] = '1';
     //$datoWhere['CategoriaDiario.idCategoria'] = '6';
     
     $resultadosJoin = $diarioModelo->consultaJoin($datoJoin, $datoWhere);
@@ -114,20 +152,20 @@ function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fe
                 if ($resultadoFavorito) {
                     $vista .= '
                             <div class="diario-fav">
-                              
+                                <form class="contenedor-favorito-amarillo" action=" " method="post" >
                                     <input type="hidden" value="'.$idDiario.'"  name="idDiarioActualPerfil">
                                     <input type="submit" value=" " class="contenedor-favorito-amarillo" name="botonDiarioFavPerfil" title="agrega diario como favorito">
-                                
+                                </form>
                             </div>
                         </div>
                     </div>';
                 }else{
                     $vista .= '
                             <div class="diario-fav">
-                              
+                                <form class="contenedor-favorito-negro" action=" " method="post" >
                                     <input type="hidden" value="'.$idDiario.'"  name="idDiarioActualPerfil">
                                     <input type="submit" value=" " class="contenedor-favorito-negro" name="botonDiarioFavPerfil" title="agrega diario como favorito">
-                               
+                                </form>
                             </div>
                         </div>
                     </div>';
@@ -138,7 +176,19 @@ function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fe
 }
 
 
- 
+function muestraCategorias($datoCate){
+
+    $vista="";
+    if (!empty($datoCate)) {
+        foreach ($datoCate as $categoria) {
+            $vista.="<div class='selector-categoria'>
+                        <input type='checkbox' id='categoria-input' name='categoriaF[]' value='" . $categoria->idCategoria . "'>
+                        <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcion . "</label>
+                    </div>";
+        } 
+        return $vista;    
+    }
+}
 /*  function muestraTodosDiarios($diarioModelo,$usuarioModelo,$idUsuarioActual,$favoritoModelo){
     $losDiarios = [];
     

@@ -161,7 +161,6 @@ body {
 .contenedor-cosas-abajo{
   flex: 1;
   padding: 10px;
-  padding-right: 20%;
   display: flex; 
   justify-content: center; 
   align-items: center; 
