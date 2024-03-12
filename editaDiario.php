@@ -1,5 +1,4 @@
 <?php include 'includes/header.php'; ?>
-<?php include 'controllers/editaDiarioControlador.php';?>
 <?php 
 require_once 'validations/validaSesiones.php';
 if (!sesionActiva()) {
@@ -7,6 +6,7 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
+<?php include 'controllers/editaDiarioControlador.php';?>
 <!-- CONTENEDOR -->
 <div class="contenedor-crea-diario">
     <h2>EDITA TU DIARIO</h2>

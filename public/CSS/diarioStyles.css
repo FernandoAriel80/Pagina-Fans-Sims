@@ -11,7 +11,11 @@
     align-items:end; 
 }
 
-.contenedor-icono-crea ,.contenedor-icono-modifica,.contenedor-icono-elimina,.contenedor-icono-favorito{
+.contenedor-icono-crea ,
+.contenedor-icono-modifica,
+.contenedor-icono-elimina,
+.contenedor-favorito-negro,
+.contenedor-favorito-amarillo{
  
     margin: 5px;
     width: 30px;
@@ -32,15 +36,17 @@
     background-color: white;
     border-radius: 50%;
 }
-.contenedor-icono-favorito{
+.contenedor-favorito-negro,.contenedor-favorito-amarillo{
     border-radius: 20%;
     border: none; 
-    background: none; 
-    padding: 0;  
-   
-    
+    padding: 0;    
 }
-
+.contenedor-favorito-negro{
+    background-image: url('../Iconos/estrella_negra.png');
+}
+.contenedor-favorito-amarillo{
+    background-image: url('../Iconos/estrella_amarilla.png');
+}
 .contenidoCapitulos{
   margin-bottom: 20px;
   

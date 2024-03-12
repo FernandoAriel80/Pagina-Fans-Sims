@@ -1,5 +1,4 @@
 <?php include 'includes/header.php'; ?>
-<?php include 'controllers/editaCapituloControlador.php';?>
 <?php 
 require_once 'validations/validaSesiones.php';
 if (!sesionActiva()) {
@@ -7,6 +6,7 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
+<?php include 'controllers/editaCapituloControlador.php';?>
 <!-- CONTENEDOR -->
 <div class="contenedor-crea-capitulo">
     <h2>CREA ENTRADA</h2>

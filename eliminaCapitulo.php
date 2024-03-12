@@ -1,5 +1,4 @@
 
-<?php include 'controllers/eliminaCapituloControlador.php';?>
 <?php 
 require_once 'validations/validaSesiones.php';
 if (!sesionActiva()) {
@@ -7,3 +6,4 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
+<?php include 'controllers/eliminaCapituloControlador.php';?>

@@ -1,4 +1,4 @@
-<?php include 'controllers/eliminaDiarioControlador.php';?>
+
 <?php 
 require_once 'validations/validaSesiones.php';
 if (!sesionActiva()) {
@@ -6,3 +6,4 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
+<?php include 'controllers/eliminaDiarioControlador.php';?>

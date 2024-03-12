@@ -6,7 +6,7 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
-<?php include 'controllers/perfilControlador.php';?>
+<?php include 'controllers/todosDiariosControlador.php';?>
 <!-- CONTENEDOR -->
 <div class="diario">
     <h4>PERFIL:</h4>
@@ -19,59 +19,18 @@ if (!sesionActiva()) {
         </p>
 
     </div>
-    <h4>DIARIOS MAS POPULARES</h4>
+    <h4>TODOS LOS DIARIOS:</h4>
     <div class="elemento-diario">
         <!-- cada diario  -->
-        <div class="cada-diario">
-            <div class="diario-datos">
-                <a href="">
-                    <div class="diario-datos-arriba">
-                        <h4>Mi primer diario</h4>
-                    </div>
-                    <div class="diario-datos-abajo">
-                        <div>Fecha creacion: 23-06-1995</div>
-                        <div>Fecha actualizacion: 3-07-1995</div>
-                        <div>Puntaje: 4.5</div>
-                    </div>
-                </a>
-            </div>
-            <div class="diario-derecho">
-                <div class="diario-autor">
-                    <!-- autor -->
-                    <div> <a href="perfil.php">KaoPlox</a></div>
-                </div>
-                <div class="diario-fav">
-                    <form class="formulario-diario-fav" action=" " method="post">
-                    <input type="image" src="public/Iconos/<?php echo $rutaImagen; ?>" class="boton-diario-fav" name="botonDiarioFav">
-                    </form>
-                </div>
-            </div>
-        </div>
+        <?php if (is_array($todosDiarios)) {
+                        foreach ($todosDiarios as $diario) {
+                            echo $diario;
+                          }
+                    }?>
         <!-- cada diario end  -->
     </div>
-</div>
 <!-- separador -->
-<h4>DIARIOS RECIENTES</h4>
-<div class="elemento">
-    <div class="diario">
-        <h4>Mi segundo diario</h4>
-        <div class="diario-datos">
-            <div>Fecha creacion: 23-06-1996</div>
-            <div>Fecha actualizacion: 3-07-1996</div>
-            <div>Puntaje: 5.0</div>
-            <div>Autor: KaoPlox </div>
-        </div>
-    </div>
-    <div class="diario">
-        <h4>diario perdo</h4>
-        <div class="diario-datos">
-            <div>Fecha creacion: 25-06-2000</div>
-            <div>Fecha actualizacion: 13-07-2001</div>
-            <div>Puntaje: 2.5</div>
-            <div>Autor: PerRuiz </div>
-        </div>
-    </div>
-</div>
+
 <!-- END CONTENEDOR -->
 
 <?php include 'includes/footer.php'; ?>

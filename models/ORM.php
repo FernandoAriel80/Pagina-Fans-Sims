@@ -212,45 +212,46 @@ class Orm{
          }
      }
     
-    // public function consultaJoin($condicionesJoin = array(),$condicionesWhere = array()) {
-    //     try{
-    //         $query = "SELECT * FROM {$this->tabla} ";
-    //         $paramsJoin = array();
-    //         $params = array();
-    //         if (!empty($condicionesJoin)) {
-    //             $query .= " JOIN ";
-    //             $condiciones_join = array();
-    //             foreach ($condicionesJoin as $clave => $valor) {
-    //                 $condiciones_join[] = "$clave ON ?";
-    //                 $paramsJoin[] = $valor; // Agregamos el valor al array de parámetros
-    //             }
-    //             $query .= implode(" JOIN ", $condiciones_join);
-    //         }
-    //         if (!empty($condicionesWhere)) {
-    //             $query .= " WHERE ";
-    //             $condiciones_sql = array();
-    //             foreach ($condicionesWhere as $clave => $valor) {
-    //                 $condiciones_sql[] = "$clave = ?";
-    //                 $params[] = $valor; // Agregamos el valor al array de parámetros
-    //             }
-    //             $query .= implode(" AND ", $condiciones_sql);
-    //         }
-    //         $stm = $this->connection->prepare($query);
-    //         // Asignamos valores utilizando bindValue()
-    //         foreach ($paramsJoin as $index => $valor) {
-    //             $stm->bindValue($index + 1, $valor);
-    //         }
-    //         foreach ($params as $index => $valor) {
-    //             $stm->bindValue($index + 1, $valor);
-    //         }
-    //         $stm->execute();
-    //         return $stm->fetchAll();
-    //     } catch (PDOException $e) {
-    //         echo "Error al consultaJoin: " . $e->getMessage();
-    //         error_log("Error al consultaJoin: " . $e->getMessage());
-    //         return false;
-    //     }
-    // }
+     public function consultaJoin($condicionesJoin = array(), $condicionesWhere = array()) {
+        try {
+            $query = "SELECT * FROM {$this->tabla} ";
+            $params = array();
+    
+            if (!empty($condicionesJoin)) {
+                $query .= "JOIN ";
+                $condiciones_join = array();
+                foreach ($condicionesJoin as $condicion) {
+                    $condiciones_join[] = $condicion;
+                }
+                $query .= implode(" JOIN ", $condiciones_join) . " ";
+            }
+    
+            if (!empty($condicionesWhere)) {
+                $query .= "WHERE ";
+                $condiciones_sql = array();
+                foreach ($condicionesWhere as $clave => $valor) {
+                    $condiciones_sql[] = "$clave = ?";
+                    $params[] = $valor;
+                }
+                $query .= implode(" AND ", $condiciones_sql);
+            }
+            $query .= " GROUP BY {$this->tabla}.idDiario";
+            $stm = $this->connection->prepare($query);
+    
+            // Asignamos valores utilizando bindValue()
+            foreach ($params as $index => $valor) {
+                $stm->bindValue($index + 1, $valor);
+            }
+    
+            $stm->execute();
+            return $stm->fetchAll();
+        } catch (PDOException $e) {
+            echo "Error al consultar la base de datos: " . $e->getMessage();
+            error_log("Error al consultar la base de datos: " . $e->getMessage());
+            return false;
+        }
+    }
+    
 
     // public function consultaJoin($tablaPrincipal, $condiciones) {
     //     $sql = "SELECT * FROM $tablaPrincipal ";
@@ -266,33 +267,30 @@ class Orm{
 
     
 public function getByCondition($conditions) {
-     try {
-            // Construir la consulta SQL base
+     try { 
         $query = "SELECT * FROM {$this->tabla}";
-         // Verificar si se proporcionaron condiciones
          if (!empty($conditions)) {
          $query .= " WHERE ";
          $conditions_array = [];
-         // Construir la parte de las condiciones de la consulta
          foreach ($conditions as $campo => $valor) {
              $conditions_array[] = "$campo = :$campo";
                 }
-                // Combinar todas las condiciones
+                
             $query .= implode(" AND ", $conditions_array);
             }
-            // Preparar la consulta
+            
             $stm = $this->connection->prepare($query);
-            // Bindear los valores de las condiciones
-             foreach ($conditions as $campo => $valor) {
+            
+            foreach ($conditions as $campo => $valor) {
                 $stm->bindValue(":$campo", $valor);
              }
-            // Ejecutar la consulta
+            
              $stm->execute();
-            // Retornar los resultados
+            
              return $stm->fetchAll();
          } catch (PDOException $e) {
-            // Manejar la excepción
-             echo "Error al ejecutar la consulta: " . $e->getMessage();
+            error_log("Error al obtener todos getByCondition: " . $e->getMessage());  
+            echo "Error al ejecutar la getByCondition: " . $e->getMessage();
              return false;
         }
     }

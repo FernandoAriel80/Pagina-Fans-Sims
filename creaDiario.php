@@ -1,6 +1,4 @@
 <?php include 'includes/header.php'; ?>
-<?php include 'controllers/creaDiarioControlador.php';?>
-
 <?php 
 require_once 'validations/validaSesiones.php';
 if (!sesionActiva()) {
@@ -8,6 +6,7 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
+<?php include 'controllers/creaDiarioControlador.php';?>
             <!-- CONTENEDOR -->
 
             <div class="contenedor-crea-diario">

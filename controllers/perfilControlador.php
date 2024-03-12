@@ -15,42 +15,28 @@ $usuarioModelo = new Usuario($coneccion);
 $favoritoModelo = new Favorito($coneccion);
 
 $misDiarios = [];
-$todosDiarios = [];
+
 $diariosFavoritos = [];
 $perfil= '';
 
-$idUsuarioActual = $_SESSION['idUsuario'];
 
+if (isset($_SESSION['idUsuario'])) {
+    $idUsuarioActual = $_SESSION['idUsuario'];
+}
 if (isset($_GET['token'])) {
     $idUsuarioActual = obteneTokenId($_GET['token']);
 }
-if (isset($_SESSION["idUsuario"])){
-    $idSession =$_SESSION["idUsuario"];
-}
+
+
 
 $datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
 $datoFavoritoModelo = $favoritoModelo->obtenerTodosFavorito();
 $datoDiarioModelo = $diarioModelo->obtenerTodosDiariosOrden('fechaActualizacion');
 
-/////////////////////FAVORITO/////////////////////////////////////
-/* if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["botonDiarioFavPerfil"])) {
-        if (isset($_POST["idDiarioActualPerfil"])) {
-            $idDiarioActual = $_POST["idDiarioActualPerfil"];
-            $resultadoFavorito = $favoritoModelo->favoritoExistente($idSession,$idDiarioActual);
-            if ($resultadoFavorito) {
-                $favoritoModelo->eliminaFavorito($idSession,$idDiarioActual);
 
-            }else{
-                $favoritoModelo->creaFavorito($idSession,$idDiarioActual);
-            }
-        }
-    }
-} */
 
 $perfil = muestraPerfil($usuarioModelo,$idUsuarioActual);
 $misDiarios = muestraMisDiarios($datoDiarioModelo,$datoUsuarioModelo,$idUsuarioActual,$favoritoModelo);
-$todosDiarios = muestraTodosDiarios($datoDiarioModelo,$datoUsuarioModelo,$idUsuarioActual,$favoritoModelo);
 $diariosFavoritos = muestraFavoritos($datoDiarioModelo,$datoUsuarioModelo,$datoFavoritoModelo,$idUsuarioActual,$favoritoModelo);
 $dataBase->desconectar(); 
 
@@ -94,8 +80,17 @@ function muestraMisDiarios($datoDiario, $datoUsuario,$idU,$favoritoModelo){
                                 if ($diario->fechaActualizacion) {
                                     $fechaActualizado = soloFecha($diario->fechaActualizacion);
                                 } 
-                                $misDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                                $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$idU,$favoritoModelo); 
+                                $misDiarios[] = vistaDiarios(
+                                    $diario->idUsuario,
+                                    $diario->idDiario,
+                                    $diario->token,
+                                    $diario->titulo,
+                                    $fechaCreado,
+                                    $fechaActualizado,
+                                    $diario->puntoPromedio,
+                                    $usuario->nombre,
+                                    $idU,
+                                    $favoritoModelo); 
                             }else{
                                 if ($diario->visible == '1') {
                                     $fechaCreado = soloFecha($diario->fechaCreacion);
@@ -103,8 +98,17 @@ function muestraMisDiarios($datoDiario, $datoUsuario,$idU,$favoritoModelo){
                                     if ($diario->fechaActualizacion) {
                                         $fechaActualizado = soloFecha($diario->fechaActualizacion);
                                     } 
-                                    $misDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                                    $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$idU,$favoritoModelo); 
+                                    $misDiarios[] = vistaDiarios(
+                                        $diario->idUsuario,
+                                        $diario->idDiario,
+                                        $diario->token,
+                                        $diario->titulo,
+                                        $fechaCreado,
+                                        $fechaActualizado,
+                                        $diario->puntoPromedio,
+                                        $usuario->nombre,
+                                        $idU,
+                                        $favoritoModelo); 
                                 }
                             }
                             
@@ -119,57 +123,7 @@ function muestraMisDiarios($datoDiario, $datoUsuario,$idU,$favoritoModelo){
     }
 }
 
-function muestraTodosDiarios($datoDiario, $datoUsuario,$idUsuarioActual,$favoritoModelo){
-    $losDiarios = []; 
-    if (!empty($datoDiario)) {
-        foreach ($datoDiario as $diario){
-            if (!empty($datoUsuario)) {
-                foreach ($datoUsuario as $usuario){
-                    if ($usuario->idUsuario == $diario->idUsuario) {
-                       if ($diario->visible == '1') {
-                            $fechaCreado = soloFecha($diario->fechaCreacion);
-                            $fechaActualizado= '';
-                            if ($diario->fechaActualizacion) {
-                                $fechaActualizado = soloFecha($diario->fechaActualizacion);
-                            } 
-                            $losDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                            $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$idUsuarioActual,$favoritoModelo);                        
-                        }
-                    }
-                }
-            }  
-        }
-        return $losDiarios; 
-    }else {
-        return '<h4>¡NO HAY NINGUN DIARIO!</h4>';
-    }
-}
 
-/* function muestraTodosDiarios($datoDiario, $datoUsuario,$idUsuarioActual,$favoritoModelo){
-    $losDiarios = []; 
-    if (!empty($datoDiario)) {
-        foreach ($datoDiario as $diario){
-            if (!empty($datoUsuario)) {
-                foreach ($datoUsuario as $usuario){
-                    if ($usuario->idUsuario == $diario->idUsuario) {
-                       if ($diario->visible == '1') {
-                            $fechaCreado = soloFecha($diario->fechaCreacion);
-                            $fechaActualizado= '';
-                            if ($diario->fechaActualizacion) {
-                                $fechaActualizado = soloFecha($diario->fechaActualizacion);
-                            } 
-                            $losDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                            $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$idUsuarioActual,$favoritoModelo);                        
-                        }
-                    }
-                }
-            }  
-        }
-        return $losDiarios; 
-    }else {
-        return '<h4>¡NO HAY NINGUN DIARIO!</h4>';
-    }
-} */
 function muestraFavoritos($datoDiario, $datoUsuario,$datoFavorito,$idUsuarioActual,$favoritoModelo){
     $losDiarios = []; 
     if (!empty($datoDiario)) {
@@ -179,15 +133,24 @@ function muestraFavoritos($datoDiario, $datoUsuario,$datoFavorito,$idUsuarioActu
                     if (!empty($datoFavorito)) {
                         foreach ($datoFavorito as $favorito){
                             if ($usuario->idUsuario == $diario->idUsuario) {
-                                if ($favorito->idUsuario == $_SESSION['idUsuario'] && $favorito->idDiario == $diario->idDiario) {
+                                if ($favorito->idUsuario == $idUsuarioActual && $favorito->idDiario == $diario->idDiario) {
                                     if ($diario->visible == '1') {
                                         $fechaCreado = soloFecha($diario->fechaCreacion);
                                         $fechaActualizado= '';
                                         if ($diario->fechaActualizacion) {
                                             $fechaActualizado = soloFecha($diario->fechaActualizacion);
                                         } 
-                                        $losDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                                        $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$idUsuarioActual,$favoritoModelo);                        
+                                        $losDiarios[] = vistaDiarios(
+                                            $diario->idUsuario,
+                                            $diario->idDiario,
+                                            $diario->token,
+                                            $diario->titulo,
+                                            $fechaCreado,
+                                            $fechaActualizado,
+                                            $diario->puntoPromedio,
+                                            $usuario->nombre,
+                                            $idUsuarioActual,
+                                            $favoritoModelo);                        
                                     }
                                 }  
                              } 
@@ -226,30 +189,31 @@ function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fe
                            
                             <div> <a href="perfil.php?token='.$tokenIdUsuario.'">'.$autor.'</a></div>
                         </div>
-                    </div>
-                </div>';
+                    ';
 
-                /* $resultadoFavorito = $favoritoModelo->favoritoExistente($_SESSION['idUsuario'],$idDiario);
+                $resultadoFavorito = $favoritoModelo->favoritoExistente($_SESSION['idUsuario'],$idDiario);
                 if ($resultadoFavorito) {
                     $vista .= '
                             <div class="diario-fav">
-                                <form class="contenedor-icono-favorito" action=" " method="post"  style="background-color: blue";>
+                              
                                     <input type="hidden" value="'.$idDiario.'"  name="idDiarioActualPerfil">
-                                    <input type="submit" value="'.$idDiario.' " class="contenedor-icono-favorito" name="botonDiarioFavPerfil" title="agrega diario como favorito">
-                                </form>
+                                    <input type="submit" value=" " class="contenedor-favorito-amarillo" name="botonDiarioFavPerfil" title="agrega diario como favorito">
+                                
                             </div>
                         </div>
                     </div>';
                 }else{
                     $vista .= '
                             <div class="diario-fav">
-                               <form class="contenedor-icono-favorito" action=" " method="post"  style="background-color: black;>
+                              
                                     <input type="hidden" value="'.$idDiario.'"  name="idDiarioActualPerfil">
-                                    <input type="submit" value="'.$idDiario.'" class="contenedor-icono-favorito" name="botonDiarioFavPerfil" title="agrega diario como favorito">
-                                </form>
+                                    <input type="submit" value=" " class="contenedor-favorito-negro" name="botonDiarioFavPerfil" title="agrega diario como favorito">
+                               
                             </div>
                         </div>
                     </div>';
-                } */
+                }
+                
+                //  <form class="contenedor-favorito-amarillo" action=" " method="post" >
     return $vista;
 }

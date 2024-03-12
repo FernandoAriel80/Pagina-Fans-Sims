@@ -72,15 +72,19 @@ function vistaDiario($datoD,$idAutor,$idDiario,$autor,$favoritoModelo){
                         if ($resultadoFavorito) {
                             $vista = '  <!-- contenido modifica diario -->
                                         <div class = "modifica-creaEntrada" >
-                                            <form class="contenedor-icono-favorito" action=" " method="post" style="background-color: yellow;">';
+                                            <form class="contenedor-favorito-amarillo" action=" " method="post" >
+                                                <input type="hidden" value="'.$diario->idDiario.'" name="idDiarioActual">
+                                                <input type="submit" value=" " class="contenedor-favorito-amarillo" name="botonDiarioFav" title="agrega diario como favorito">
+                                            </form>';
                         }else{
                             $vista = '  <!-- contenido modifica diario -->
                                         <div class = "modifica-creaEntrada" >
-                                            <form class="contenedor-icono-favorito" action=" " method="post" style="background-color: black;">';
+                                            <form class="contenedor-favorito-negro" action=" " method="post" >
+                                                <input type="hidden" value="'.$diario->idDiario.'" name="idDiarioActual">
+                                                <input type="submit" value=" " class="contenedor-favorito-negro" name="botonDiarioFav" title="agrega diario como favorito">
+                                            </form>';
                         }
-                        $vista .= '         <input type="hidden" value="'.$diario->idDiario.'" name="idDiarioActual">
-                                            <input type="submit" value=" " class="contenedor-icono-favorito" name="botonDiarioFav" title="agrega diario como favorito">
-                                        </form>
+                        $vista .= '         
                                         <a class="contenedor-icono-crea" href="creaCapitulo.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="agrega una entrada"></a>
                                         <a class="contenedor-icono-modifica" href="editaDiario.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="modifica diario"></a>
                                         <a class="contenedor-icono-elimina" href="eliminaDiario.php?tokenD='.$tokenIdDiario.'" title="elimina diario" ></a> 
