@@ -80,8 +80,8 @@ final class Diario extends Orm{
     public function creaDiario($idUsuario,$titulo,$descripcion,$visible){
         $dato=[
             'idUsuario' => $idUsuario,
-            'titulo' => $titulo,
-            'descripcion' => $descripcion,
+            'tituloDiario' => $titulo,
+            'descripcionDiario' => $descripcion,
             'visible' => $visible
         ];
         try {
@@ -95,7 +95,7 @@ final class Diario extends Orm{
     }
     function fechaActualizarDiario($id){
         try {
-            $query = "UPDATE {$this->tabla} SET fechaActualizacion = CURRENT_TIMESTAMP WHERE id{$this->tabla} = :id";
+            $query = "UPDATE {$this->tabla} SET fechaActualizacionDiario = CURRENT_TIMESTAMP WHERE id{$this->tabla} = :id";
             $stm = $this->connection->prepare($query);
             $stm->bindValue(":id", $id);
             $resultado = $stm->execute();
@@ -113,8 +113,8 @@ final class Diario extends Orm{
 
     public function editaDiario($idDiario,$titulo,$descripcion,$visible){
         $dato=[
-            'titulo' => $titulo,
-            'descripcion' => $descripcion,
+            'tituloDiario' => $titulo,
+            'descripcionDiario' => $descripcion,
             'visible' => $visible
         ];
         try {

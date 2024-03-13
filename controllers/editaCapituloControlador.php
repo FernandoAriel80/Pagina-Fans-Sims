@@ -17,8 +17,8 @@ if (isset($_GET['tokenD'])) {
     $idDiarioActual = obteneTokenId($_GET['tokenD']);
 }
 
-$datocapituloModelo=$capituloModelo->obtenerUnCapitulo($idCapituloActual);
-$vistaDato = vistacapitulo($datocapituloModelo);
+$datoCapituloModelo=$capituloModelo->obtenerUnCapitulo($idCapituloActual);
+$vistaDato = vistacapitulo($datoCapituloModelo);
 $dataBase->desconectar(); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -34,12 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $imagen = $_FILES["imagenE"]["name"];
                         $temp = $_FILES["imagenE"]["tmp_name"];
                         $imagenNombre = guardaImagen($temp,'public/ImagenesDiario/',$imagen);
-                        if ($datocapituloModelo->imagen) {
-                            eliminaImagen('public/ImagenesDiario/',$datocapituloModelo->imagen);
+                        if ($datoCapituloModelo->imagenCapitulo) {
+                            eliminaImagen('public/ImagenesDiario/',$datoCapituloModelo->imagenCapitulo);
                         }
                     }
                 }else {
-                    $imagenNombre = $datocapituloModelo->imagen;
+                    $imagenNombre = $datoCapituloModelo->imagenCapitulo;
                 }   
                
                 if($idDiarioActual !== null){
@@ -76,9 +76,9 @@ function vistacapitulo($datoCapitulo){
     $vista="";
     if (!empty($datoCapitulo)) {
    
-        $vista .= ' <input type="text" id="tituloE" name="tituloE" value="'.$datoCapitulo->titulo.'" placeholder="Titulo de entrada" required>
+        $vista .= ' <input type="text" id="tituloE" name="tituloE" value="'.$datoCapitulo->tituloCapitulo.'" placeholder="Titulo de entrada" required>
                         <textarea id="contenidoE" name="contenidoE" rows="5" cols="40" 
-                        placeholder="escribe detalles de tu entrada">'.$datoCapitulo->parrafo.'</textarea>';
+                        placeholder="escribe detalles de tu entrada">'.$datoCapitulo->parrafoCapitulo.'</textarea>';
         return $vista;    
     }
 }

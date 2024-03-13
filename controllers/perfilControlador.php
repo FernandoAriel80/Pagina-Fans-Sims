@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $datoUsuarioModelo = $usuarioModelo->obtenerTodosUsuarios();
 $datoFavoritoModelo = $favoritoModelo->obtenerTodosFavorito();
-$datoDiarioModelo = $diarioModelo->obtenerTodosDiariosOrden('fechaActualizacion');
+$datoDiarioModelo = $diarioModelo->obtenerTodosDiariosOrden('fechaActualizacionDiario');
 
 
 
@@ -96,16 +96,16 @@ function muestraMisDiarios($datoDiario, $datoUsuario,$idU,$favoritoModelo){
                     if ($usuario->idUsuario == $diario->idUsuario) {
                         if ($idU == $diario->idUsuario) {
                             if ($idU == $_SESSION['idUsuario']) {
-                                $fechaCreado = soloFecha($diario->fechaCreacion);
+                                $fechaCreado = soloFecha($diario->fechaCreacionDiario);
                                 $fechaActualizado= '';
-                                if ($diario->fechaActualizacion) {
-                                    $fechaActualizado = soloFecha($diario->fechaActualizacion);
+                                if ($diario->fechaActualizacionDiario) {
+                                    $fechaActualizado = soloFecha($diario->fechaActualizacionDiario);
                                 } 
                                 $misDiarios[] = vistaDiarios(
                                     $diario->idUsuario,
                                     $diario->idDiario,
-                                    $diario->token,
-                                    $diario->titulo,
+                                    $usuario->token,
+                                    $diario->tituloDiario,
                                     $fechaCreado,
                                     $fechaActualizado,
                                     $diario->puntoPromedio,
@@ -114,16 +114,16 @@ function muestraMisDiarios($datoDiario, $datoUsuario,$idU,$favoritoModelo){
                                     $favoritoModelo); 
                             }else{
                                 if ($diario->visible == '1') {
-                                    $fechaCreado = soloFecha($diario->fechaCreacion);
+                                    $fechaCreado = soloFecha($diario->fechaCreacionDiario);
                                     $fechaActualizado= '';
-                                    if ($diario->fechaActualizacion) {
-                                        $fechaActualizado = soloFecha($diario->fechaActualizacion);
+                                    if ($diario->fechaActualizacionDiario) {
+                                        $fechaActualizado = soloFecha($diario->fechaActualizacionDiario);
                                     } 
                                     $misDiarios[] = vistaDiarios(
                                         $diario->idUsuario,
                                         $diario->idDiario,
-                                        $diario->token,
-                                        $diario->titulo,
+                                        $usuario->token,
+                                        $diario->tituloDiario,
                                         $fechaCreado,
                                         $fechaActualizado,
                                         $diario->puntoPromedio,
@@ -156,16 +156,16 @@ function muestraFavoritos($datoDiario, $datoUsuario,$datoFavorito,$idUsuarioActu
                             if ($usuario->idUsuario == $diario->idUsuario) {
                                 if ($favorito->idUsuario == $idUsuarioActual && $favorito->idDiario == $diario->idDiario) {
                                     if ($diario->visible == '1') {
-                                        $fechaCreado = soloFecha($diario->fechaCreacion);
+                                        $fechaCreado = soloFecha($diario->fechaCreacionDiario);
                                         $fechaActualizado= '';
-                                        if ($diario->fechaActualizacion) {
-                                            $fechaActualizado = soloFecha($diario->fechaActualizacion);
+                                        if ($diario->fechaActualizacionDiario) {
+                                            $fechaActualizado = soloFecha($diario->fechaActualizacionDiario);
                                         } 
                                         $losDiarios[] = vistaDiarios(
                                             $diario->idUsuario,
                                             $diario->idDiario,
-                                            $diario->token,
-                                            $diario->titulo,
+                                            $usuario->token,
+                                            $diario->tituloDiario,
                                             $fechaCreado,
                                             $fechaActualizado,
                                             $diario->puntoPromedio,
@@ -235,6 +235,5 @@ function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fe
                     </div>';
                 }
                 
-                //  <form class="contenedor-favorito-amarillo" action=" " method="post" >
     return $vista;
 }

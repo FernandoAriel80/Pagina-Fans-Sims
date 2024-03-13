@@ -71,7 +71,7 @@ function muestraCategorias($datoCate){
         foreach ($datoCate as $categoria) {
             $vista.="<div class='selector-categoria'>
                         <input type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $categoria->idCategoria . "'>
-                        <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcion . "</label>
+                        <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcionCategoria . "</label>
                     </div>";
         } 
         return $vista;    

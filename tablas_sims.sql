@@ -32,8 +32,8 @@ CREATE TABLE Capitulo(
     idDiario INT NOT NULL,
     tituloCapitulo VARCHAR(30) NULL,
     imagenCapitulo VARCHAR (200) NULL,
-    parrafo VARCHAR(600) NULL,
-    fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    parrafoCapitulo VARCHAR(600) NULL,
+    fechaCreacionCapitulo TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idCapitulo),
     FOREIGN KEY(idDiario) REFERENCES diario(idDiario)
 );
@@ -48,7 +48,7 @@ CREATE TABLE CategoriaDiario(
 	idCategoriaDiario INT AUTO_INCREMENT,
     idDiario INT NOT NULL,
     idCategoria INT NOT NULL,
-    PRIMARY KEY(idDiario,idCategoria),
+    PRIMARY KEY(idCategoriaDiario),
     FOREIGN KEY(idDiario)REFERENCES diario(idDiario),
     FOREIGN KEY(idCategoria)REFERENCES categoria(idCategoria)
 );
@@ -78,7 +78,7 @@ CREATE TABLE Tema(
     tituloTema VARCHAR(30) NOT NULL,
     descripcionTema VARCHAR(600) NULL,
     totalMensajes INT NULL,
-    fechaPublicacionTema TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaCreacionTema TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idTema),
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );
@@ -88,27 +88,27 @@ CREATE TABLE Mensaje(
 	idMensaje INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
     descripcionMensaje VARCHAR(600) NULL,
-    fechaPublicacionMensaje TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaCreacionMensaje TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idMensaje),
     FOREIGN KEY(idUsuario)REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE Puntaje (
-    idPuntajes INT AUTO_INCREMENT,
+    idPuntaje INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
     idDiario INT NOT NULL,
     puntajeDato INT NOT NULL,
-    fecha_puntaje TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY(idPuntajes),
+    fechaCreacionPuntaje TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(idPuntaje),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
     FOREIGN KEY (idDiario) REFERENCES diario(idDiario)
 );
 
 CREATE TABLE Favorito (
-    idFavoritos INT AUTO_INCREMENT,
+    idFavorito INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
     idDiario INT NOT NULL,
-    PRIMARY KEY(idFavoritos),
+    PRIMARY KEY(idFavorito),
     fechaCreacionFavorito TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
     FOREIGN KEY (idDiario) REFERENCES diario(idDiario)

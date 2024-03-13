@@ -38,7 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $categoriaElegida = $_POST["categoriaF"];
           
             foreach ($categoriaElegida as $idCategoria) {
-                $datoWhere['CategoriaDiario.idCategoria'] = $idCategoria;
+                //$datoWhere['CategoriaDiario.idCategoria'] = $idCategoria;
+              // $datoWhere[] = array('CategoriaDiario.idCategoria' => $idCategoria);
+              //$condicion = array('CategoriaDiario.idCategoria' => $idCategoria);
+              //$datoWhere[] = $condicion;
+              $datoWhere['CategoriaDiario.idCategoria'] = $idCategoria;
             }
         }
         /* if (isset($_POST['tituloF'])) {
@@ -92,22 +96,25 @@ function muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $
 
 
     $datoWhere['Diario.visible'] = '1';
-    //$datoWhere['CategoriaDiario.idCategoria'] = '6';
-    
+    //$datoWhere[] = array('Diario.visible' => '1');
+ /* 
+    $condicion = array('Diario.visible' => 1);
+    $datoWhere[] = $condicion;
+     */
     $resultadosJoin = $diarioModelo->consultaJoin($datoJoin, $datoWhere);
 
     if ($resultadosJoin) {
         foreach ($resultadosJoin as $datos) {
-            $fechaCreado = soloFecha($datos['fechaCreacion']);
+            $fechaCreado = soloFecha($datos['fechaCreacionDiario']);
             $fechaActualizado = '';
-            if ($datos['fechaActualizacion']) {
-                $fechaActualizado = soloFecha($datos['fechaActualizacion']);
+            if ($datos['fechaActualizacionDiario']) {
+                $fechaActualizado = soloFecha($datos['fechaActualizacionDiario']);
             }
             $losDiarios[] = vistaDiarios(
                 $datos['idUsuario'],
                 $datos['idDiario'],
                 $datos['token'],
-                $datos['titulo'],
+                $datos['tituloDiario'],
                 $fechaCreado,
                 $fechaActualizado,
                 $datos['puntoPromedio'],
@@ -183,7 +190,7 @@ function muestraCategorias($datoCate){
         foreach ($datoCate as $categoria) {
             $vista.="<div class='selector-categoria'>
                         <input type='checkbox' id='categoria-input' name='categoriaF[]' value='" . $categoria->idCategoria . "'>
-                        <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcion . "</label>
+                        <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcionCategoria . "</label>
                     </div>";
         } 
         return $vista;    

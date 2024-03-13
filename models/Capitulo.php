@@ -60,9 +60,9 @@ final class Capitulo extends Orm{
     public function creaCapitulo($idDiario,$titulo,$imagen,$parrafo){
         $dato=[
             'idDiario' => $idDiario,
-            'titulo' => $titulo,
-            'imagen' => $imagen,
-            'parrafo' => $parrafo
+            'tituloCapitulo' => $titulo,
+            'imagenCapitulo' => $imagen,
+            'parrafoCapitulo' => $parrafo
         ];
         try {
            return $this->insert($dato);
@@ -75,9 +75,9 @@ final class Capitulo extends Orm{
     }
     public function editaCapitulo($idCapitulo,$titulo,$imagen,$parrafo){
         $dato=[
-            'titulo' => $titulo,
-            'imagen' => $imagen,
-            'parrafo' => $parrafo
+            'tituloCapitulo' => $titulo,
+            'imagenCapitulo' => $imagen,
+            'parrafoCapitulo' => $parrafo
         ];
         try {
            return $this->upDateById($idCapitulo,$dato);

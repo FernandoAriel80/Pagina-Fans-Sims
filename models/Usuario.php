@@ -100,7 +100,7 @@ final class Usuario extends Orm{
 
     public function getByUsuAndEmailAndNom(string $usuario,string $correo,string $nombre){
         try{
-            $query = "SELECT * FROM {$this->tabla} WHERE nomUsuario =:usuario OR correo =:correo OR nombre =:nombre AND eliminado = '0'";
+            $query = "SELECT * FROM {$this->tabla} WHERE nomUsuario =:usuario OR correo =:correo OR nombre =:nombre";
             $stm = $this->connection->prepare($query);
             $stm->bindValue(":usuario", $usuario);
             $stm->bindValue(":correo", $correo);

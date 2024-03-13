@@ -85,15 +85,15 @@ function vistaDiario($datoD,$idAutor,$idDiario,$autor,$favoritoModelo){
                                             </form>';
                         }
                         $vista .= '         
-                                        <a class="contenedor-icono-crea" href="creaCapitulo.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="agrega una entrada"></a>
-                                        <a class="contenedor-icono-modifica" href="editaDiario.php?tokenD='.$tokenIdDiario.'&diario='.$diario->titulo.'" title="modifica diario"></a>
+                                        <a class="contenedor-icono-crea" href="creaCapitulo.php?tokenD='.$tokenIdDiario.'&diario='.$diario->tituloDiario.'" title="agrega una entrada"></a>
+                                        <a class="contenedor-icono-modifica" href="editaDiario.php?tokenD='.$tokenIdDiario.'&diario='.$diario->tituloDiario.'" title="modifica diario"></a>
                                         <a class="contenedor-icono-elimina" href="eliminaDiario.php?tokenD='.$tokenIdDiario.'" title="elimina diario" ></a> 
                                     </div>
                                     <!-- contenido diario -->
                                     <div class="contenidoDiario">
                                         <div class = "DiarioText" >
-                                            <h2>'.$diario->titulo.'</h2>
-                                            <p>'.$diario->descripcion.'</p>
+                                            <h2>'.$diario->tituloDiario.'</h2>
+                                            <p>'.$diario->descripcionDiario.'</p>
                                             <p> Autor: '.$autor.'</p>
                                         </div>          
                                     </div>';
@@ -120,8 +120,8 @@ function vistaDiario($datoD,$idAutor,$idDiario,$autor,$favoritoModelo){
                         $vista .= ' <!-- contenido diario -->
                                     <div class="contenidoDiario">
                                         <div class = "DiarioText" >
-                                            <h2>'.$diario->titulo.'</h2>
-                                            <p>'.$diario->descripcion.'</p>
+                                            <h2>'.$diario->tituloDiario.'</h2>
+                                            <p>'.$diario->descripcionDiario.'</p>
                                             <p> Autor: '.$autor.'</p>
                                         </div>          
                                     </div>';
@@ -141,7 +141,7 @@ function vistaCategoria(CategoriaDiario $modelo,$idDiario){
     if (!empty($dato)) {
         foreach ($dato as $key) {
             if ($key['idDiario']==$idDiario) {
-                $vista .= ' '.$key['descripcion'];
+                $vista .= ' '.$key['descripcionCategoria'];
             }    
         }
         return $vista;
@@ -152,7 +152,7 @@ function muestraTodosCapitulos($datoC,$idautor,$idDiario){
     if (!empty($datoC)) {
         foreach ($datoC as $capitulo) {
             if ($capitulo->idDiario == $idDiario) {              
-                $losCapitulos[] = vistacapitulo($idautor,$capitulo->idDiario,$capitulo->idCapitulo,$capitulo->imagen,$capitulo->titulo,$capitulo->parrafo);
+                $losCapitulos[] = vistacapitulo($idautor,$capitulo->idDiario,$capitulo->idCapitulo,$capitulo->imagenCapitulo,$capitulo->tituloCapitulo,$capitulo->parrafoCapitulo);
             }    
         }
         return $losCapitulos;

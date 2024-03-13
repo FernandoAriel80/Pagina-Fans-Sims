@@ -237,13 +237,13 @@ class Orm{
             }
             $query .= " GROUP BY {$this->tabla}.idDiario ";
 
-            $validOrderDirections = array('ASC', 'DESC');
+            /* $validOrderDirections = array('ASC', 'DESC');
             $orderDirection = strtoupper($orderDirection);
             if (!in_array($orderDirection, $validOrderDirections)) {
                 $orderDirection = 'DESC';
-            }
+            } */
 
-            $query .= " ORDER BY {$this->tabla}.fechaActualizacion {$orderDirection} ";
+            $query .= " ORDER BY {$this->tabla}.fechaActualizacionDiario {$orderDirection} ";
             $stm = $this->connection->prepare($query);
     
             // Asignamos valores utilizando bindValue()

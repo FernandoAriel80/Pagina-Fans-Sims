@@ -3,6 +3,7 @@ require_once 'config/DataBase.php';
 require_once 'models/Capitulo.php';
 require_once 'models/Diario.php';
 require_once 'models/CategoriaDiario.php';
+require_once 'models/Favorito.php';
 require_once 'validations/validaSesiones.php';
 require_once 'validations/validaciones.php';
 
@@ -12,9 +13,11 @@ $coneccion = $dataBase->conectar();
 $capituloModelo = new Capitulo($coneccion);
 $diarioModelo = new Diario($coneccion);
 $categoriaDiarioModelo = new CategoriaDiario($coneccion);
+$favoritoModelo = new Favorito($coneccion);
 
 $datoCapituloModelo = $capituloModelo->obtenerTodosCapitulos();
 $datoCategoriaDiarioModelo = $categoriaDiarioModelo->obtenerTodosCategoriaDiario();
+$datoFavoritoModelo = $favoritoModelo->obtenerTodosFavorito();
 
 if (isset($_GET['tokenD'])) {
     $idDiarioActual = obteneTokenId($_GET['tokenD']);
@@ -32,6 +35,13 @@ if (!empty($idDiarioActual)) {
         foreach ($datoCategoriaDiarioModelo as $categoriaDiario) {
             if ($categoriaDiario->idDiario == $idDiarioActual) {
                 $categoriaDiarioModelo->deleteById($categoriaDiario->idCategoriaDiario);
+            }
+        }
+    }
+    if (!empty($datoFavoritoModelo)) {
+        foreach ($datoFavoritoModelo as $favorito) {
+            if ($favorito->idDiario == $idDiarioActual) {
+                $favoritoModelo->deleteById($favorito->idFavorito);
             }
         }
     }

@@ -47,6 +47,6 @@ DELIMITER ; */
 SELECT * FROM diario JOIN
 Usuario ON Usuario.idUsuario = Diario.idUsuario JOIN
 CategoriaDiario ON CategoriaDiario.idDiario = Diario.idDiario
-WHERE diario.visible = 1
+WHERE diario.visible = 1 AND categoriadiario.idCategoria = 1
 GROUP BY diario.idDiario
-ORDER BY diario.fechaActualizacion DESC */
+ORDER BY diario.fechaActualizacionDiario DESC */

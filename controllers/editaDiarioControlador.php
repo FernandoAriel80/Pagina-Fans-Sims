@@ -103,8 +103,8 @@ function muestraDatosDiario($datoDiario, $idDiarioActual){
     if (!empty($datoDiario)) {
         foreach ($datoDiario as $diario) {
             if ($diario->idDiario == $idDiarioActual) {
-                $vista='<input type="text" id="tituloD" name="tituloD" placeholder="Titulo del diario" value = "'.$diario->titulo.'" required>
-                        <input type="text" id="descripcionD" name="descripcionD" value = "'.$diario->descripcion.'"
+                $vista='<input type="text" id="tituloD" name="tituloD" placeholder="Titulo del diario" value = "'.$diario->tituloDiario.'" required>
+                        <input type="text" id="descripcionD" name="descripcionD" value = "'.$diario->descripcionDiario.'"
                         placeholder="Pequeña descripcion de que se trata tu diario ">';
             }
         }
@@ -138,7 +138,7 @@ function muestraCategorias($datoC,$datoCD,$idDiarioActual){
                     if ($categoria->idCategoria == $cateDiario->idCategoria && $cateDiario->idDiario == $idDiarioActual) {
                         $vista.="   <div class='selector-categoria'>
                                         <input checked type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $categoria->idCategoria . "'>
-                                        <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcion . "</label>
+                                        <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcionCategoria . "</label>
                                     </div>";
                         $categoriasElegida = $categoria->idCategoria;
                     }               
@@ -147,7 +147,7 @@ function muestraCategorias($datoC,$datoCD,$idDiarioActual){
             if ($categoria->idCategoria != $categoriasElegida) {
                 $vista.="   <div class='selector-categoria'>
                                 <input  type='checkbox' id='categoria-input' name='categoriaD[]' value='" . $categoria->idCategoria . "'>
-                                <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcion . "</label>
+                                <label for='categoria_" . $categoria->idCategoria. "' class='checkbox-label'>" . $categoria->descripcionCategoria . "</label>
                             </div>";
             }          
         }  
