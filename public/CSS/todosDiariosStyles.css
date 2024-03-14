@@ -28,7 +28,7 @@
 }
 .diario-autor, .diario-fav{
     width: 100%;
-    position: relative;
+    /* position: relative; */
     display: grid;
     place-items: center;
     
@@ -42,19 +42,25 @@ h4{
 a {
     text-decoration: none; 
 }
+.tituloF{
+    margin: 5px;
+    padding: 2px;
+}
 
-/* .boton-diario-fav{
-    width: 30px;
-    height: 30px; 
-    background-size: contain; 
-    background-position: center; 
-    background-repeat: no-repeat;
+select{
+    margin: 5px;
+    padding: 2px;
+    color: white;
     border: none;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-} */
+    width: 100%;
+    border-radius: 3px;
+    background: linear-gradient(to top, #001f3f, #003366, #004080, #004080, #004080, #004080, #004080);
+}
+
+option {
+    color: black;
+  
+}
 
 /* Estilos para dispositivos de escritorio */
 @media only screen and (min-width: 769px) {

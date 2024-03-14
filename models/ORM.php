@@ -212,7 +212,13 @@ class Orm{
          }
      }
     
-     public function consultaJoin($condicionesJoin = array(), $condicionesWhere = array(),$orderDirection = 'DESC') {
+    public function filtroJoin(
+        $condicionesJoin = array(), 
+        $condicionesWhere = array(),
+        $condicionLike = '',
+        $condicionOrder = 'fechaActualizacionDiario',
+        $orderDirection = 'DESC'
+        ) {
         try {
             $query = "SELECT * FROM {$this->tabla} ";
             $params = array();
@@ -225,32 +231,30 @@ class Orm{
                 }
                 $query .= implode(" JOIN ", $condiciones_join) . " ";
             }
-    
+            $query .= "WHERE Diario.visible = 1 ";
             if (!empty($condicionesWhere)) {
-                $query .= "WHERE ";
+                $query .= " AND ";
                 $condiciones_sql = array();
-                foreach ($condicionesWhere as $clave => $valor) {
-                    $condiciones_sql[] = "$clave = ?";
-                    $params[] = $valor;
+                foreach ($condicionesWhere as $clave => $key) {
+                    foreach ($key as $nombre => $valor) {
+                        $condiciones_sql[] = "$nombre = ?";
+                        $params[] = $valor;
+                    } 
                 }
-                $query .= implode(" AND ", $condiciones_sql);
+                    $query.= implode(" OR ", $condiciones_sql);
+            }
+            if (!empty($condicionLike)) {
+                $query .= " AND Diario.tituloDiario LIKE ?";
+                $params[] = "%{$condicionLike}%";
             }
             $query .= " GROUP BY {$this->tabla}.idDiario ";
 
-            /* $validOrderDirections = array('ASC', 'DESC');
-            $orderDirection = strtoupper($orderDirection);
-            if (!in_array($orderDirection, $validOrderDirections)) {
-                $orderDirection = 'DESC';
-            } */
-
-            $query .= " ORDER BY {$this->tabla}.fechaActualizacionDiario {$orderDirection} ";
+            $query .= " ORDER BY {$this->tabla}.{$condicionOrder} {$orderDirection} ";
             $stm = $this->connection->prepare($query);
-    
-            // Asignamos valores utilizando bindValue()
             foreach ($params as $index => $valor) {
                 $stm->bindValue($index + 1, $valor);
             }
-    
+            var_dump($query);
             $stm->execute();
             return $stm->fetchAll();
         } catch (PDOException $e) {
@@ -258,20 +262,8 @@ class Orm{
             error_log("Error al consultar la base de datos: " . $e->getMessage());
             return false;
         }
-    }
+    }  
     
-
-    // public function consultaJoin($tablaPrincipal, $condiciones) {
-    //     $sql = "SELECT * FROM $tablaPrincipal ";
-    //     foreach ($condiciones as $join) {
-    //         $sql .= " JOIN {$join['tabla']} ON {$join['condicion']} ";
-    //     }
-    //     $sql .= " WHERE {$condiciones[0]['condicion']}";
-
-    //     $stmt = $this->pdo->prepare($sql);
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // }
 
     
 public function getByCondition($conditions) {

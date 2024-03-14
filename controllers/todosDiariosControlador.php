@@ -19,6 +19,9 @@ $categoriaModelo = new Categoria($coneccion);
 
 $todosDiarios = [];
 $datoWhere = array();
+$datoLike = '';
+$datoOrder;
+$datoDireccion;
 $aviso = '';
 
 if (isset($_SESSION['idUsuario'])) {
@@ -36,30 +39,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
         if (isset($_POST['categoriaF']) && is_array($_POST['categoriaF'])) {
             $categoriaElegida = $_POST["categoriaF"];
-          
             foreach ($categoriaElegida as $idCategoria) {
-                //$datoWhere['CategoriaDiario.idCategoria'] = $idCategoria;
-              // $datoWhere[] = array('CategoriaDiario.idCategoria' => $idCategoria);
-              //$condicion = array('CategoriaDiario.idCategoria' => $idCategoria);
-              //$datoWhere[] = $condicion;
-              $datoWhere['CategoriaDiario.idCategoria'] = $idCategoria;
+                $datoWhere[] = array('CategoriaDiario.idCategoria' => $idCategoria ) ;
             }
         }
-        /* if (isset($_POST['tituloF'])) {
-            $tituloElegido = $_POST['tituloF'];
-
-            foreach ($datoDiarioModelo as $diario) {
-                if (strpos($diario->titulo, $tituloElegido) !== false) {
-                    $datoWhere['Diario.titulo'] = $diario->titulo;
-                }
+      
+        if (isset($_POST['OrdenarF'])) {
+           //$datoOrder = ($_POST['OrdenarF'] == 1) ? 'fechaActualizacionDiario' : '';
+           //$datoOrder = ($_POST['OrdenarF'] == 2) ? 'fechaCreacionDiario' : '';
+           //$datoOrder = ($_POST['OrdenarF'] == 3) ? 'puntoPromedio' : '';
+            if ($_POST['OrdenarF'] == 1) {
+                $datoOrder = 'fechaActualizacionDiario';
             }
-            
-        }  */
+            if ($_POST['OrdenarF'] == 2) {
+                $datoOrder = 'fechaCreacionDiario';
+            }
+            if ($_POST['OrdenarF'] == 3) {
+                $datoOrder = 'puntoPromedio';
+            }
+        } 
 
-        $todosDiarios = muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $datoWhere);
-       /*  if (empty($todosDiarios)) {
-            $aviso = '<h4>¡no se encontro datos relacionados!</h4>';
-        } */
+        if (isset($_POST['DireccionF'])) {
+            //$datoDireccion = ($_POST['DireccionF'] == 1) ? 'DESC' : '';
+            //$datoDireccion = ($_POST['DireccionF'] == 2) ? 'ASC' : '';
+            if ($_POST['DireccionF'] == 1) {
+                $datoDireccion = 'DESC';
+            }
+            if ($_POST['DireccionF'] == 2) {
+                $datoDireccion = 'ASC';
+            }
+        }  
+
+        if (isset($_POST['tituloF'])) {
+            $datoLike = $_POST['tituloF'];
+        }  
+
+        $todosDiarios = muestraTodosDiarios(
+                            $diarioModelo, 
+                            $favoritoModelo, 
+                            $idUsuarioActual,
+                            $datoWhere,
+                            $datoLike,
+                            $datoOrder,
+                            $datoDireccion
+                        );
+       
     }
 }
 /////////////////////FAVORITO/////////////////////////////////////
@@ -80,12 +104,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
-$todosDiarios = muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $datoWhere);
+$todosDiarios = muestraTodosDiarios(
+                    $diarioModelo, 
+                    $favoritoModelo, 
+                    $idUsuarioActual,
+                    $datoWhere,
+                    $datoLike
+                );
 $vistaCategoria = muestraCategorias($datoCategoriaModelo);
 $dataBase->desconectar();
 
 
-function muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $datoWhere) {
+function muestraTodosDiarios(
+    $diarioModelo, 
+    $favoritoModelo, 
+    $idUsuarioActual, 
+    $datoWhere,
+    $datoLike,
+    $datoOrder = 'fechaActualizacionDiario',
+    $datoDireccion = 'DESC'
+    ) {
     $losDiarios = array();
    
 
@@ -93,15 +131,8 @@ function muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $
         'Usuario ON Usuario.idUsuario = Diario.idUsuario',
         'CategoriaDiario ON CategoriaDiario.idDiario = Diario.idDiario'
     );
-
-
-    $datoWhere['Diario.visible'] = '1';
-    //$datoWhere[] = array('Diario.visible' => '1');
- /* 
-    $condicion = array('Diario.visible' => 1);
-    $datoWhere[] = $condicion;
-     */
-    $resultadosJoin = $diarioModelo->consultaJoin($datoJoin, $datoWhere);
+    
+    $resultadosJoin = $diarioModelo->filtroJoin($datoJoin, $datoWhere,$datoLike, $datoOrder,$datoDireccion);
 
     if ($resultadosJoin) {
         foreach ($resultadosJoin as $datos) {
@@ -129,7 +160,18 @@ function muestraTodosDiarios($diarioModelo, $favoritoModelo, $idUsuarioActual, $
     }
 }
 
-function vistaDiarios($idAutor,$idDiario,$token,$tituloDiario,$fechaCreacion,$fechaActualizacion,$puntaje,$autor,$idUsuarioActual,$favoritoModelo){
+function vistaDiarios(
+    $idAutor,
+    $idDiario,
+    $token,
+    $tituloDiario,
+    $fechaCreacion,
+    $fechaActualizacion,
+    $puntaje,
+    $autor,
+    $idUsuarioActual,
+    $favoritoModelo
+    ){
     $tokenIdUsuario = generaTokenId($idAutor,$token);
     $tokenD = bin2hex(random_bytes(32));
     $tokenIdDiario = generaTokenId($idDiario,$tokenD);
@@ -196,55 +238,3 @@ function muestraCategorias($datoCate){
         return $vista;    
     }
 }
-/*  function muestraTodosDiarios($diarioModelo,$usuarioModelo,$idUsuarioActual,$favoritoModelo){
-    $losDiarios = [];
-    
-    $datoWhere = array(
-        'visible' => '1',
-    );
-
-    $resultadosDiario = $diarioModelo->getByCondition($datoWhere);
-    if (!empty($resultadosDiario)) {
-        foreach ($resultadosDiario as $diario){
-                $datoUsuario=$usuarioModelo->obtenerUnUsuario($diario['idUsuario']);
-                $fechaCreado = soloFecha($diario['fechaCreacion']);
-                $fechaActualizado= '';
-                if ($diario['fechaActualizacion']) {
-                    $fechaActualizado = soloFecha($diario['fechaActualizacion']);
-                } 
-                $losDiarios[] = vistaDiarios($diario['idUsuario'],$diario['idDiario'],$datoUsuario->token,
-                $diario['titulo'],$fechaCreado,$fechaActualizado,$diario['puntoPromedio'],$datoUsuario->nombre,$idUsuarioActual,$favoritoModelo);                        
-            
-
-        }
-        return $losDiarios; 
-    }else {
-        return '<h4>¡NO HAY NINGUN DIARIO!</h4>';
-    }
-}  */
-
-/* function muestraTodosDiarios($datoDiario, $datoUsuario,$idUsuarioActual,$favoritoModelo){
-    $losDiarios = []; 
-    if (!empty($datoDiario)) {
-        foreach ($datoDiario as $diario){
-            if (!empty($datoUsuario)) {
-                foreach ($datoUsuario as $usuario){
-                    if ($usuario->idUsuario == $diario->idUsuario) {
-                       if ($diario->visible == '1') {
-                            $fechaCreado = soloFecha($diario->fechaCreacion);
-                            $fechaActualizado= '';
-                            if ($diario->fechaActualizacion) {
-                                $fechaActualizado = soloFecha($diario->fechaActualizacion);
-                            } 
-                            $losDiarios[] = vistaDiarios($diario->idUsuario,$diario->idDiario,$diario->token,
-                            $diario->titulo,$fechaCreado,$fechaActualizado,$diario->puntoPromedio,$usuario->nombre,$idUsuarioActual,$favoritoModelo);                        
-                        }
-                    }
-                }
-            }  
-        }
-        return $losDiarios; 
-    }else {
-        return '<h4>¡NO HAY NINGUN DIARIO!</h4>';
-    }
-} */

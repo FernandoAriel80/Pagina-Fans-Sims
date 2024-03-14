@@ -9,7 +9,6 @@ if (!sesionActiva()) {
 
 <?php include 'controllers/todosDiariosControlador.php';?>
 <!-- PORCION LEFT -->
-<p>!!ESTOY ACAAAA¡¡</p>
 <div class="contenedor-cosas">
     <div class="contenedor-cosas-abajo">
         <form class="formulario-filtra" action=" " method="POST">
@@ -18,9 +17,20 @@ if (!sesionActiva()) {
                 <!-- agrega selector desde el controlador -->
                 <?php echo $vistaCategoria?>
             </div>
+            <label for="OrdenarF">Ordenar una por:</label>
+            <select name="OrdenarF" id="Ordenar">
+                <option value="1">Fecha Actualización</option>
+                <option value="2">Fecha Creación </option>
+                <option value="3">Puntos</option>
+            </select>
+            <label for="DireccionF">Direccion de orden:</label>
+            <select name="DireccionF" id="Direccion">
+                <option value="1">Descendente </option>
+                <option value="2">Ascendente </option>
+            </select>
             <input type="text" id="tituloF" name="tituloF" placeholder="Titulo Diario">
             <div class="subYcheck">
-                <input type="submit" id="boton-filtra" value="filtra diario" name="botonFiltra">
+                <input type="submit" id="boton-filtra" value="Filtra Diario" name="botonFiltra">
             </div>
         </form>
     </div>
