@@ -63,17 +63,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //$datoDireccion = ($_POST['DireccionF'] == 1) ? 'DESC' : '';
             //$datoDireccion = ($_POST['DireccionF'] == 2) ? 'ASC' : '';
             if ($_POST['DireccionF'] == 1) {
-                $datoDireccion = 'DESC';
+                $datoDireccion = ' DESC ';
             }
             if ($_POST['DireccionF'] == 2) {
-                $datoDireccion = 'ASC';
+                $datoDireccion = ' ASC ';
             }
         }  
 
         if (isset($_POST['tituloF'])) {
             $datoLike = $_POST['tituloF'];
         }  
-
+        echo $datoLike." ".$datoOrder." ".$datoDireccion;
         $todosDiarios = muestraTodosDiarios(
                             $diarioModelo, 
                             $favoritoModelo, 
@@ -85,6 +85,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         );
        
     }
+}else {
+    $todosDiarios = muestraTodosDiarios(
+               $diarioModelo, 
+               $favoritoModelo, 
+               $idUsuarioActual,
+               $datoWhere,
+               $datoLike,
+               $datoOrder = 'fechaActualizacionDiario',
+               $datoDireccion = 'DESC'
+           ); 
 }
 /////////////////////FAVORITO/////////////////////////////////////
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -103,14 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-
-$todosDiarios = muestraTodosDiarios(
-                    $diarioModelo, 
-                    $favoritoModelo, 
-                    $idUsuarioActual,
-                    $datoWhere,
-                    $datoLike
-                );
 $vistaCategoria = muestraCategorias($datoCategoriaModelo);
 $dataBase->desconectar();
 
@@ -121,8 +123,8 @@ function muestraTodosDiarios(
     $idUsuarioActual, 
     $datoWhere,
     $datoLike,
-    $datoOrder = 'fechaActualizacionDiario',
-    $datoDireccion = 'DESC'
+    $datoOrder ,
+    $datoDireccion
     ) {
     $losDiarios = array();
    

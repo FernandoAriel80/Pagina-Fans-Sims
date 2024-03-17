@@ -216,8 +216,8 @@ class Orm{
         $condicionesJoin = array(), 
         $condicionesWhere = array(),
         $condicionLike = '',
-        $condicionOrder = 'fechaActualizacionDiario',
-        $orderDirection = 'DESC'
+        $condicionOrder ,
+        $orderDirection 
         ) {
         try {
             $query = "SELECT * FROM {$this->tabla} ";
