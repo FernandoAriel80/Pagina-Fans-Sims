@@ -5,6 +5,7 @@ require_once 'models/Diario.php';
 require_once 'models/Capitulo.php';
 require_once 'config/DataBase.php';
 require_once 'models/Favorito.php';
+require_once 'models/Puntaje.php';
 require_once 'validations/validaciones.php';
 require_once 'validations/validaSesiones.php';
 
@@ -14,11 +15,16 @@ $diarioModelo = new Diario($coneccion);
 $usuarioModelo = new Usuario($coneccion);
 $capituloModelo = new Capitulo($coneccion);
 $favoritoModelo = new Favorito($coneccion);
+$puntajeModelo = new Puntaje($coneccion);
 $categoriaDiarioModelo = new CategoriaDiario($coneccion);
 
 $diario= '';
 $categoria= '';
 $todosCapitulos= [];
+$restoPuntos= '/5';
+$misPuntos= '';
+$totalPuntos= '';
+
 
 if (isset($_GET['tokenU'])) {
     $idUsuarioActual = obteneTokenId($_GET['tokenU']);
@@ -44,14 +50,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $resultadoFavorito = $favoritoModelo->favoritoExistente($idSession,$idDiarioActualForm);
             if ($resultadoFavorito) {
                 $favoritoModelo->eliminaFavorito($idSession,$idDiarioActualForm);
-
             }else{
-                $favoritoModelo->creaFavorito($idSession,$idDiarioActualForm);
-               
+                $favoritoModelo->creaFavorito($idSession,$idDiarioActualForm);    
             }
         }
     }
 }
+
+
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["botonCalificar"])) {      
+        if (isset($_POST["punto"])) {
+            $punto = $_POST["punto"];
+            if ($punto <= 5) {
+                $datoFiltro=[
+                    'idUsuario' => $idSession,
+                    'idDiario' => $idDiarioActual
+                ];
+                $resultadoExistente = $puntajeModelo->getByFilterData($datoFiltro);
+               
+                if (empty($resultadoExistente)) {
+                  
+                    $datoInsertar=[
+                        'idUsuario'=>$idSession,
+                        'idDiario'=>$idDiarioActual,
+                        'puntajeDato'=>$punto
+                    ];
+                    $resultadoInsertar = $puntajeModelo->insert($datoInsertar);  
+                    if ($resultadoInsertar) {
+                        $promedioPuntos = $puntajeModelo->promedioPuntaje($idDiarioActual);
+                        if ($promedioPuntos["promedioPuntuacion"] != null) {
+                            $datoUpDateDiario=[
+                                'puntoPromedio' => $promedioPuntos["promedioPuntuacion"]
+                            ];
+                            $diarioModelo->upDateById($idDiarioActual,$datoUpDateDiario);
+                        } 
+                    }   
+                                  
+                }else {
+                    foreach ($resultadoExistente as $puntaje) {
+                        if ($puntaje['puntajeDato'] != $punto) {
+                            $datoUpDatePunto=[
+                                'puntajeDato'=>$punto
+                            ];
+                            $resultadoUpDate = $puntajeModelo->upDateById($puntaje['idPuntaje'],$datoUpDatePunto);
+                            if (!empty($resultadoUpDate)) {
+                                $promedioPuntos = $puntajeModelo->promedioPuntaje($idDiarioActual);
+                                if ($promedioPuntos["promedioPuntuacion"] != null) {
+                                    $datoUpDateDiario=[
+                                        'puntoPromedio'=>$promedioPuntos["promedioPuntuacion"]
+                                    ];
+                                    $diarioModelo->upDateById($idDiarioActual,$datoUpDateDiario);
+                                } 
+                            }
+                        }
+                    }
+                }
+            }  
+        }
+    }
+}
+    $datoFiltro=[
+        'idUsuario' => $idSession,
+        'idDiario' => $idDiarioActual
+    ];
+    $resultadoExistentePuntaje = $puntajeModelo->getByFilterData($datoFiltro);
+    if ($resultadoExistentePuntaje) {
+        foreach ($resultadoExistentePuntaje as $puntaje) {
+             $misPuntos= $puntaje['puntajeDato'].$restoPuntos;
+        }   
+    }else {
+        $misPuntos = "0".$restoPuntos;
+    }
+    //////////////////////////////////////////////////////////////////
+    $resultadoExistenteDiario = $diarioModelo->obtenerUnDiario($idDiarioActual);
+    if ($resultadoExistenteDiario) {
+        $totalPuntos= $resultadoExistenteDiario->puntoPromedio.$restoPuntos;
+    }
 
 $diario = vistaDiario($datoDiarioModelo,$idUsuarioActual,$idDiarioActual,$autor,$favoritoModelo);
 $categoria = vistaCategoria($categoriaDiarioModelo,$idDiarioActual);
@@ -209,7 +286,6 @@ function vistacapitulo($idautor,$idDiario,$idCapitulo,$imagen,$titulo,$parrafo){
 }    
 
 
-    
 // return $vista;
 // }
 // <div class="botonesDiario">

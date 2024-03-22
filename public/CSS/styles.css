@@ -342,6 +342,7 @@ input[type="submit"] {
     display: flex; 
     margin:15px 2px;
     flex-direction: column; 
+    padding-bottom: 20px;
   }
   .boton-login,.boton-registrar,.boton-deslogin{
     right: 12px;

@@ -35,7 +35,7 @@ class Orm{
             error_log("Error al obtener el getById: " . $e->getMessage());
         }
     }
-    public function getAllJoin($tablaUnida) { // se le agrega tabla del id relacionado a esa tabla
+    public function getAllJoin($tablaUnida) { 
         try{
             $idTabla = "id{$tablaUnida}";
             $query = "SELECT * FROM {$this->tabla} INNER JOIN $tablaUnida ON {$this->tabla}.{$idTabla} = {$tablaUnida}.{$idTabla}";
@@ -47,37 +47,19 @@ class Orm{
             error_log("Error al obtener getAllJoin: " . $e->getMessage());
         }
     }
-    // public function getByIdJoin($tablaUnida,$id) {
-    //     try{
-    //         $idTabla = "id{$tablaUnida}";
-    //         $query = "SELECT * FROM {$this->tabla} INNER JOIN $tablaUnida ON {$this->tabla}.{$idTabla} = {$tablaUnida}.{$idTabla} WHERE {$this->tabla} =:id";
-    //         $stm = $this->connection->prepare($query);
-    //         $stm->bindValue(":id", $id);
-    //         $stm->execute();
-    //         return $stm->fetchAll();
-    //     }catch (PDOException $e) {
-    //         echo "Error al obtener registro join: " . $e->getMessage();
-    //         error_log("Error al obtener registro join: " . $e->getMessage());
-    //     }
-    // }
-
+ 
     public function insert($dato){
         try {
-            // Construir la consulta SQL
             $keys = implode(', ', array_keys($dato));
             $values = ':' . implode(', :', array_keys($dato));
             $query = "INSERT INTO {$this->tabla} ({$keys}) VALUES ({$values})";
             
-            // Preparar la consulta
             $stm = $this->connection->prepare($query);
             
-            // Vincular los parámetros y ejecutar la consulta
             foreach ($dato as $key => $value) {
                 $stm->bindValue(":{$key}", $value);
             }  
-             // Ejecutar la consulta
             $stm->execute();
-            // retorna ultimo id insertado 
             return $this->connection->lastInsertId();
         } catch (PDOException $e) {
             echo "Error al insertar registro: " . $e->getMessage();
@@ -108,50 +90,7 @@ class Orm{
         }
     }
 
-    // public function filtrarDatos($condiciones = array()) {
-    //     $query = "SELECT * FROM {$this->tabla}";
-    //     $params = array();
 
-    //     if (!empty($condiciones)) {
-    //         $query .= " WHERE ";
-    //         $condiciones_sql = array();
-    //         foreach ($condiciones as $campo => $valor) {
-    //             $condiciones_sql[] = "$campo = ?";
-    //             $params[] = $valor;
-    //         }
-    //         $query .= implode(" AND ", $condiciones_sql);
-    //     }
-
-    //     $stm = $this->connection->prepare($query);
-    //     $stm->execute($params);
-    //     return $stm->fetchAll();
-    // }
-
-    // public function getByFilterData($condiciones = array()) {
-    //     $query = "SELECT * FROM {$this->tabla}";
-    //     $params = array();
-    
-    //     if (!empty($condiciones)) {
-    //         $query .= " WHERE ";
-    //         $condiciones_sql = array();
-    //         foreach ($condiciones as $campo => $valor) {
-    //             $condiciones_sql[] = "$campo = ?";
-    //             $params[$campo] = $valor; // Agregamos la condición al array de parámetros
-    //         }
-    //         $query .= implode(" AND ", $condiciones_sql);
-    //     }
-    
-    //     $stm = $this->connection->prepare($query);
-    
-    //     // Asignamos valores utilizando bindValue()
-    //     foreach ($params as $campo => $valor) {
-    //         $stm->bindValue(":$campo", $valor);
-    //     }
-    
-    //     $stm->execute();
-    //     return $stm->fetchAll();
-    // }
-    
     public function getByFilterData($condiciones = array()) {
         try {
             $query = "SELECT * FROM {$this->tabla}";
@@ -161,7 +100,7 @@ class Orm{
                 $condiciones_sql = array();
                 foreach ($condiciones as $clave => $valor) {
                     $condiciones_sql[] = "$clave = ?";
-                    $params[] = $valor; // Agregamos el valor al array de parámetros
+                    $params[] = $valor; 
                 }
                 $query .= implode(" AND ", $condiciones_sql);
             }
@@ -181,14 +120,12 @@ class Orm{
 
     public function getAllOrderBy($orderColumn, $orderDirection = 'ASC'){
         try{
-            // Verificar la dirección de ordenamiento para evitar posibles inyecciones SQL
             $validOrderDirections = array('ASC', 'DESC');
             $orderDirection = strtoupper($orderDirection);
             if (!in_array($orderDirection, $validOrderDirections)) {
                 $orderDirection = 'ASC';
             }
     
-            // Preparar la consulta SQL con la cláusula ORDER BY
             $query = "SELECT * FROM {$this->tabla} ORDER BY {$orderColumn} {$orderDirection}";
             $stm = $this->connection->prepare($query);
             $stm->execute();
@@ -254,7 +191,7 @@ class Orm{
             foreach ($params as $index => $valor) {
                 $stm->bindValue($index + 1, $valor);
             }
-            var_dump($query);
+            //var_dump($query);
             $stm->execute();
             return $stm->fetchAll();
         } catch (PDOException $e) {
@@ -263,36 +200,5 @@ class Orm{
             return false;
         }
     }  
-    
-
-    
-public function getByCondition($conditions) {
-     try { 
-        $query = "SELECT * FROM {$this->tabla}";
-         if (!empty($conditions)) {
-         $query .= " WHERE ";
-         $conditions_array = [];
-         foreach ($conditions as $campo => $valor) {
-             $conditions_array[] = "$campo = :$campo";
-                }
-                
-            $query .= implode(" AND ", $conditions_array);
-            }
-            
-            $stm = $this->connection->prepare($query);
-            
-            foreach ($conditions as $campo => $valor) {
-                $stm->bindValue(":$campo", $valor);
-             }
-            
-             $stm->execute();
-            
-             return $stm->fetchAll();
-         } catch (PDOException $e) {
-            error_log("Error al obtener todos getByCondition: " . $e->getMessage());  
-            echo "Error al ejecutar la getByCondition: " . $e->getMessage();
-             return false;
-        }
-    }
     
 }

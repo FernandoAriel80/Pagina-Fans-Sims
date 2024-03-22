@@ -21,7 +21,7 @@ CREATE TABLE Diario(
     fechaCreacionDiario TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaActualizacionDiario TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     descripcionDiario TEXT NULL,
-    puntoPromedio INT NULL,
+    puntoPromedio FLOAT DEFAULT 0,
     visible TINYINT(1) DEFAULT '1',
     PRIMARY KEY(idDiario),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
@@ -97,7 +97,7 @@ CREATE TABLE Puntaje (
     idPuntaje INT AUTO_INCREMENT,
     idUsuario INT NOT NULL,
     idDiario INT NOT NULL,
-    puntajeDato INT NOT NULL,
+    puntajeDato INT NOT NULL DEFAULT 0,
     fechaCreacionPuntaje TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(idPuntaje),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),

@@ -73,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['tituloF'])) {
             $datoLike = $_POST['tituloF'];
         }  
-        echo $datoLike." ".$datoOrder." ".$datoDireccion;
         $todosDiarios = muestraTodosDiarios(
                             $diarioModelo, 
                             $favoritoModelo, 

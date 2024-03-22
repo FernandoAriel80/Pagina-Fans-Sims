@@ -58,4 +58,31 @@ final class Puntaje extends Orm{
         }
     }
 
+    public function promedioPuntaje($idDiario){
+        try {
+            $query = "SELECT ROUND(AVG(puntajeDato),1) AS promedioPuntuacion FROM {$this->tabla} WHERE idDiario = {$idDiario}";
+            $stm = $this->connection->prepare($query);
+            $stm->execute();
+            return $stm->fetch();
+        } catch (PDOException $e) {
+            echo "Error al promedioPuntaje: " . $e->getMessage();
+            error_log("Error al obtener promedioPuntaje:" . $e->getMessage()) ;
+            return false;
+        }
+    }
+    public function editaPuntaje($idCapitulo,$titulo,$imagen,$parrafo){
+        $dato=[
+            'tituloCapitulo' => $titulo,
+            'imagenCapitulo' => $imagen,
+            'parrafoCapitulo' => $parrafo
+        ];
+        try {
+           return $this->upDateById($idCapitulo,$dato);
+
+        } catch (PDOException $e) {
+            echo "Error al editaCapitulo: " . $e->getMessage();
+            error_log("Error al obtener editaCapitulo:" . $e->getMessage()) ;
+            return false;
+        }
+    }
 }
