@@ -63,7 +63,7 @@ function muestraPerfil(Usuario $modeloU,$idU){
         if ($idU == $_SESSION['idUsuario']) {
             return $vista ='<!-- contenido modifica entrada -->
                             <div class = "modificaEntrada" >
-                                <a class="contenedor-icono-modifica" href="todosDiarios.php"></a>
+                                <a class="contenedor-icono-modifica" href="editaPerfil.php"></a>
                             </div>
                             <h4>El perfil del Usuario: '.$datoUsuario->nombre.'</h4>
                             <h4>DIARIOS:</h4>

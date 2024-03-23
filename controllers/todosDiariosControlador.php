@@ -45,9 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       
         if (isset($_POST['OrdenarF'])) {
-           //$datoOrder = ($_POST['OrdenarF'] == 1) ? 'fechaActualizacionDiario' : '';
-           //$datoOrder = ($_POST['OrdenarF'] == 2) ? 'fechaCreacionDiario' : '';
-           //$datoOrder = ($_POST['OrdenarF'] == 3) ? 'puntoPromedio' : '';
             if ($_POST['OrdenarF'] == 1) {
                 $datoOrder = 'fechaActualizacionDiario';
             }
@@ -60,8 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } 
 
         if (isset($_POST['DireccionF'])) {
-            //$datoDireccion = ($_POST['DireccionF'] == 1) ? 'DESC' : '';
-            //$datoDireccion = ($_POST['DireccionF'] == 2) ? 'ASC' : '';
             if ($_POST['DireccionF'] == 1) {
                 $datoDireccion = ' DESC ';
             }
@@ -126,7 +121,6 @@ function muestraTodosDiarios(
     $datoDireccion
     ) {
     $losDiarios = array();
-   
 
     $datoJoin = array(
         'Usuario ON Usuario.idUsuario = Diario.idUsuario',

@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="public/CSS/perfilStyles.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/diarioStyles.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/creaCapituloStyles.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/editaPerfilStyles.css">
     
     <title>Pagina Fans Sims</title>
     <link rel="icon" href="public/Iconos/logo.png" type="image/png">

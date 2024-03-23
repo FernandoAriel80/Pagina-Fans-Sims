@@ -62,6 +62,10 @@ option {
   
 }
 
+.listaPagina {
+
+    padding: 2px;
+}
 /* Estilos para dispositivos de escritorio */
 @media only screen and (min-width: 769px) {
     .cada-diario { 

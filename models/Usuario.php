@@ -112,5 +112,21 @@ final class Usuario extends Orm{
             error_log("Error al obtener registro getByUsuAndEmailAndNom: " . $e->getMessage()) ;
         } 
     }
+
+    public function editaPerfil($idPerfil,$nombre,$foto){
+        $dato=[
+            'nombre' => $nombre,
+            'foto' => $foto,
+        ];
+        try {
+           return $this->upDateById($idPerfil,$dato);
+
+        } catch (PDOException $e) {
+            echo "Error al editaPerfil: " . $e->getMessage();
+            error_log("Error al obtener editaPerfil:" . $e->getMessage()) ;
+            return false;
+        }
+    }
+
     
 }

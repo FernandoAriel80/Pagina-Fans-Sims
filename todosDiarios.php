@@ -55,11 +55,51 @@ if (!sesionActiva()) {
         <h4>TODOS LOS DIARIOS:</h4>
         <div class="elemento-diario">
             <!-- cada diario  -->
-            <?php if (is_array($todosDiarios)) {
+            <?php  if (is_array($todosDiarios)) {
                         foreach ($todosDiarios as $diario) {
                             echo $diario;
                           }
-                    }?>
+                    } ?>
+
+            <?php 
+           /*  $diariosPorPagina = 2;
+            $numTotalDiarios = count($todosDiarios);
+            $numTotalPaginas = ceil($numTotalDiarios / $diariosPorPagina);
+            $paginaActual = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
+            $restoDeDiarios = $todosDiarios;
+            for ($i = 0; $i < $numTotalPaginas; $i++) { 
+                $restos = [];
+                $paginas;
+                $objPagina = [];
+                $contador = 1;               
+                foreach ($restoDeDiarios as $diario) {   
+                    if ($contador <= $diariosPorPagina) {
+                        $objPagina[]= $diario;  
+                    }else{
+                        $restos[]= $diario;
+                    } 
+                    $contador++; 
+                }              
+                $restoDeDiarios =  $restos;               
+                $paginas[] =  $objPagina;
+            }
+
+            echo " <div class='pagina'>";
+                echo " <h3>Página número: ".$paginaActual."</h3>";
+                var_dump($paginas);
+             
+                    foreach ($paginas as $key) {
+                        foreach ($key as $value => $diario) {
+                            echo $diario;  
+                        }
+                        
+                    }
+                    for ($i = 0; $i < $numTotalPaginas; $i++) { 
+                        echo "<a class='listaPagina' href='?pagina=".($i+1)."'>" .($i+1)."</a>";
+                    }
+         
+            echo "</div>"; */
+                ?>
             <!-- cada diario end  -->
         </div>
         <!-- separador -->

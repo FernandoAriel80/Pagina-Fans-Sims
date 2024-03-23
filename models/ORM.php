@@ -154,7 +154,7 @@ class Orm{
         $condicionesWhere = array(),
         $condicionLike = '',
         $condicionOrder ,
-        $orderDirection 
+        $orderDirection
         ) {
         try {
             $query = "SELECT * FROM {$this->tabla} ";
@@ -187,11 +187,11 @@ class Orm{
             $query .= " GROUP BY {$this->tabla}.idDiario ";
 
             $query .= " ORDER BY {$this->tabla}.{$condicionOrder} {$orderDirection} ";
+
             $stm = $this->connection->prepare($query);
             foreach ($params as $index => $valor) {
                 $stm->bindValue($index + 1, $valor);
             }
-            //var_dump($query);
             $stm->execute();
             return $stm->fetchAll();
         } catch (PDOException $e) {
