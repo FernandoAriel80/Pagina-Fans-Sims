@@ -316,7 +316,12 @@ input[type="submit"] {
   text-align: center;
 }
 /* ///////////////////////////////////////////////////////////////////////////////////////// */
-
+.imagenPerfilLeft img{
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  border: 4px solid white;
+}
 /* Estilos para dispositivos de escritorio */
 @media only screen and (min-width: 769px) {
   body{

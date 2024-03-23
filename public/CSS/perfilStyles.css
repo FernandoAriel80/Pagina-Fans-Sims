@@ -12,6 +12,14 @@
     transition: background-color 0.3s;
 }
 
+.contenedor-perfil{
+    display: flex;
+    justify-content: center;
+}
+
+h1{
+    text-align: center;
+}
 /* .boton-crea-diario:hover {
     background-color: #0099ff;
 } */

@@ -103,6 +103,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $favoritoModelo->creaFavorito($idUsuarioActual,$idDiarioActual);
             }
             $dataBase->desconectar();
+            $todosDiarios = muestraTodosDiarios(
+                $diarioModelo, 
+                $favoritoModelo, 
+                $idUsuarioActual,
+                $datoWhere,
+                $datoLike,
+                $datoOrder = 'fechaActualizacionDiario',
+                $datoDireccion = 'DESC'
+            ); 
         }
     }
 }

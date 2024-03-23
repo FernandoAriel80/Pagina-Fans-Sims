@@ -11,6 +11,7 @@ $vistaDato= '';
 $usuarioModelo = new Usuario($coneccion);
 $idUsuarioActual = $_SESSION["idUsuario"];
 $datoUsuarioModelo = $usuarioModelo->obtenerUnUsuario($idUsuarioActual);
+//echo $datoUsuarioModelo->foto;
 $dataBase->desconectar(); 
 $vistaDato = vistaPerfil($datoUsuarioModelo);
 
@@ -18,12 +19,11 @@ $vistaDato = vistaPerfil($datoUsuarioModelo);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ////////////////////////// BOTON CAPITULO ////////////////////
     if (isset($_POST["botonEditaPerfil"])) {
-
+   
         if (isset($_POST["nombreP"])) {
+            
             $nombre = sinEspaciosLados($_POST["nombreP"]);
-
-            if( $nombre == $datoUsuarioModelo->nombre ){
-
+            if(!validaNombreExistente($usuarioModelo,$datoUsuarioModelo->nombre,$nombre)){
                 if(isset($_FILES["imagenP"]) && !empty($_FILES["imagenP"]["name"])){
                     if(imagenValida($_FILES["imagenP"])){
                         $imagen = $_FILES["imagenP"]["name"];
@@ -37,21 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    $imagenNombre = $datoUsuarioModelo->foto;
                 } 
                 $resultado=$usuarioModelo->editaPerfil($idUsuarioActual,$nombre,$imagenNombre);
-            }else if (!validaNombreExistente($usuarioModelo,$nombre)) {
-                if(isset($_FILES["imagenP"]) && !empty($_FILES["imagenP"]["name"])){
-                    if(imagenValida($_FILES["imagenP"])){
-                        $imagen = $_FILES["imagenP"]["name"];
-                        $temp = $_FILES["imagenP"]["tmp_name"];
-                        $imagenNombre = guardaImagen($temp,'public/ImagenesPerfil/',$imagen);
-                        if ($datoUsuarioModelo->foto) {
-                            eliminaImagen('public/ImagenesPerfil/',$datoUsuarioModelo->foto);
-                        }
-                    }
-                }else {
-                   $imagenNombre = $datoUsuarioModelo->foto;
-                } 
-                $resultado=$usuarioModelo->editaPerfil($idUsuarioActual,$nombre,$imagenNombre);  
+                header("Location: perfil.php");
+            }else{
+                $mensaje = muestraMensajePerfil('¡nombre existente!');
             }
+           
           
         }
 
@@ -59,14 +49,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+function muestraMensajePerfil($message){
+    $vista='<div class="contenedor-cosas">
+                <h4>'.$message.'</h4>
+            </div>';
+    return $vista;
+}
+
 function vistaPerfil($datoPerfil){
     $vista="";
     if (!empty($datoPerfil)) {
-        if ($datoPerfil->imagen != null) {
+        if ($datoPerfil->foto != null) {
             $vista .= ' 
             <div class="imagenPerfil">
-                <a href="public/ImagenesPefil/'.$datoPerfil->imagen.'">
-                    <img src="public/ImagenesPefil/'.$datoPerfil->imagen.'"/>
+                <a href="public/ImagenesPerfil/'.$datoPerfil->foto.'">
+                    <img src="public/ImagenesPerfil/'.$datoPerfil->foto.'" alt="Foto de perfil"/>
                 </a>  
             </div>';
 
@@ -75,25 +72,21 @@ function vistaPerfil($datoPerfil){
             $vista .= ' 
             <div class="imagenPerfil">
                 <a href="public/Iconos/perfilFoto.png">
-                    <img src="public/Iconos/perfilFoto.png"/>
+                    <img src="public/Iconos/perfilFoto.png" alt="Foto de perfil"/>
                 </a>  
             </div>';
         }
 
-        $vista .= '<input type="text" id="tituloE" name="tituloE" value="'.$datoPerfil->nombre.'" placeholder="Titulo de entrada" required>';
+        $vista .= '<input type="text" id="nombreP" name="nombreP" value="'.$datoPerfil->nombre.'" placeholder="Nombre" required>';
         return $vista;   
     }
 }
 
-function validaNombreExistente(Usuario $modelo,string $nombre){  
-    $dato = $modelo->obtenerTodosUsuarios();
+function validaNombreExistente(Usuario $modelo,string $myNombre,string $nombre){  
+    $dato = $modelo->getNombreExistente($myNombre,$nombre);
     if (!empty($dato)) {
-        foreach ($dato as $usuario) {
-            if($usuario->nombre == $nombre){
-                return [true,'¡nombre existente!'];
-            }else{
-                return false; 
-            }
-        }
+        return true;
+    }else{
+        return false;
     }
-}
+} 

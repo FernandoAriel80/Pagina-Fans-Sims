@@ -4,6 +4,7 @@ require_once 'models/Capitulo.php';
 require_once 'models/Diario.php';
 require_once 'models/CategoriaDiario.php';
 require_once 'models/Favorito.php';
+require_once 'models/Puntaje.php';
 require_once 'validations/validaSesiones.php';
 require_once 'validations/validaciones.php';
 
@@ -14,10 +15,12 @@ $capituloModelo = new Capitulo($coneccion);
 $diarioModelo = new Diario($coneccion);
 $categoriaDiarioModelo = new CategoriaDiario($coneccion);
 $favoritoModelo = new Favorito($coneccion);
+$puntajeModelo = new Puntaje($coneccion);
 
 $datoCapituloModelo = $capituloModelo->obtenerTodosCapitulos();
 $datoCategoriaDiarioModelo = $categoriaDiarioModelo->obtenerTodosCategoriaDiario();
 $datoFavoritoModelo = $favoritoModelo->obtenerTodosFavorito();
+$datoPuntajeModelo = $puntajeModelo->obtenerTodosPuntaje();
 
 if (isset($_GET['tokenD'])) {
     $idDiarioActual = obteneTokenId($_GET['tokenD']);
@@ -42,6 +45,13 @@ if (!empty($idDiarioActual)) {
         foreach ($datoFavoritoModelo as $favorito) {
             if ($favorito->idDiario == $idDiarioActual) {
                 $favoritoModelo->deleteById($favorito->idFavorito);
+            }
+        }
+    }
+    if (!empty($datoPuntajeModelo)) {
+        foreach ($datoPuntajeModelo as $puntaje) {
+            if ($puntaje->idDiario == $idDiarioActual) {
+                $puntajeModelo->deleteById($puntaje->idPuntaje);
             }
         }
     }

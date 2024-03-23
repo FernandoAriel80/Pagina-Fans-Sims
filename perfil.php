@@ -8,11 +8,11 @@ if (!sesionActiva()) {
  }
 
 ?>
-<?php include 'controllers/perfilControlador.php';?>
+
 <!-- PORCION LEFT -->
 
 </div>
-
+<?php include 'controllers/perfilControlador.php';?>
 <!-- FINAL DE LA PORCION LEFT -->
 <div class="contenedor-flex">
 

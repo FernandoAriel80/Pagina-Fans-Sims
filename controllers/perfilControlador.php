@@ -60,12 +60,42 @@ $dataBase->desconectar();
 function muestraPerfil(Usuario $modeloU,$idU){
     $datoUsuario = $modeloU->obtenerUnUsuario($idU);
     if ($datoUsuario) {
+        
         if ($idU == $_SESSION['idUsuario']) {
-            return $vista ='<!-- contenido modifica entrada -->
-                            <div class = "modificaEntrada" >
-                                <a class="contenedor-icono-modifica" href="editaPerfil.php"></a>
-                            </div>
-                            <h4>El perfil del Usuario: '.$datoUsuario->nombre.'</h4>
+            if ($datoUsuario->foto != null) {
+                $vista = ' 
+                    <div class = "modificaEntrada" >
+                        <a class="contenedor-icono-modifica" href="editaPerfil.php"></a>
+                    </div>
+                    <h1>'.$datoUsuario->nombre.'</h1>
+                    <div class = "contenedor-perfil" >
+                        <div class="imagenPerfil">
+                            <a href="public/ImagenesPerfil/'.$datoUsuario->foto.'">
+                                <img src="public/ImagenesPerfil/'.$datoUsuario->foto.'" alt="Foto de perfil"/>
+                            </a>  
+                        </div>
+                    
+                    </div>';
+    
+                
+            }else {
+                $vista = ' 
+              
+                    <div class = "modificaEntrada" >
+                        <a class="contenedor-icono-modifica" href="editaPerfil.php"></a>
+                    </div>
+                    <h1>'.$datoUsuario->nombre.'</h1>
+                    <div class = "contenedor-perfil" >
+                        <div class="imagenPerfil">
+                            <a href="public/Iconos/perfilFoto.png">
+                                <img src="public/Iconos/perfilFoto.png" alt="Foto de perfil"/>
+                            </a>  
+                        </div>
+                    
+                    </div>';
+            }
+            return $vista .='<!-- contenido modifica entrada -->
+
                             <h4>DIARIOS:</h4>
                             <div class="elemento-diario">
                                 <div class="crea-diario">
@@ -81,7 +111,32 @@ function muestraPerfil(Usuario $modeloU,$idU){
                             </div>
                             <h4>MIS DIARIOS:</h4>';
         } else {
-            return $vista ='<h4>El perfil del Usuario: '.$datoUsuario->nombre.'</h4>
+            if ($datoUsuario->foto != null) {
+                $vista = ' 
+                <h1>'.$datoUsuario->nombre.'</h1>
+                <div class = "contenedor-perfil" >
+                    
+                    <div class="imagenPerfil">
+                        <a href="public/ImagenesPerfil/'.$datoUsuario->foto.'">
+                            <img src="public/ImagenesPerfil/'.$datoUsuario->foto.'" alt="Foto de perfil"/>
+                        </a>  
+                    </div>
+                </div>';
+    
+                
+            }else {
+                $vista = '
+                <h1>'.$datoUsuario->nombre.'</h1>
+                <div class = "contenedor-perfil" >  
+                    <div class="imagenPerfil">
+                        <a href="public/Iconos/perfilFoto.png">
+                            <img src="public/Iconos/perfilFoto.png" alt="Foto de perfil"/>
+                        </a>  
+                    </div>
+                    
+                </div>';
+            }
+            return $vista .='
                             <h4>DIARIOS:</h4>
                             <h4>SUS DIARIOS:</h4>';
         }  

@@ -7,11 +7,11 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
-<?php include 'controllers/creaCapituloControlador.php';?>
+
 <!-- PORCION LEFT -->
 
 </div>
-
+<?php include 'controllers/creaCapituloControlador.php';?>
 <!-- FINAL DE LA PORCION LEFT -->
 <div class="contenedor-flex">
 

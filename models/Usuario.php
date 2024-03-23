@@ -113,6 +113,20 @@ final class Usuario extends Orm{
         } 
     }
 
+    public function getNombreExistente(string $usuario,string $nombre){
+        try{
+            $query = "SELECT * FROM {$this->tabla} WHERE nombre =:nombre AND nombre !=:usuario";
+            $stm = $this->connection->prepare($query);
+            $stm->bindValue(":usuario", $usuario);
+            $stm->bindValue(":nombre", $nombre);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch (PDOException $e) {
+            echo "Error al obtener registro getNombreExistente: " . $e->getMessage();
+            error_log("Error al obtener registro getNombreExistente: " . $e->getMessage()) ;
+        } 
+    }
+
     public function editaPerfil($idPerfil,$nombre,$foto){
         $dato=[
             'nombre' => $nombre,

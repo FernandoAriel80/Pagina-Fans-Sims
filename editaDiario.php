@@ -7,11 +7,11 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
-<?php include 'controllers/editaDiarioControlador.php';?>
+
 <!-- PORCION LEFT -->
 
 </div>
-
+<?php include 'controllers/editaDiarioControlador.php';?>
 <!-- FINAL DE LA PORCION LEFT -->
 <div class="contenedor-flex">
 

@@ -8,6 +8,7 @@ if (!sesionActiva()) {
 ?>
 
 <?php include 'controllers/todosDiariosControlador.php';?>
+
 <!-- PORCION LEFT -->
 <div class="contenedor-cosas">
     <div class="contenedor-cosas-abajo">

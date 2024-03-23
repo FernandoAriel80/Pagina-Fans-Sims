@@ -7,14 +7,21 @@ require_once 'validations/validaSesiones.php';
 
 $dataBase = new DataBase();
 $conexion = $dataBase->conectar();
+$usuarioModelo = new Usuario($conexion);
 
 $vistaLeft = '';
 $mensaje='';
+$idUsuarioActual='';
+if (isset($_SESSION["idUsuario"])) {
+    $idUsuarioActual = $_SESSION["idUsuario"];
+}
 
+$datoUsuarioModelo = $usuarioModelo->obtenerUnUsuario($idUsuarioActual);
+$dataBase->desconectar(); 
 if (!sesionActiva()) {
    $vistaLeft = muestraLogin();
 }else{
-    $vistaLeft = muestraLogeado();
+    $vistaLeft = muestraLogeado($datoUsuarioModelo);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -47,7 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 iniciarSesion($DatoUsuario->idUsuario,$DatoUsuario->nomUsuario,$DatoUsuario->nombre,$token,$DatoUsuario->rol);
                                 if($DatoUsuario->guardaToken($token)){
                                     $mensaje = muestraMensaje("¡Ha iniciado sesion correctamente!");
-                                    $vistaLeft = muestraLogeado(); 
+                                    $vistaLeft = muestraLogeado($datoUsuarioModelo ); 
+                                    header("Location: index.php");
                                 }else{
                                     $mensaje = muestraMensaje("¡Ha ocurrido un error al iniciar sesion!");
                                     $vistaLeft = muestraLogin();
@@ -88,7 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($resultado) {
                         $mensaje = muestraMensaje("¡Se registro correctamente!");
                         $vistaLeft = muestraLogin();
-                        # code... se creo correctamente
                     }else{
                         $mensaje = muestraMensaje("¡Ha ocurrido un error al registrar!");
                         $vistaLeft= muestraRegistro(); 
@@ -153,9 +160,28 @@ function muestraRegistro(){
             </div>';
 return $vista;
 }
-function muestraLogeado(){
-       $vista='<div class="contenedor-cosas">
+function muestraLogeado($datoUsuario){
+    if ($datoUsuario->foto != null) {
+        $vista = ' 
+        <div class="contenedor-cosas">
                 <div class="contenedor-cosas-abajo">
+                    <div class="imagenPerfilLeft">
+                        <a href="public/ImagenesPerfil/'.$datoUsuario->foto.'">
+                            <img src="public/ImagenesPerfil/'.$datoUsuario->foto.'" alt="Foto de perfil"/>
+                        </a>  
+                    </div>';
+ 
+    }else {
+        $vista = ' 
+        <div class="contenedor-cosas">
+                <div class="contenedor-cosas-abajo">
+                    <div class="imagenPerfilLeft">
+                        <a href="public/Iconos/perfilFoto.png">
+                            <img src="public/Iconos/perfilFoto.png" alt="Foto de perfil"/>
+                        </a>  
+                    </div>';
+    }
+       $vista.='
                     <div class = "Bienvenida-login">Bienvenido</br>'.$_SESSION['nombre'].'</br> Rol: '.$_SESSION['rolUsuario'].'</div>  
                     <form class="formulario-nav-out" action=" " method="post">
                         <input type="submit" value="" class="boton-deslogin" name="botonNavOut">
