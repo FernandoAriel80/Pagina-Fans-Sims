@@ -56,3 +56,4 @@ require __DIR__ . '/vendor/autoload.php'; // Asegúrate de cargar el autoloader 
 // Cargar el archivo .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+ 
