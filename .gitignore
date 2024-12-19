@@ -1,0 +1,18 @@
+# Ignorar archivos sensibles
+.env
+
+# Ignorar dependencias de Composer
+/vendor/
+
+# Ignorar archivos de caché
+/storage/*.log
+/storage/framework/cache/*
+/storage/framework/views/*
+
+# Ignorar configuraciones locales de IDEs
+.idea/
+.vscode/
+
+# Ignorar otros archivos innecesarios
+*.log
+*.cache

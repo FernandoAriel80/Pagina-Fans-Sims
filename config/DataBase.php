@@ -1,12 +1,17 @@
 <?php 
 class DataBase {
-    private string $host = 'localhost';
-    private string $db_nombre = 'pag_sims';
-    private string $usuario = 'root';
-    private string $password = '';
+    private string $host;
+    private string $db_nombre;
+    private string $usuario;
+    private string $password;
     private $connection;
 
     public function __construct() {
+        $this->host = $_ENV['DB_HOST'];
+        $this->db_nombre = $_ENV['DB_NAME'];
+        $this->usuario = $_ENV['DB_USER'];
+        $this->password = $_ENV['DB_PASSWORD'];
+
         $dsn = 'mysql:host='.$this->host.';dbname='.$this->db_nombre;
         $options = [ 
             PDO::ATTR_PERSISTENT => true,
