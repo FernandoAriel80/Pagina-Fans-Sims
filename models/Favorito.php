@@ -1,5 +1,5 @@
 <?php
-require_once './ORM.php';
+require_once 'Orm.php';
 
 final class Favorito extends Orm{
  
