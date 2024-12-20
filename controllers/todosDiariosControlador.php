@@ -6,7 +6,7 @@ require_once 'models/Favorito.php';
 require_once 'models/Categoria.php';
 require_once 'config/DataBase.php';
 require_once 'validations/validaciones.php';
-require_once 'validations/validaSesiones.php';
+//require_once 'validations/validaSesiones.php';
 
 
 $dataBase = new DataBase();

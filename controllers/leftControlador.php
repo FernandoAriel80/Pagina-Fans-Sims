@@ -3,7 +3,7 @@
 require_once 'models/Usuario.php';
 require_once 'config/DataBase.php';
 require_once 'validations/validaciones.php';
-require_once 'validations/validaSesiones.php';
+//require_once 'validations/validaSesiones.php';
 
 $dataBase = new DataBase();
 $conexion = $dataBase->conectar();

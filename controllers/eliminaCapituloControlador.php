@@ -1,7 +1,7 @@
 <?php
 require_once 'config/DataBase.php';
 require_once 'models/Capitulo.php';
-require_once 'validations/validaSesiones.php';
+//require_once 'validations/validaSesiones.php';
 require_once 'validations/validaciones.php';
 
 $dataBase = new DataBase();

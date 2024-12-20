@@ -5,8 +5,8 @@ require_once 'models/Diario.php';
 require_once 'models/CategoriaDiario.php';
 require_once 'models/Favorito.php';
 require_once 'models/Puntaje.php';
-require_once 'validations/validaSesiones.php';
 require_once 'validations/validaciones.php';
+//require_once 'validations/validaSesiones.php';
 
 $dataBase = new DataBase();
 $coneccion = $dataBase->conectar();
