@@ -47,7 +47,7 @@
     </header>
     <main>
     <div class="contenedor-main-flex">
-        <?php include 'Left.php'; ?>
+        <?php include_once 'Left.php'; ?>
 
      
        

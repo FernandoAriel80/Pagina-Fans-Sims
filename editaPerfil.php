@@ -1,4 +1,4 @@
-<?php include 'includes/header.php'; ?>
+<?php include_once 'includes/header.php'; ?>
 
 <?php 
 require_once 'validations/validaSesiones.php';
@@ -11,7 +11,7 @@ if (!sesionActiva()) {
 <!-- PORCION LEFT -->
 
 </div>
-<?php include 'controllers/editaPerfilControlador.php';?>
+<?php include_once 'controllers/editaPerfilControlador.php';?>
 <!-- FINAL DE LA PORCION LEFT -->
 <div class="contenedor-flex">
 
@@ -45,4 +45,4 @@ if (!sesionActiva()) {
     </div>
     <!-- END CONTENEDOR -->
 
-    <?php include 'includes/footer.php'; ?>
+    <?php include_once 'includes/footer.php'; ?>

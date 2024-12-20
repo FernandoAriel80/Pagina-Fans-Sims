@@ -1,4 +1,4 @@
-<?php include 'includes/header.php'; ?>
+<?php include_once 'includes/header.php'; ?>
 <?php 
 require_once 'validations/validaSesiones.php';
 if (!sesionActiva()) {
@@ -7,7 +7,7 @@ if (!sesionActiva()) {
  }
 ?>
 
-<?php include 'controllers/todosDiariosControlador.php';?>
+<?php include_once 'controllers/todosDiariosControlador.php';?>
 
 <!-- PORCION LEFT -->
 <div class="contenedor-cosas">
@@ -107,4 +107,4 @@ if (!sesionActiva()) {
 
         <!-- END CONTENEDOR -->
 
-        <?php include 'includes/footer.php'; ?>
+        <?php include_once 'includes/footer.php'; ?>

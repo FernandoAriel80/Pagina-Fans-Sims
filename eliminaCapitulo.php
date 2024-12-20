@@ -6,4 +6,4 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
-<?php include 'controllers/eliminaCapituloControlador.php';?>
+<?php include_once 'controllers/eliminaCapituloControlador.php';?>

@@ -1,4 +1,4 @@
-<?php include 'includes/header.php'; ?>
+<?php include_once 'includes/header.php'; ?>
 
 <?php 
 require_once 'validations/validaSesiones.php';
@@ -11,7 +11,7 @@ if (!sesionActiva()) {
 <!-- PORCION LEFT -->
 
 </div>
-<?php include 'controllers/creaDiarioControlador.php';?>
+<?php include_once 'controllers/creaDiarioControlador.php';?>
 <!-- FINAL DE LA PORCION LEFT -->
 <div class="contenedor-flex">
     <!-- CONTENEDOR -->
@@ -54,4 +54,4 @@ if (!sesionActiva()) {
     <!-- <input type="file" name="imagen" > -->
     <!-- END CONTENEDOR -->
 
-    <?php include 'includes/footer.php'; ?>
+    <?php include_once 'includes/footer.php'; ?>

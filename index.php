@@ -28,4 +28,4 @@ $dotenv->load();
 
     <!-- END CONTENEDOR -->
 
-    <?php include 'includes/footer.php'; ?>
+    <?php include_once 'includes/footer.php'; ?>

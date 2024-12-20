@@ -6,4 +6,4 @@ if (!sesionActiva()) {
     exit();
  }
 ?>
-<?php include 'controllers/eliminaDiarioControlador.php';?>
+<?php include_once 'controllers/eliminaDiarioControlador.php';?>
