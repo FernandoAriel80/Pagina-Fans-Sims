@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['categoriaF']) && is_array($_POST['categoriaF'])) {
             $categoriaElegida = $_POST["categoriaF"];
             foreach ($categoriaElegida as $idCategoria) {
-                $datoWhere[] = array('CategoriaDiario.idCategoria' => $idCategoria ) ;
+                $datoWhere[] = array('categoriadiario.idCategoria' => $idCategoria ) ;
             }
         }
       
