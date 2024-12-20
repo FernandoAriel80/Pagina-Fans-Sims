@@ -1,10 +1,10 @@
 <?php include 'includes/header.php';
-require_once __DIR__.'/vendor/autoload.php'; // Asegúrate de cargar el autoloader de Composer
+/* require_once __DIR__.'/vendor/autoload.php'; // Asegúrate de cargar el autoloader de Composer
 
 // Cargar el archivo .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
- 
+  */
 ?>
 
 <!-- PORCION LEFT -->
