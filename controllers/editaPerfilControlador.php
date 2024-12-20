@@ -37,7 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    $imagenNombre = $datoUsuarioModelo->foto;
                 } 
                 $resultado=$usuarioModelo->editaPerfil($idUsuarioActual,$nombre,$imagenNombre);
-                header("Location: perfil.php");
+                //header("Location: perfil.php"); 
+                echo '<meta http-equiv="refresh" content="0;url=perfil.php">';
             }else{
                 $mensaje = muestraMensajePerfil('¡nombre existente!');
             }

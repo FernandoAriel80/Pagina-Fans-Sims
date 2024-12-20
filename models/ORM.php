@@ -168,7 +168,7 @@ class Orm{
                 }
                 $query .= implode(" JOIN ", $condiciones_join) . " ";
             }
-            $query .= "WHERE Diario.visible = 1 ";
+            $query .= "WHERE diario.visible = 1 ";
             if (!empty($condicionesWhere)) {
                 $query .= " AND ";
                 $condiciones_sql = [];

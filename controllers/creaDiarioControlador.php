@@ -46,7 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $categoriaElegida = $_POST["categoriaD"];
                         $categoriaDiarioModelo->categoriaSeleccionada($idDiario,$categoriaElegida);
                     }
-                   header("Location: perfil.php");
+                   //header("Location: perfil.php"); 
+                    echo '<meta http-equiv="refresh" content="0;url=perfil.php">';
                 }
             }else{
                 $mensaje=muestraMensajea("problema con validarCreaDiario");

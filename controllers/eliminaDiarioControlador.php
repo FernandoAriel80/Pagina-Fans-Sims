@@ -57,5 +57,6 @@ if (!empty($idDiarioActual)) {
     }
     $diarioModelo->deleteById($idDiarioActual);
     $dataBase->desconectar(); 
-    header("Location: perfil.php"); 
+    //header("Location: perfil.php"); 
+    echo '<meta http-equiv="refresh" content="0;url=perfil.php">';
 }

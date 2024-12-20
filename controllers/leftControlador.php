@@ -39,7 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit(); */
         $destination = "index.php";
         // Genera la redirección con JavaScript
-        echo "<script>window.location.href = '$destination';</script>";
+        //echo "<script>window.location.href = '$destination';</script>";
+         //header("Location: perfil.php"); 
+    echo '<meta http-equiv="refresh" content="0;url=index.php">';
         exit;
     }
     ////////////////////////// LOGIN ////////////////////
@@ -58,12 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 iniciarSesion($DatoUsuario->idUsuario,$DatoUsuario->nomUsuario,$DatoUsuario->nombre,$token,$DatoUsuario->rol);
                                 if($DatoUsuario->guardaToken($token)){
                                     $mensaje = muestraMensaje("¡Ha iniciado sesion correctamente!");
-                                    $vistaLeft = muestraLogeado($datoUsuarioModelo ); 
                                     //header("Location: index.php");
                                     $destination = "index.php";
                                     // Genera la redirección con JavaScript
-                                   // echo "<script>window.location.href = '$destination';</script>";
-                                   echo '<meta http-equiv="refresh" content="0;url=index.php">';
+                                    // echo "<script>window.location.href = '$destination';</script>";
+                                    echo '<meta http-equiv="refresh" content="0;url=index.php">';
+                                    $vistaLeft = muestraLogeado($datoUsuarioModelo ); 
                                 }else{
                                     $mensaje = muestraMensaje("¡Ha ocurrido un error al iniciar sesion!");
                                     $vistaLeft = muestraLogin();

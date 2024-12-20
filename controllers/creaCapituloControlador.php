@@ -37,7 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if($idCapitulo){
                         $capituloDiario->fechaActualizarDiario($idDiarioActual); 
                     }
-                   header("Location: perfil.php");
+                   //header("Location: perfil.php");
+                   echo '<meta http-equiv="refresh" content="0;url=perfil.php">';
                 }
             }else{
                 $mensaje=muestraMensajea("problema con validaCreaCapitulo");

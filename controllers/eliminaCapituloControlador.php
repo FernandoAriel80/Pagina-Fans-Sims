@@ -19,7 +19,8 @@ if (isset($_GET['tokenC'])) {
 if (!empty($idCapituloActual)) {
     $capituloModelo->deleteById($idCapituloActual);
     $dataBase->desconectar(); 
-    header("Location: perfil.php"); 
+    //header("Location: perfil.php"); 
+    echo '<meta http-equiv="refresh" content="0;url=perfil.php">';
 }
 
 
