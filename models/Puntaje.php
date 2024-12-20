@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/Orm.php';
+require_once './ORM.php';
+
 final class Puntaje extends Orm{
  
     private $atributos = [];
