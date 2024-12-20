@@ -1,4 +1,4 @@
-<?php require_once 'validations/validaSesiones.php';?>
+<?php // require_once 'validations/validaSesiones.php';?>
 <!DOCTYPE html>
 <html lang="es">
 
