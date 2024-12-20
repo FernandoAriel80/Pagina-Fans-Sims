@@ -1,5 +1,8 @@
 <?php
-  session_start();
+if (!session_start()) {
+    session_start();
+}
+
 function sesionActiva(){
   
     if (isset($_SESSION["idUsuario"]) && isset($_SESSION["usuario"]) && isset($_COOKIE['recuerdaTokenUsuario'])&&isset($_COOKIE['nombre'])) {
