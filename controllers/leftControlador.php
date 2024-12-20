@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     $destination = "index.php";
                                     // Genera la redirección con JavaScript
                                     echo "<script>window.location.href = '$destination';</script>";
-                                    exit;
+                                   
                                 }else{
                                     $mensaje = muestraMensaje("¡Ha ocurrido un error al iniciar sesion!");
                                     $vistaLeft = muestraLogin();
