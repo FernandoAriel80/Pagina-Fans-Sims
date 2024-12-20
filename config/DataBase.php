@@ -2,9 +2,10 @@
 require_once './vendor/autoload.php'; // Asegúrate de cargar el autoloader de Composer
 
 // Cargar el archivo .env
-$dotenv = Dotenv\Dotenv::createImmutable('./');
-$dotenv->load();
- 
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+    $dotenv->load();
+}
 class DataBase {
     private string $host;
     private string $db_nombre;

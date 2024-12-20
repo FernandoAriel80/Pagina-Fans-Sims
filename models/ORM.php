@@ -150,19 +150,19 @@ class Orm{
      }
     
     public function filtroJoin(
-        $condicionesJoin = array(), 
-        $condicionesWhere = array(),
+        $condicionesJoin = [], 
+        $condicionesWhere = [],
         $condicionLike = '',
         $condicionOrder ,
         $orderDirection
         ) {
         try {
             $query = "SELECT * FROM {$this->tabla} ";
-            $params = array();
+            $params = [];
     
             if (!empty($condicionesJoin)) {
                 $query .= "JOIN ";
-                $condiciones_join = array();
+                $condiciones_join = [];
                 foreach ($condicionesJoin as $condicion) {
                     $condiciones_join[] = $condicion;
                 }
@@ -171,7 +171,7 @@ class Orm{
             $query .= "WHERE Diario.visible = 1 ";
             if (!empty($condicionesWhere)) {
                 $query .= " AND ";
-                $condiciones_sql = array();
+                $condiciones_sql = [];
                 foreach ($condicionesWhere as $clave => $key) {
                     foreach ($key as $nombre => $valor) {
                         $condiciones_sql[] = "$nombre = ?";
