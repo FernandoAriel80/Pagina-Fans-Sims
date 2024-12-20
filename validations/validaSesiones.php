@@ -50,10 +50,3 @@ function obteneTokenId($token) {
     $id_usuario = explode('_', $tokenDeco);
     return $id_usuario[0];
 }
-
-require __DIR__ . '/vendor/autoload.php'; // Asegúrate de cargar el autoloader de Composer
-
-// Cargar el archivo .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
- 
