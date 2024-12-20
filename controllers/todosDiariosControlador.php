@@ -132,8 +132,8 @@ function muestraTodosDiarios(
     $losDiarios = array();
 
     $datoJoin = array(
-        'Usuario ON Usuario.idUsuario = Diario.idUsuario',
-        'CategoriaDiario ON CategoriaDiario.idDiario = Diario.idDiario'
+        'usuario ON usuario.idusuario = diario.idusuario',
+        'categoriadiario ON categoriadiario.iddiario = diario.iddiario'
     );
     
     $resultadosJoin = $diarioModelo->filtroJoin($datoJoin, $datoWhere,$datoLike, $datoOrder,$datoDireccion);
