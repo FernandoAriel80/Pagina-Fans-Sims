@@ -35,8 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         cerrarSesion();
         // Redirigir al usuario a la página de inicio de sesión
         $vistaLeft = muestraLogin();
-        header("Location: index.php");
-        exit();
+       /*  header("Location: index.php");
+        exit(); */
+        $destination = "index.php";
+        // Genera la redirección con JavaScript
+        echo "<script>window.location.href = '$destination';</script>";
+        exit;
     }
     ////////////////////////// LOGIN ////////////////////
     if (isset($_POST["formularioLogin"])) {
@@ -55,7 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 if($DatoUsuario->guardaToken($token)){
                                     $mensaje = muestraMensaje("¡Ha iniciado sesion correctamente!");
                                     $vistaLeft = muestraLogeado($datoUsuarioModelo ); 
-                                    header("Location: index.php");
+                                    //header("Location: index.php");
+                                    $destination = "index.php";
+                                    // Genera la redirección con JavaScript
+                                    echo "<script>window.location.href = '$destination';</script>";
+                                    exit;
                                 }else{
                                     $mensaje = muestraMensaje("¡Ha ocurrido un error al iniciar sesion!");
                                     $vistaLeft = muestraLogin();

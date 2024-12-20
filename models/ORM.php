@@ -150,9 +150,9 @@ class Orm{
      }
     
     public function filtroJoin(
-        $condicionesJoin = [], 
-        $condicionesWhere = [],
-        $condicionLike = '',
+        $condicionesJoin, 
+        $condicionesWhere,
+        $condicionLike,
         $condicionOrder ,
         $orderDirection
         ) {
