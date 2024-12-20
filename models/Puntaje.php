@@ -1,5 +1,5 @@
 <?php
-require_once 'Orm.php';
+require_once 'ORM.php';
 
 final class Puntaje extends Orm{
  
