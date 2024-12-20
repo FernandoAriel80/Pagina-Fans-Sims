@@ -6,7 +6,7 @@ final class Favorito extends Orm{
     private $atributos = [];
 
     public function __construct(PDO $connecion) {
-        parent::__construct('Favorito',$connecion);
+        parent::__construct('favorito',$connecion);
     }
 
     public function setAtributos($nombre, $valor) {

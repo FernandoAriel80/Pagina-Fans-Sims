@@ -6,7 +6,7 @@ final class CategoriaDiario extends Orm{
     private $atributos = [];
 
     public function __construct(PDO $connecion){
-        parent::__construct("CategoriaDiario",$connecion);
+        parent::__construct("categoriadiario",$connecion);
     }
 
     public function setAtributos($nombre, $valor) {

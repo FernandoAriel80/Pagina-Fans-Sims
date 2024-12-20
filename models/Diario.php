@@ -5,7 +5,7 @@ final class Diario extends Orm{
     private $atributos = [];
 
     public function __construct(PDO $connecion) {
-        parent::__construct('Diario',$connecion);
+        parent::__construct('diario',$connecion);
     }
 
     public function setAtributos($nombre, $valor) {

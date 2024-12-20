@@ -5,7 +5,7 @@ final class Capitulo extends Orm{
     private $atributos = [];
 
     public function __construct(PDO $connecion) {
-        parent::__construct('Capitulo',$connecion);
+        parent::__construct('capitulo',$connecion);
     }
 
     public function setAtributos($nombre, $valor) {

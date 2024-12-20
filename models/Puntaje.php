@@ -6,7 +6,7 @@ final class Puntaje extends Orm{
     private $atributos = [];
 
     public function __construct(PDO $connecion) {
-        parent::__construct('Puntaje',$connecion);
+        parent::__construct('puntaje',$connecion);
     }
 
     public function setAtributos($nombre, $valor) {

@@ -5,7 +5,7 @@ final class Usuario extends Orm{
     private $atributos = [];
 
     public function __construct(PDO $connecion) {
-        parent::__construct('Usuario',$connecion);
+        parent::__construct('usuario',$connecion);
     }
 
     public function setAtributos($nombre, $valor) {
