@@ -50,3 +50,4 @@ function obteneTokenId($token) {
     $id_usuario = explode('_', $tokenDeco);
     return $id_usuario[0];
 }
+
