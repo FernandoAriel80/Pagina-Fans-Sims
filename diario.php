@@ -1,10 +1,10 @@
 <?php include_once 'includes/header.php'; ?>
 
 <?php 
-if (!sesionActiva()) {
+/* if (!sesionActiva()) {
     header("Location: index.php");
     exit();
- }
+ } */
 ?>
 
 <!-- PORCION LEFT -->

@@ -1,12 +1,12 @@
 <?php include_once 'includes/header.php'; ?>
 
 <?php 
-if (!sesionActiva()) {
+/* if (!sesionActiva()) {
     header("Location: index.php");
     exit();
- }
+ } */
 ?>
-
+<!-- mysql://root:NGoBmDMpItzlQWUhSGCgbWrnPzuBouMP@autorack.proxy.rlwy.net:14995/railway -->
 <!-- PORCION LEFT -->
 
 </div>
