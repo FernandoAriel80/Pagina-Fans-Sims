@@ -14,8 +14,8 @@ class DataBase {
 
     public function __construct() {
         $this->host = $_ENV['DB_HOST'];
-        $this->db_nombre = $_ENV['DB_NAME'];
-        $this->usuario = $_ENV['DB_USER'];
+        $this->db_nombre = $_ENV['DB_DATABASE'];
+        $this->usuario = $_ENV['DB_USERNAME'];
         $this->password = $_ENV['DB_PASSWORD'];
 
         $dsn = 'mysql:host='.$this->host.';dbname='.$this->db_nombre;
