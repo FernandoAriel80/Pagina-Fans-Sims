@@ -15,15 +15,15 @@ $dotenv->load();
 <div class="contenedor-flex">
 
     <!-- CONTENEDOR -->
-    <div class="contenedor-index-imagen">
+    <!-- <div class="contenedor-index-imagen">
         <img src="ruta/a/tu/imagen.png" alt="Mensaje de bienvenida">
-    </div>
+    </div> -->
     <div class="contenedor-index-cartelera">
-        <h1>Holaaaaaaaaaaa</h1>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Quo aperiam culpa perferendis hic in natus molestias esse id cumque!
-            Deserunt voluptate corrupti asperiores aut, vero id nobis. Delectus,
-            impedit maiores.</p>
+        <h1>Bienvenidos a fans sims</h1>
+        <p>El rincón ideal para los fans de Los Sims! Aquí podrás compartir tus historias más creativas,
+            explorar los diarios de otros fans, y conectar con una comunidad apasionada por este increíble juego. 
+            Regístrate, crea tu perfil. 
+            ¡Sumérgete! </p>
     </div>
 
     <!-- END CONTENEDOR -->
